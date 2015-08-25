@@ -1,0 +1,9 @@
+.status {
+  font-size: 16px;
+}
+.status.icon-check-circle {
+  color: limegreen;
+}
+.status.icon-exclamation-circle {
+  color: darkred;
+}

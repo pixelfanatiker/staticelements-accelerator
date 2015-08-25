@@ -1,5 +1,5 @@
-MultiDomain Accelerator for MODX
+Nennungen for MODX
 
 Description
 
-With his extra you can handle multidomains with same template, but partially different content
+With his extra you can handle driver nominations with same template, but partially different content

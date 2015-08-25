@@ -21,12 +21,15 @@
  * @package staticelements-accelerator
  */
 
-$_lang['multidomainaccelerator.title'] = 'MultiDomain Accelerator';
-$_lang['multidomainaccelerator.description'] = 'Verwaltung für mehrere Domains mit einem Context';
-
-$_lang['multidomainaccelerator.menu.root'] = 'MultiDomain Accelerator';
-$_lang['multidomainaccelerator.menu.menuitem_tenants'] = 'Shop-Tenants';
-$_lang['multidomainaccelerator.menu.menuitem_tenants_description'] = 'Shop-Tenants verwalten';
+$_lang['seaccelerator.title'] = 'StaticElements Accelerator';
+$_lang['seaccelerator.description'] = 'Verwaltung für statische Elemente';
 
 
-$_lang['multidomainaccelerator.tab.tenants'] = 'Shop-Tenants';
+
+// Tab Files
+$_lang['seaccelerator.tab_files'] = "Dateien";
+
+$_lang['seaccelerator.files.description'] = "Synchronisiert statische Elemente und überwacht Ordner auf geänderte Dateien";
+$_lang['seaccelerator.files.actions.quickupdate'] = "Datei schnell bearbeiten";
+$_lang['seaccelerator.files.actions.generate.all'] = "Elemente erstellen";
+$_lang['seaccelerator.files.actions.create.processing'] = 'Erstelle Elemente...';
