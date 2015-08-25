@@ -1,9 +1,55 @@
-.status {
+[id^="seaccelerator-grid-"] .holder {
+  margin: 0;
+  overflow: visible;
+}
+[id^="seaccelerator-grid-"] .actions {
+  position: relative;
+  bottom: auto;
+}
+[id^="seaccelerator-grid-"] .actions .icon {
+  width: 20px;
+  margin-right: 0;
+  text-align: center;
+}
+[id^="seaccelerator-grid-"] .actions .icon[class*="icon-"] {
+  cursor: pointer;
+  color: #757575;
+  transition: color 0.25s ease-in-out;
+}
+[id^="seaccelerator-grid-"] .actions .icon[class*="js_actionLink"]:hover {
+  color: #333;
+}
+[id^="seaccelerator-grid-"] .actions .icon[class$="disabled"] {
+  color: #d6d6d6;
+  cursor: default;
+}
+[id^="seaccelerator-grid-"] .holder .icon[class*="icon-"] {
+  font-size: 16px;
+  vertical-align: middle;
+}
+[id^="seaccelerator-grid-"] .holder .icon[class*="icon-"].sm-green {
+  color: #9ebd2e;
+}
+[id^="seaccelerator-grid-"] .holder .icon[class*="icon-"].sm-orange {
+  color: #EA981C;
+}
+[id^="seaccelerator-grid-"] .holder .icon[class*="icon-"].sm-red {
+  color: #c13a1b;
+}
+.sm-menu .x-menu-list li a.x-menu-item {
+  padding-left: 10px;
+}
+.sm-menu .x-menu-list li a.x-menu-item i {
+  width: 20px;
+  vertical-align: text-top;
   font-size: 16px;
 }
-.status.icon-check-circle {
-  color: limegreen;
+[id^="seaccelerator-grid-"] .x-btn-text i {
+  margin-right: 10px;
+  font-size: 16px;
 }
-.status.icon-exclamation-circle {
-  color: darkred;
+#seaccelerator-tab-actions .holder .icon[class*="icon-"]:nth-child(2),
+[id^="seaccelerator-grid-"]:not("#seaccelerator-tab-actions") .holder .icon[class*="icon-"]:nth-child(1),
+[id^="seaccelerator-grid-"]:not("#seaccelerator-tab-actions") .holder .icon[class*="icon-"]:nth-child(4) {
+  margin-right: 10px;
 }

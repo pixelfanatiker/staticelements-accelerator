@@ -31,5 +31,11 @@ $_lang['seaccelerator.tab_files'] = "Dateien";
 
 $_lang['seaccelerator.files.description'] = "Synchronisiert statische Elemente und überwacht Ordner auf geänderte Dateien";
 $_lang['seaccelerator.files.actions.quickupdate'] = "Datei schnell bearbeiten";
-$_lang['seaccelerator.files.actions.generate.all'] = "Elemente erstellen";
+$_lang['seaccelerator.files.actions.generate_all'] = "Alle Dateien verarbeiten";
+$_lang['seaccelerator.files.actions.sync_all'] = "Alle Dateien Synchronisieren";
 $_lang['seaccelerator.files.actions.create.processing'] = 'Erstelle Elemente...';
+
+$_lang['seaccelerator.files.actions.generate'] = "Element erstellen";
+$_lang['seaccelerator.files.actions.quickupdate'] = "Datei bearbeiten";
+$_lang['seaccelerator.files.actions.delete.element'] = "Datei und Element löschen";
+$_lang['seaccelerator.files.actions.delete.file'] = "Datei löschen";

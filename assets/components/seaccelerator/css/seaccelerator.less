@@ -1,9 +1,62 @@
-.status {
+[id^="seaccelerator-grid-"] {
+	.holder {
+		margin: 0;
+		overflow: visible;
+	}
+	.actions {
+		position: relative;
+		bottom: auto;
+	}
+	.actions .icon {
+		width: 20px;
+		margin-right: 0;
+		text-align: center;
+	}
+	.actions .icon[class*="icon-"] {
+		cursor: pointer;
+		color: #757575;
+		transition: color .25s ease-in-out;
+	}
+	.actions .icon[class*="js_actionLink"]:hover {
+		color: #333;
+	}
+	.actions .icon[class$="disabled"] {
+		color: #d6d6d6;
+		cursor: default;
+	}
+	.holder .icon[class*="icon-"] {
+		font-size: 16px;
+		vertical-align: middle;
+	}
+	.holder .icon[class*="icon-"].sm-green {
+		color: #9ebd2e;
+	}
+	.holder .icon[class*="icon-"].sm-orange {
+		color: #EA981C;
+	}
+	.holder .icon[class*="icon-"].sm-red {
+		color: #c13a1b;
+	}
+}
+
+.sm-menu .x-menu-list li a.x-menu-item {
+	padding-left: 10px;
+}
+.sm-menu .x-menu-list li a.x-menu-item i {
+	width: 20px;
+	vertical-align: text-top;
 	font-size: 16px;
-	&.icon-check-circle {
-		color: limegreen;
-	}
-	&.icon-exclamation-circle {
-		color: darkred;
-	}
+}
+
+[id^="seaccelerator-grid-"] .x-btn-text i {
+	margin-right: 10px;
+	font-size: 16px;
+}
+
+
+
+#seaccelerator-tab-actions .holder .icon[class*="icon-"]:nth-child(2),
+[id^="seaccelerator-grid-"]:not("#seaccelerator-tab-actions") .holder .icon[class*="icon-"]:nth-child(1),
+[id^="seaccelerator-grid-"]:not("#seaccelerator-tab-actions") .holder .icon[class*="icon-"]:nth-child(4) {
+	margin-right: 10px;
 }
