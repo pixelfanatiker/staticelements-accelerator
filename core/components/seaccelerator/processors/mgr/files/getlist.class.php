@@ -57,10 +57,8 @@ class modGetListOfFilesProcessor extends modObjectGetListProcessor {
 		} else {
 			for ($i = $start; $i < $limit + $start; $i++) {
 				$response['results'][$i] = $files['all'][$i];
-				//$this->modx->log(xPDO::LOG_LEVEL_ERROR, "results: ".$response['results'][$i]);
 			}
 			$response['total'] = count($files['all']);
-			//$this->modx->log(xPDO::LOG_LEVEL_ERROR, "total: ".$result['total']);
 		}
 		$this->modx->log(xPDO::LOG_LEVEL_ERROR, "total: ".$response['total'].'  '.$response['results'][0]);
 		return $response;

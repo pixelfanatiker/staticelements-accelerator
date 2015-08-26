@@ -17,9 +17,7 @@ Seaccelerator.grid.Files = function(config) {
 				,marginRight: '20px'
 			}
 			,listeners: {
-				click: function(){
-
-				}
+				click: function(){}
 			}
 			,handler:this.makeElements
 		},{
@@ -222,6 +220,40 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 		s.baseParams.query = tf.getValue();
 		this.getBottomToolbar().changePage(1);
 		this.refresh();
+	}
+
+	,makeElements: function(btn,e) {
+		Ext.Msg.show({
+			title: _('please_wait')
+			,msg: ('semanager.common.actions.create.processing')
+			,width: 240
+			,progress:true
+			,closable:false
+		});
+
+		MODx.util.Progress.reset();
+		for(var i = 1; i < 20; i++) {
+			setTimeout('MODx.util.Progress.time('+i+','+MODx.util.Progress.id+')',i*1000);
+		}
+
+		MODx.Ajax.request({
+			url: Seaccelerator.config.connectorUrl
+			,params: {
+				action: 'mgr/files/newelements'
+			}
+			,listeners: {
+				'success': {fn:function(r) {
+					MODx.util.Progress.reset();
+					Ext.Msg.hide();
+					this.refresh();
+				},scope:this}
+				,'failure': {fn:function(r) {
+					MODx.util.Progress.reset();
+					Ext.Msg.hide();
+					return false;
+				},scope:this}
+			}
+		});
 	}
 
 	,getMenu: function(r) {
