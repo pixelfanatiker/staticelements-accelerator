@@ -26,9 +26,16 @@ $_lang['seaccelerator.description'] = 'Verwaltung für statische Elemente';
 
 
 
-// Tab Files
+// Tabs
 $_lang['seaccelerator.tab_files'] = "Dateien";
+$_lang['seaccelerator.tab_files.description'] = "Synchronisiert statische Elemente und überwacht Ordner auf geänderte Dateien";
+$_lang['seaccelerator.tab_chunks'] = "Chunks";
+$_lang['seaccelerator.tab_snippets'] = "Snippets";
+$_lang['seaccelerator.tab_templates'] = "Templates";
+$_lang['seaccelerator.tab_plugins'] = "Plugins";
 
+
+// Files
 $_lang['seaccelerator.files.description'] = "Synchronisiert statische Elemente und überwacht Ordner auf geänderte Dateien";
 $_lang['seaccelerator.files.actions.quickupdate'] = "Datei schnell bearbeiten";
 $_lang['seaccelerator.files.actions.generate_all'] = "Alle Dateien verarbeiten";
@@ -46,6 +53,12 @@ $_lang['seaccelerator.files.delete.confirm.text'] = "Die ausgewählte Dateie wir
 $_lang['seaccelerator.files.actions.create_element'] = "Neues Element erstellen";
 $_lang['seaccelerator.files.actions.create_element_confirm'] = "Aus der ausgewählten Datei ein Element erstellen?";
 
-$_lang['semanager.common.actions.element.delete'] = "Element Löschen";
-$_lang['semanager.common.actions.element.delete.confirm.title'] = "Element löschen";
-$_lang['semanager.common.actions.element.delete.confirm.text'] = "Das ausgewählte Element wirklich löschen?";
+
+// Elements
+$_lang['seaccelerator.elements.actions.tostatic.all'] = "All as static";
+$_lang['seaccelerator.elements.tostatic.all.confirm.title'] = "Nicht-statischen Elemente konvertieren";
+$_lang['seaccelerator.elements.tostatic.all.confirm.text'] = "Alle nicht-statischen Elemente werden konvertiert und auf dem Server jeweils als Datei erstellt.";
+
+$_lang['seaccelerator.elements.status.unchanged'] = "Keine Änderungen";
+$_lang['seaccelerator.elements.status.changed'] = "Datei wurde geändert";
+$_lang['seaccelerator.elements.status.deleted'] = "Datei wurde gelöscht";

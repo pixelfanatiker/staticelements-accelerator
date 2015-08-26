@@ -41,6 +41,7 @@ class SeacceleratorHomeManagerController extends modExtraManagerController {
 	}
 
 	public function loadCustomCssJs () {
+		$this->addJavascript($this->seaccelerator->config['jsUrl'].'mgr/widgets/elements.grid.js');
 		$this->addJavascript($this->seaccelerator->config['jsUrl'].'mgr/widgets/files.grid.js');
 		$this->addJavascript($this->seaccelerator->config['jsUrl'].'mgr/widgets/home.panel.js');
 		$this->addLastJavascript($this->seaccelerator->config['jsUrl'].'mgr/sections/home.js');
