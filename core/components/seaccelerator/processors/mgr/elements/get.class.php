@@ -1,16 +1,15 @@
 <?php
 /**
- * Get a list of Nominations
+ * Get a list of Seaccelerator
  *
  * @package nominations
  * @subpackage processors
  */
-class NominationsGetNominationProcessor extends modObjectGetListProcessor {
-	public $classKey = 'Nomination';
-	public $languageTopics = array('nominations:default');
+class SeacceleratorGetNominationProcessor extends modObjectGetListProcessor {
+	public $classKey = 'Seaccelerator';
+	public $languageTopics = array('seaccelerator:default');
 	public $defaultSortField = 'id';
 	public $defaultSortDirection = 'ASC';
-	public $objectType = 'nominations.nominations';
 
 
 	public function prepareQueryBeforeCount(xPDOQuery $c) {
@@ -28,4 +27,4 @@ class NominationsGetNominationProcessor extends modObjectGetListProcessor {
 		return $c;
 	}
 }
-return 'NominationsGetNominationProcessor';
+return 'SeacceleratorGetNominationProcessor';

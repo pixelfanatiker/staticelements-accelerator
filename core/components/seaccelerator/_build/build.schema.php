@@ -44,9 +44,6 @@ if (!file_exists($sources['schema_file'])) {
 $generator->parseSchema($sources['schema_file'],$sources['model']);
 $modx->addExtensionPackage('nominations', $sources['model']);
 $modx->addPackage('nominations', $sources['model']);
-//$modx->addPackage('categories', $sources['model']);
-$manager->createObjectContainer('Category');
-$manager->createObjectContainer('Nomination');
 
 
 $mtime= microtime();

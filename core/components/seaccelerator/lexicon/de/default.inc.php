@@ -37,5 +37,15 @@ $_lang['seaccelerator.files.actions.create.processing'] = 'Erstelle Elemente...'
 
 $_lang['seaccelerator.files.actions.generate'] = "Element erstellen";
 $_lang['seaccelerator.files.actions.quickupdate'] = "Datei bearbeiten";
-$_lang['seaccelerator.files.actions.delete.element'] = "Datei und Element löschen";
-$_lang['seaccelerator.files.actions.delete.file'] = "Datei löschen";
+$_lang['seaccelerator.files.actions.delete_element'] = "Datei und Element löschen";
+$_lang['seaccelerator.files.actions.delete_file'] = "Datei löschen";
+
+$_lang['seaccelerator.files.delete.confirm.title'] = " Datei löschen";
+$_lang['seaccelerator.files.delete.confirm.text'] = "Die ausgewählte Dateie wird endgültig löschen?";
+
+$_lang['seaccelerator.files.actions.create_element'] = "Neues Element erstellen";
+$_lang['seaccelerator.files.actions.create_element_confirm'] = "Aus der ausgewählten Datei ein Element erstellen?";
+
+$_lang['semanager.common.actions.element.delete'] = "Element Löschen";
+$_lang['semanager.common.actions.element.delete.confirm.title'] = "Element löschen";
+$_lang['semanager.common.actions.element.delete.confirm.text'] = "Das ausgewählte Element wirklich löschen?";

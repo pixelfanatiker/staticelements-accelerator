@@ -19,7 +19,7 @@ Seaccelerator.grid.Files = function(config) {
 			,listeners: {
 				click: function(){}
 			}
-			,handler:this.makeElements
+			,handler:this.createMultipleElements
 		},{
 			xtype: 'button'
 			,text: '<i class="icon icon-refresh"></i>' + _('seaccelerator.files.actions.sync_all')
@@ -79,7 +79,7 @@ Seaccelerator.grid.Files = function(config) {
 		,pageSize: 10
 		,url: Seaccelerator.config.connectorUrl
 		,baseParams: {
-			action: 'files/gettypelist.class'
+			action: 'mgr/files/getTypeList'
 			,type: config.type
 		}
 		,listeners: {
@@ -117,7 +117,7 @@ Seaccelerator.grid.Files = function(config) {
 		},{
 			header: _('name')
 			,dataIndex: 'filename'
-			,width: 30
+			,width: 50
 			,sortable: false
 		},{
 			header: _('category')
@@ -135,7 +135,7 @@ Seaccelerator.grid.Files = function(config) {
 		},{
 			header: _('source')
 			,dataIndex: 'mediasource'
-			,width: 30
+			,width: 20
 			,sortable: false
 			,editable: true
 			//,renderer: { fn: this.getMediaSource ,scope:this }
@@ -144,6 +144,7 @@ Seaccelerator.grid.Files = function(config) {
 		},{
 			header: _('path')
 			,dataIndex: 'path'
+			,width: 30
 			,sortable: false
 			,editable: false
 		}]
@@ -222,10 +223,129 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 		this.refresh();
 	}
 
-	,makeElements: function(btn,e) {
+	,typeRender: function(r) {
+		if(r == 0){
+			return 'no_type';
+		}
+		return r;
+	}
+
+	,categoryRender: function(r) {
+		//console.log(r);
+		if(r == 0){
+			return _('no_category');
+		}
+		return r;
+	}
+
+	,onDirty: function(){
+		//console.log(this.config.panel);
+
+		if (this.config.panel) {
+			Ext.getCmp(this.config.panel).fireEvent('fieldChange');
+		}
+	}
+	,filterByType: function(type, selected){
+		this.getStore().baseParams = {
+			action: 'files/getlist'
+			,type: selected.id
+		};
+		this.getBottomToolbar().changePage(1);
+		this.refresh();
+	}
+
+	,filterByName: function(tf, newValue) {
+		this.getStore().baseParams.namefilter = newValue || tf;
+		this.getBottomToolbar().changePage(1);
+		this.refresh();
+	}
+
+	,updateGrid: function() {
+		alert(123);
+		this.getBottomToolbar().changePage(1);
+		this.refresh();
+	}
+
+	,clearFilter: function() {
+		this.getStore().baseParams = {
+			action: 'files/getlist'
+		};
+
+		this.getBottomToolbar().changePage(1);
+		this.refresh();
+	}
+
+	,getMenu: function(r) {
+		var m = [
+			{
+				text: '<i class="icon icon-check-square-o"></i>' + _('seaccelerator.files.actions.generate')
+				,handler: this.createSingleElement
+			},{
+				text: '<i class="icon icon-edit"></i>' + _('seaccelerator.files.actions.quickupdate')
+				,handler: this.editFile
+			},{
+				text: '<i class="icon icon-trash"></i>' +_('seaccelerator.files.actions.delete.file')
+				,handler: this.deleteFile
+			}
+		];
+
+		this.addContextMenuItem(m);
+	}
+
+	,onClick: function(e){
+		var target = e.getTarget();
+		var element = target.className.split(' ')[2];
+		if(element === 'js_actionButton' || element === 'js_actionLink') {
+			var action = target.className.split(' ')[3];
+			var record = this.getSelectionModel().getSelected();
+			this.menu.record = record;
+
+			switch (action) {
+				case 'js_createElement': this.createSingleElement(record); break;
+				case 'js_deleteFile': this.deleteFile(record); break;
+				case 'js_updateElement': this.updateFile(record); break;
+				default:
+					//window.location = record.data.edit_action;
+					break;
+			}
+		}
+	}
+
+	,createSingleElement: function(record){
+		console.log("createSingleElement");
+		var filename, path, category;
+		if (typeof record.data !== "undefined") {
+			filename = record.data.filename;
+			path = record.data.path;
+			category = record.data.category
+		} else {
+			filename = this.menu.record.filename;
+			path = this.menu.record.path;
+			category = this.menu.record.category;
+		}
+
+		MODx.msg.confirm({
+			title: _('seaccelerator.files.actions.create_element')
+			,text: _('seaccelerator.files.actions.create_element_confirm')
+			,url: this.config.url
+			,params: {
+				action: 'mgr/files/createSingleElement'
+				,filename: filename
+				,path: path
+				,category: category
+			}
+			,listeners: {
+				'success': {fn:function(){
+					this.refresh();
+				},scope:this}
+			}
+		});
+	}
+
+	,createMultipleElements: function(btn,e) {
 		Ext.Msg.show({
 			title: _('please_wait')
-			,msg: ('semanager.common.actions.create.processing')
+			,msg: ('seaccelerator.files.actions.create.processing')
 			,width: 240
 			,progress:true
 			,closable:false
@@ -239,7 +359,7 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 		MODx.Ajax.request({
 			url: Seaccelerator.config.connectorUrl
 			,params: {
-				action: 'mgr/files/newelements'
+				action: 'mgr/files/createMultipleElements'
 			}
 			,listeners: {
 				'success': {fn:function(r) {
@@ -256,53 +376,49 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 		});
 	}
 
-	,getMenu: function(r) {
-		var m = [
-			{
-				text: '<i class="icon icon-check-square-o"></i>' + _('seaccelerator.files.actions.generate')
-				,handler: this.makeElement
-			},{
-				text: '<i class="icon icon-edit"></i>' + _('seaccelerator.files.actions.quickupdate')
-				,handler: this.editFile
-			},{
-				text: '<i class="icon icon-trash"></i>' +_('seaccelerator.files.actions.delete.file')
-				,handler: this.deleteFiles
+	,updateFile: function(btn,e){
+		var r = this.menu.record;
+		r.name = r.filename;
+		r.source = '0';
+		r.file = r.path;
+		r.clearCache = 1;
+		var que = MODx.load({
+			xtype: 'modx-window-file-quick-update'
+			,url: this.config.url
+			,record: r
+			,grid: this
+			,action: 'files/updatefiles.class'
+			,listeners: {
+				'success': {fn:function(){
+					this.refresh();
+				},scope:this}
 			}
-		];
-
-		this.addContextMenuItem(m);
+		});
+		que.reset();
+		que.setValues(r);
+		que.show(e.target);
 	}
 
-	,onClick: function(e){
-		var target = e.getTarget();
-		var element = target.className.split(' ')[2];
-		if(element === 'js_actionButton' || element === 'js_actionLink') {
-			var action = target.className.split(' ')[3];
-			var record = this.getSelectionModel().getSelected();
-			this.menu.record = record;
-
-			switch (action) {
-				case 'js_createElement': this.makeElement(record); break;
-				case 'js_deleteFile': this.deleteFiles(record); break;
-				case 'js_updateElement': this.updateFile(record); break;
-				default:
-					//window.location = record.data.edit_action;
-					break;
-			}
+	,deleteFile: function(record) {
+		var file;
+		if (typeof record.data !== "undefined") {
+			file = record.data.path;
+		} else {
+			file = this.menu.record.path;
 		}
-	}
 
-	,removeDriver: function() {
 		MODx.msg.confirm({
-			title: _('seaccelerator.remove')
-			,text: _('seaccelerator.remove_confirm')
+			title: _('semanager.files.actions.delete.confirm.title')
+			,text: _('semanager.files.actions.delete.confirm.text')
 			,url: this.config.url
 			,params: {
-				action: 'mgr/nomination/remove'
-				,id: this.menu.record.id
+				action: 'mgr/files/delete'
+				,file: file
 			}
 			,listeners: {
-				'success': {fn:this.refresh,scope:this}
+				'success': {fn:function(){
+					this.refresh();
+				},scope:this}
 			}
 		});
 	}
