@@ -9,22 +9,23 @@ Seaccelerator.grid.Elements = function(config) {
 
 	if (!config.tbar) {
 		config.tbar = [
-			{
-				text: _('quick_create_'+config.type)
+			/*{
+				text: _('quick_create_'.type)
 				,handler: {
 				xtype: 'modx-window-quick-create-'+config.type
 				,blankValues: true
 			}
-			},{
-				text: _('seaccelerator.elements.actions.export.all')
+			},*/{
+				text: _('seaccelerator.elements.actions.export_all')
 				,handler: this.exportElementsAsStatic
+				,cls: 'btn-export'
 			}];
 	}
 	config.tbar.push('->',{
 		xtype: 'modx-combo'
 		,name: 'filter_category'
 		,id: 'seaccelerator-filter-category'+config.type
-		,emptyText: _('seaccelerator.elements.filter_by_category')
+		,emptyText: _('seaccelerator.elements.filter.by_category')
 		,fields: ['id','category']
 		,displayField: 'category'
 		,valueField: 'id'
@@ -442,7 +443,7 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 			,text: _('seaccelerator.elements.actions.tostatic.all.confirm.text')
 			,url: this.config.url
 			,params: {
-				action: 'mgr/elements/save.class'
+				action: 'mgr/elements/saveall'
 			}
 			,listeners: {
 				'success': {fn:function(r) {

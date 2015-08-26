@@ -55,10 +55,12 @@ $_lang['seaccelerator.files.actions.create_element_confirm'] = "Aus der ausgewä
 
 
 // Elements
-$_lang['seaccelerator.elements.actions.tostatic.all'] = "All as static";
-$_lang['seaccelerator.elements.tostatic.all.confirm.title'] = "Nicht-statischen Elemente konvertieren";
-$_lang['seaccelerator.elements.tostatic.all.confirm.text'] = "Alle nicht-statischen Elemente werden konvertiert und auf dem Server jeweils als Datei erstellt.";
+$_lang['seaccelerator.elements.actions.export_all'] = "Chunks exportieren";
+$_lang['seaccelerator.elements.actions.tostatic.all.confirm.title'] = "Chunks exportieren?";
+$_lang['seaccelerator.elements.actions.tostatic.all.confirm.text'] = "Alle Chunks werden statisch und auf dem Server gespeichert.";
 
 $_lang['seaccelerator.elements.status.unchanged'] = "Keine Änderungen";
 $_lang['seaccelerator.elements.status.changed'] = "Datei wurde geändert";
 $_lang['seaccelerator.elements.status.deleted'] = "Datei wurde gelöscht";
+
+
