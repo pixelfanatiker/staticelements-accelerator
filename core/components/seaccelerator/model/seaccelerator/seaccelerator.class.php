@@ -8,12 +8,12 @@ class Seaccelerator {
 	public $map = array ();
 	public $config = array ();
 	public $typesClass = array (
-		'templates' => array('modTemplate'),
-		'chunks' => array('modChunk'),
-		'snippets' => array('modSnippet'),
-		'plugins' => array('modPlugin')
+		"templates" => array("modTemplate"),
+		"chunks" => array("modChunk"),
+		"snippets" => array("modSnippet"),
+		"plugins" => array("modPlugin")
 	);
-	private $elementsDirectory;
+	public $elementsDirectory;
 
 
 	/**
@@ -25,12 +25,8 @@ class Seaccelerator {
 	function __construct(modX &$modx,array $config = array()) {
 		$this->modx =& $modx;
 
-		//$basePath = $this->modx->getOption("seaccelerator.core_path", null, $this->modx->getOption("core_path")."components/seaccelerator/");
-		//$assetsUrl = $this->modx->getOption("seaccelerator.assets_url", null, $this->modx->getOption("assets_url")."components/seaccelerator/");
-		$basePath = "/var/www2/projects/modxdev/staticelements-accelerator/core/components/seaccelerator/";
-		$assetsUrl = MODX_BASE_URL."staticelements-accelerator/assets/components/seaccelerator/";
-
-		//$this->modx->log(xPDO::LOG_LEVEL_ERROR, $assetsUrl);
+		$basePath = $this->modx->getOption("seaccelerator.core_path", null, $this->modx->getOption("core_path")."components/seaccelerator/");
+		$assetsUrl = $this->modx->getOption("seaccelerator.assets_url", null, $this->modx->getOption("assets_url")."components/seaccelerator/");
 
 		$this->config = array_merge(array(
 			"basePath" => $basePath,
@@ -76,7 +72,7 @@ class Seaccelerator {
 	 */
 	public function getMediaSource () {
 
-		$mediaSourceId = $this->modx->getOption ('seaccelerator.mediasource', null, 2);
+		$mediaSourceId = $this->modx->getOption ("seaccelerator.mediasource", null, 1);
 
 		return $mediaSourceId;
 	}
@@ -88,7 +84,7 @@ class Seaccelerator {
 	 */
 	public  function getMediaSourceName ($mediaSourceId) {
 
-		$mediaSource = $this->modx->getObject('sources.modMediaSource', $mediaSourceId);
+		$mediaSource = $this->modx->getObject("sources.modMediaSource", $mediaSourceId);
 		if(!empty($mediaSource) && is_object($mediaSource)) {
 			return $mediaSource->get("name");
 		} else {
@@ -104,7 +100,7 @@ class Seaccelerator {
 	 */
 	public function getMediaSourcePath ($elementsPath, $mediaSourceId) {
 
-		$mediaSource = $this->modx->getObject('sources.modMediaSource', $mediaSourceId);
+		$mediaSource = $this->modx->getObject("sources.modMediaSource", $mediaSourceId);
 		if(!empty($mediaSource) && is_object($mediaSource)) {
 			$elementsPath = $mediaSource->prepareOutputUrl($elementsPath);
 		}
@@ -118,7 +114,7 @@ class Seaccelerator {
 	 */
 	public function getElementsFilesystemPath () {
 		$mediaSourceId = $this->getMediaSource();
-		$elementsPath = $this->modx->getOption("seaccelerator.elements_directory", null, 'elements/');
+		$elementsPath = $this->modx->getOption("seaccelerator.elements_directory", null, "elements/");
 		if ($mediaSourceId > 0) {
 			$elementsPath = MODX_BASE_PATH.$this->getMediaSourcePath($elementsPath, $mediaSourceId);
 		} else {
@@ -165,14 +161,14 @@ class Seaccelerator {
 				$this->modx->log(xPDO::LOG_LEVEL_ERROR, "fileType: ".$fileType);
 
 				$newFiles[] = array(
-					'filename' => $fileName,
-					'category' => $category,
-					'type' => $fileType,
-					'path' => $filePathString,
-					'content' => file_get_contents($file, true),
-					'mediasource' => $mediaSourceId,
-					'mediasourceName' => $mediaSourceName,
-					'actions' => $actions
+					"filename" => $fileName,
+					"category" => $category,
+					"type" => $fileType,
+					"path" => $filePathString,
+					"content" => file_get_contents($file, true),
+					"mediasource" => $mediaSourceId,
+					"mediasourceName" => $mediaSourceName,
+					"actions" => $actions
 				);
 			}
 		}
@@ -187,7 +183,7 @@ class Seaccelerator {
 	 */
 	public function convertFilePathToString ($filePathArray) {
 
-		$filePathString = implode('/', array_reverse($filePathArray));
+		$filePathString = implode("/", array_reverse($filePathArray));
 
 		return $filePathString;
 	}
@@ -200,7 +196,7 @@ class Seaccelerator {
 	public function getFilePathAsArray ($fileNameString) {
 
 		$elementsPath = $this->getElementsFilesystemPath();
-		$filePath = array_reverse (explode ('/', str_replace ($elementsPath, '', $fileNameString)));
+		$filePath = array_reverse (explode ("/", str_replace ($elementsPath, "", $fileNameString)));
 
 		return $filePath;
 	}
@@ -215,16 +211,16 @@ class Seaccelerator {
 	 */
 	public function makeStaticElementFilePath ($fileName, $filePath, $mediaSourceId, $makeFullPath) {
 
-		$elementsPath = $this->modx->getOption("seaccelerator.elements_directory", null, 'elements/');
+		$elementsPath = $this->modx->getOption("seaccelerator.elements_directory", null, "elements/");
 		if ($makeFullPath == true) {
 			$elementsPath = $this->getMediaSourcePath($filePath, $mediaSourceId);
-			$staticElementFilePath = MODX_BASE_PATH.$elementsPath.'/'.$fileName;
+			$staticElementFilePath = MODX_BASE_PATH.$elementsPath."/".$fileName;
 
 		} else if ($mediaSourceId > 0) {
-			$staticElementFilePath = $filePath.'/'.$fileName;
+			$staticElementFilePath = $filePath."/".$fileName;
 
 		} else {
-			$staticElementFilePath = MODX_ASSETS_PATH.$elementsPath.$filePath.'/'.$fileName;
+			$staticElementFilePath = MODX_ASSETS_PATH.$elementsPath.$filePath."/".$fileName;
 		}
 
 		return $staticElementFilePath;
@@ -238,7 +234,7 @@ class Seaccelerator {
 	 */
 	public function makeFilesystemPath ($fileName, $filePath) {
 
-		$file = MODX_BASE_PATH.$filePath.'/'.$fileName;
+		$file = MODX_BASE_PATH.$filePath."/".$fileName;
 
 		return $file;
 	}
@@ -250,18 +246,18 @@ class Seaccelerator {
 	 */
 	public function getElementCategoryFromFilesystem ($filePath) {
 
-		$useCategories = $this->modx->getOption ('seaccelerator.use_categories', null, true);
+		$useCategories = $this->modx->getOption("seaccelerator.use_categories", null, true);
 		if ($useCategories) {
 			$fullCategory = array_reverse ($filePath);
 			array_shift ($fullCategory);
 			array_pop ($fullCategory);
-			$fullCategory = implode ('/', $fullCategory);
-			$fullCategory = $fullCategory . '/';
+			$fullCategory = implode ("/", $fullCategory);
+			$fullCategory = $fullCategory . "/";
 			$category = $fullCategory;
-			if ($category == '/') {
+			if ($category == "/") {
 				$category = 0;
 			}
-			//$category = str_replace('/', '', $category);
+			//$category = str_replace("/", "", $category);
 		} else {
 			$category = 0;
 		}
@@ -292,7 +288,7 @@ class Seaccelerator {
 		$directory = new RecursiveDirectoryIterator($path);
 		foreach (new RecursiveIteratorIterator($directory) as $filename => $file) {
 			$rest = substr($filename, -2);
-			if ($rest != '/.' && $rest != '..') {
+			if ($rest != "/." && $rest != "..") {
 				$files[] = $filename;
 			}
 		}
@@ -307,10 +303,10 @@ class Seaccelerator {
 
 		$filePath = $this->getFilePathAsArray($file);
 
-		$fileName = array_reverse (explode ('.', array_pop (explode ('/', $file))));
-		//$filePath = array_reverse (explode ('/', str_replace ($filePath, '', $file)));
+		$fileName = array_reverse (explode (".", array_pop (explode ("/", $file))));
+		//$filePath = array_reverse (explode ("/", str_replace ($filePath, "", $file)));
 
-		//$fileExtension = implode ('.', array_reverse (array_slice ($fileName, 0, $position)));
+		//$fileExtension = implode (".", array_reverse (array_slice ($fileName, 0, $position)));
 		//$fileType = $this->getFileType($filePath);
 
 		//$this->modx->log(xPDO::LOG_LEVEL_ERROR, "file: ".$file."; filePath: ".$filePath);
@@ -369,8 +365,8 @@ class Seaccelerator {
 	public function getStaticElement ($file, $modClass) {
 
 		$parameter = array (
-			'static' => 1
-		,'static_file:LIKE' => "%".$file."%",
+			"static" => 1
+		,"static_file:LIKE" => "%".$file."%",
 		);
 		$element = $this->modx->getObject ($modClass, $parameter);
 
@@ -400,24 +396,24 @@ class Seaccelerator {
 	 */
 	public function parseCategory ($category) {
 		//$this->modx->log(xPDO::LOG_LEVEL_ERROR, "parseCategory: ".$category);
-		$idCategory = '';
-		if ($category == '0') {
-			return '0';
+		$idCategory = "";
+		if ($category == "0") {
+			return "0";
 		} else {
-			$category = explode ('/', $category);
+			$category = explode ("/", $category);
 			array_pop ($category);
-			$parentId = '0';
+			$parentId = "0";
 			for ($i = 0; $i < sizeof ($category); $i++) {
-				$currentCategory = $this->modx->getObject ('modCategory', array ('category' => $category[$i], 'parent' => $parentId));
+				$currentCategory = $this->modx->getObject ("modCategory", array ("category" => $category[$i], "parent" => $parentId));
 				//$this->modx->log(xPDO::LOG_LEVEL_ERROR, "category: ".$category[$i]. "  parent: ".$parentId);
 				if ($currentCategory) {
 					$idCategory = $currentCategory->id;
 					$parentId = $currentCategory->id;
 
 				} else {
-					$newCategory = $this->modx->newObject ('modCategory');
-					$newCategory->set ('parent', $parentId);
-					$newCategory->set ('category', $category[$i]);
+					$newCategory = $this->modx->newObject ("modCategory");
+					$newCategory->set ("parent", $parentId);
+					$newCategory->set ("category", $category[$i]);
 					$newCategory->save ();
 					$parentId = $newCategory->id;
 					$idCategory = $newCategory->id;
@@ -440,12 +436,12 @@ class Seaccelerator {
 		}
 
 		foreach ($files as $filesItem) {
-			$filePath      = $filesItem['path'];
-			$fileName      = $filesItem['filename'];
-			$fileType      = $filesItem['type'];
-			$mediaSourceId = $filesItem['mediasource'];
+			$filePath      = $filesItem["path"];
+			$fileName      = $filesItem["filename"];
+			$fileType      = $filesItem["type"];
+			$mediaSourceId = $filesItem["mediasource"];
 
-			$categoryId    = $this->parseCategory ($filesItem['category']);
+			$categoryId    = $this->parseCategory ($filesItem["category"]);
 			$elementName   = $this->removeFileTypeSuffix($fileName);
 			$fieldName     = $this->getElementFieldName($fileType);
 			$staticFile    = $this->makeStaticElementFilePath($fileName, $filePath, $mediaSourceId, false);
@@ -453,7 +449,7 @@ class Seaccelerator {
 
 			//$this->modx->log(xPDO::LOG_LEVEL_ERROR, "file: ".$file);
 
-			$currentObject = $this->modx->newObject($this->typesClass[$filesItem['type']][0]);
+			$currentObject = $this->modx->newObject($this->typesClass[$filesItem["type"]][0]);
 			$this->setElement ($currentObject, $staticFile, $categoryId, $mediaSourceId, $fieldName, $elementName);
 			$this->saveElement ($currentObject, $file, $fileType);
 		}
@@ -469,16 +465,16 @@ class Seaccelerator {
 		//$fileType = $this->getFileType($filePathArray);
 
 		/*if ($this->isElementNotStatic($singleFile, $fileType)) {
-			$mediaSourceId = $this->modx->getOption ('seaccelerator.mediasource', null, true);
+			$mediaSourceId = $this->modx->getOption ("seaccelerator.mediasource", null, true);
 
-			$filePath 	 = array_reverse (explode ('/', str_replace ($filePathArray, '', $singleFile)));
+			$filePath 	 = array_reverse (explode ("/", str_replace ($filePathArray, "", $singleFile)));
 			$fileName	   = array_shift ($filePath);
 			$fileType	   = $this->getFileType($singleFile);
 			//$category 	 = $this->getElementCategoryFromFilesystem($filePathArray);
 			$categoryId  = $this->parseCategory ($category);
 			$elementPath = $this->makeStaticElementFilePath($fileName, $filePath, $mediaSourceId, false);
 			$file 			 = $this->makeStaticElementFilePath($fileName, $filePath, $mediaSourceId, true);
-			$elementName = $this->removeFileTypeSuffix(str_replace ('.' . $this->getFileType($singleFile), "", $fileName));
+			$elementName = $this->removeFileTypeSuffix(str_replace ("." . $this->getFileType($singleFile), "", $fileName));
 			$fieldName   = $this->getElementFieldName($fileType);
 
 			$this->modx->log(xPDO::LOG_LEVEL_DEBUG, "[createNewSingleElement] filePath: ".$filePath);
@@ -505,10 +501,10 @@ class Seaccelerator {
 	public function setElement ($currentObject, $staticFile, $categoryId, $mediaSourceId, $fieldName, $elementName) {
 
 		$currentObject->set ($fieldName, $elementName);
-		$currentObject->set ('static', '1');
-		$currentObject->set ('source', $mediaSourceId);
-		$currentObject->set ('static_file', $staticFile);
-		$currentObject->set ('category', $categoryId);
+		$currentObject->set ("static", "1");
+		$currentObject->set ("source", $mediaSourceId);
+		$currentObject->set ("static_file", $staticFile);
+		$currentObject->set ("category", $categoryId);
 	}
 
 
@@ -520,11 +516,11 @@ class Seaccelerator {
 	 */
 	public function saveElement ($currentObject, $file, $elementType) {
 
-		$typeArray = array ('templates', 'snippets', 'plugins', 'chunks');
+		$typeArray = array ("templates", "snippets", "plugins", "chunks");
 		foreach ($typeArray as $type) {
 			if ($elementType == $type) {
 				$content = file_get_contents($file, true);
-				$currentObject->set ('content', $content);
+				$currentObject->set ("content", $content);
 			}
 		}
 
