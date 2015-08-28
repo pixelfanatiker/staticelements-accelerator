@@ -13,7 +13,7 @@ $tstart = $mtime;
 set_time_limit(0);
 /* define package */
 define('PKG_NAME','StaticElements Accelerator');
-define('PKG_NAME_LOWER', 'staticelements-accelerator');
+define('PKG_NAME_LOWER', 'seaccelerator');
 define('PKG_VERSION','0.1.0');
 define('PKG_RELEASE','alpha');
 $root = dirname(dirname(__FILE__)) . '/';

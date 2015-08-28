@@ -1,33 +1,32 @@
 <?php
 /**
- * Loads system settings into build
- *
- * @package semanager
- * @subpackage build
- */
-
-$action = $modx->newObject('modAction');
+* Adds modActions and modMenus into package
+*
+* @package mycomponent
+* @subpackage build
+*/
+$action= $modx->newObject('modAction');
 $action->fromArray(array(
-    'id'=>'200',
-    'namespace' => 'semanager',
+    'id' => 1,
+    'namespace' => 'seaccelerator',
     'parent' => 0,
     'controller' => 'home',
     'haslayout' => true,
-    'lang_topics' => 'semanager:default',
+    'lang_topics' => 'seaccelerator.:default,lexicon',
     'assets' => '',
 ),'',true,true);
-//die(var_dump($action->id));
+
+/* load action into menu */
 $menu= $modx->newObject('modMenu');
 $menu->fromArray(array(
-    'text' => 'semanager.title',
-    'parent' => 'components',
-    'description' => 'semanager.description',
-    'action' => $action->id,
-    'menuindex' => 0,
+    'text' => 'seaccelerator.title',
+    'parent' => 'seaccelerator',
+    'description' => 'seaccelerator.description',
+    'icon' => 'images/icons/plugin.gif',
+    'menuindex' => 2,
     'params' => '',
     'handler' => '',
 ),'',true,true);
 $menu->addOne($action);
-unset($menus);
 
 return $menu;
