@@ -1,6 +1,6 @@
 <?php
 /**
- * Get list of files
+ * Export all elements
  *
  * @package seaccelerator
  * @subpackage processors
@@ -13,3 +13,12 @@ if (!isset($modx->seaccelerator) || !is_object($modx->seaccelerator)) {
 if (!$modx->hasPermission('view')) {
 	return $this->failure($modx->lexicon('seaccelerator.no_permission'));
 }
+
+$type = $modx->getOption('type', $_REQUEST);
+$result = false;
+
+if (!empty($type)) {
+	$result = $modx->seaccelerator->exportElementsAsStatic($type."s");
+}
+
+return $modx->error->success($result);

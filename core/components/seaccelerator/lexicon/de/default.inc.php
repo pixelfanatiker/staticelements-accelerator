@@ -55,9 +55,14 @@ $_lang['seaccelerator.files.actions.create_element_confirm'] = "Aus der ausgewä
 
 
 // Elements
-$_lang['seaccelerator.elements.actions.export_all'] = "Chunks exportieren";
-$_lang['seaccelerator.elements.actions.tostatic.all.confirm.title'] = "Chunks exportieren?";
-$_lang['seaccelerator.elements.actions.tostatic.all.confirm.text'] = "Alle Chunks werden statisch und auf dem Server gespeichert.";
+
+// columns
+$_lang['seaccelerator.elements.static_file'] = "Pfad";
+$_lang['seaccelerator.elements.static'] = "Statisch";
+
+$_lang['seaccelerator.elements.actions.export_all'] = "Alle Elemente exportieren";
+$_lang['seaccelerator.elements.actions.tostatic.all.confirm.title'] = "Elemente exportieren?";
+$_lang['seaccelerator.elements.actions.tostatic.all.confirm.text'] = "Alle Elemente werden statisch und auf dem Server gespeichert.";
 
 $_lang['seaccelerator.elements.filter_by_type'] = "Filter nach Kategorie";
 $_lang['seaccelerator.elements.filter_by_name'] = "Filter nach Name";

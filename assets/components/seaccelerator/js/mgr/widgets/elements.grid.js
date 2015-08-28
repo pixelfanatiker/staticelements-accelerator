@@ -16,9 +16,9 @@ Seaccelerator.grid.Elements = function(config) {
 				,blankValues: true
 			}
 			},*/{
-				text: _('seaccelerator.elements.actions.export_all')
+				text: '<i class="icon icon-share"></i>' + _('seaccelerator.elements.actions.export_all')
 				,handler: this.exportElementsAsStatic
-				,cls: 'btn-export'
+				,cls: 'primary-button x-btn-noicon'
 			}];
 	}
 	config.tbar.push('->',{
@@ -101,7 +101,7 @@ Seaccelerator.grid.Elements = function(config) {
 			,sortable: false
 			,editable: false
 		},{
-			header: _('seaccelerator.elements.file')
+			header: _('seaccelerator.elements.static_file')
 			,dataIndex: 'static_file'
 			,sortable: false
 			,editable: false
@@ -446,7 +446,8 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 			,text: _('seaccelerator.elements.actions.tostatic.all.confirm.text')
 			,url: this.config.url
 			,params: {
-				action: 'mgr/elements/saveall'
+				 action: 'mgr/elements/export'
+				,type: this.config.type
 			}
 			,listeners: {
 				'success': {fn:function(r) {

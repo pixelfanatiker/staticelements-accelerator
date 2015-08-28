@@ -25,5 +25,4 @@ if ($process == "multi") {
 	$result = $modx->seaccelerator->createSingleElement($filename, $path, $category);
 }
 
-//$modx->error->addError("test");
 return $modx->error->success($result);
