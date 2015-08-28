@@ -20,7 +20,7 @@ Seaccelerator.grid.Files = function(config) {
 				click: function(){}
 			}
 			,handler:this.createMultipleElements
-		},{
+		}/*,{
 			xtype: 'button'
 			,text: '<i class="icon icon-refresh"></i>' + _('seaccelerator.files.actions.sync_all')
 			,cls:'x-btn-text'
@@ -65,7 +65,7 @@ Seaccelerator.grid.Files = function(config) {
 					});
 				}
 			}
-		}];
+		}*/];
 	}
 	config.tbar.push('->',{
 		xtype: 'modx-combo'
