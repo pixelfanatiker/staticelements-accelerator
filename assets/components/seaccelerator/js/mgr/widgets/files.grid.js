@@ -329,7 +329,7 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 			,text: _('seaccelerator.files.actions.create_element_confirm')
 			,url: this.config.url
 			,params: {
-				action: 'mgr/files/createSingleElement'
+				action: 'mgr/files/createElements'
 				,filename: filename
 				,path: path
 				,category: category
@@ -359,7 +359,8 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 		MODx.Ajax.request({
 			url: Seaccelerator.config.connectorUrl
 			,params: {
-				action: 'mgr/files/createMultipleElements'
+				action: 'mgr/files/createElements'
+				,process: 'multi'
 			}
 			,listeners: {
 				'success': {fn:function(r) {

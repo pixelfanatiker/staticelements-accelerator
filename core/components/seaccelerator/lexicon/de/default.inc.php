@@ -63,4 +63,4 @@ $_lang['seaccelerator.elements.status.unchanged'] = "Keine Änderungen";
 $_lang['seaccelerator.elements.status.changed'] = "Datei wurde geändert";
 $_lang['seaccelerator.elements.status.deleted'] = "Datei wurde gelöscht";
 
-
+$_lang['seaccelerator.no_permission'] = "Keine Berechtigung List";

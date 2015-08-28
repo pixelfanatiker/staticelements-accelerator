@@ -14,6 +14,16 @@ if (!$modx->hasPermission('view')) {
 	return $this->failure($modx->lexicon('seaccelerator.no_permission'));
 }
 
-$result = $modx->seaccelerator->createMultipleElements();
+$process 	= $modx->getOption('process', $_REQUEST);
+$filename = $modx->getOption('filename', $_REQUEST);
+$category = $modx->getOption('category', $_REQUEST);
+$path 		= $modx->getOption('path', $_REQUEST);
 
+if ($process == "multi") {
+	$result = $modx->seaccelerator->createMultipleElements();
+} else {
+	$result = $modx->seaccelerator->createSingleElement($filename, $path, $category);
+}
+
+//$modx->error->addError("test");
 return $modx->error->success($result);
