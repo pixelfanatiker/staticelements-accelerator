@@ -100,12 +100,12 @@ Seaccelerator.grid.Files = function(config) {
 				});
 			},scope:this}
 		}
-	},{
+	}/*,{
 		xtype: 'button'
 		,id: 'seaccelerator-filter-clear-files'
 		,text: _('filter_clear')
 		,handler: this.clearFilter
-	});
+	}*/);
 
 	this.cm = new Ext.grid.ColumnModel({
 		columns: [{

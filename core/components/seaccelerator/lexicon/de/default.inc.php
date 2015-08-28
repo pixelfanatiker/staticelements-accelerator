@@ -59,6 +59,9 @@ $_lang['seaccelerator.elements.actions.export_all'] = "Chunks exportieren";
 $_lang['seaccelerator.elements.actions.tostatic.all.confirm.title'] = "Chunks exportieren?";
 $_lang['seaccelerator.elements.actions.tostatic.all.confirm.text'] = "Alle Chunks werden statisch und auf dem Server gespeichert.";
 
+$_lang['seaccelerator.elements.filter_by_type'] = "Filter nach Kategorie";
+$_lang['seaccelerator.elements.filter_by_name'] = "Filter nach Name";
+
 $_lang['seaccelerator.elements.status.unchanged'] = "Keine Änderungen";
 $_lang['seaccelerator.elements.status.changed'] = "Datei wurde geändert";
 $_lang['seaccelerator.elements.status.deleted'] = "Datei wurde gelöscht";
