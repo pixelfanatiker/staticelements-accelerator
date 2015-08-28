@@ -92,8 +92,8 @@ class modSeacceleratorGetListOfElementsProcessor extends modObjectGetListProcess
 				$mediaSourceName = "None";
 			}
 			$result->set("mediasource", $mediaSourceName);
-			$this->modx->log(xPDO::LOG_LEVEL_ERROR, "mediasource: ".$mediaSourceName);
 		}
+
 		return $results;
 	}
 
@@ -118,26 +118,26 @@ class modSeacceleratorGetListOfElementsProcessor extends modObjectGetListProcess
 			}
 
 			// TODO: Refactoring for better handling
-			$actionEditElement = json_decode('{"className":"edit js_actionLink js_editElement","text":"'. $this->modx->lexicon('seaccelerator.common.actions.element.quickupdate') .'"}');
-			$actionSyncToFile = json_decode('{"className":"arrow-circle-o-down js_actionLink js_syncToFile","text":"'. $this->modx->lexicon('seaccelerator.common.actions.elements.sync.tofile') .'"}');
-			$actionRestoreToFile = json_decode('{"className":"arrow-circle-o-down js_actionLink js_restoreToFile","text":"'. $this->modx->lexicon('seaccelerator.common.actions.elements.restore.tofile') .'"}');
-			$actionSyncFromFile = json_decode('{"className":"arrow-circle-o-up js_actionLink js_syncFromFile","text":"'. $this->modx->lexicon('seaccelerator.common.actions.elements.sync.fromfile') .'"}');
-			$actionExportToFile = json_decode('{"className":"save js_actionLink js_exportToFile","text":"'. $this->modx->lexicon('seaccelerator.common.actions.element.static') .'"}');
-			$actionDeleteElement = json_decode('{"className":"minus-square-o js_actionLink js_deleteElement","text":"'. $this->modx->lexicon('seaccelerator.common.actions.element.delete') .'"}');
-			$actionDeleteFileElement = json_decode('{"className":"trash js_actionLink js_deleteFileElement","text":"'. $this->modx->lexicon('seaccelerator.common.actions.element.deletefile_element') .'"}');
+			$actionEditElement = json_decode('{"className":"edit js_actionLink js_editElement","text":"'. $this->modx->lexicon('seaccelerator.elements.actions.quickupdate') .'"}');
+			$actionSyncToFile = json_decode('{"className":"arrow-circle-o-down js_actionLink js_syncToFile","text":"'. $this->modx->lexicon('seaccelerator.elements.actionss.sync.tofile') .'"}');
+			$actionRestoreToFile = json_decode('{"className":"arrow-circle-o-down js_actionLink js_restoreToFile","text":"'. $this->modx->lexicon('seaccelerator.elements.actionss.restore.tofile') .'"}');
+			$actionSyncFromFile = json_decode('{"className":"arrow-circle-o-up js_actionLink js_syncFromFile","text":"'. $this->modx->lexicon('seaccelerator.elements.actionss.sync.fromfile') .'"}');
+			$actionExportToFile = json_decode('{"className":"save js_actionLink js_exportToFile","text":"'. $this->modx->lexicon('seaccelerator.elements.actions.static') .'"}');
+			$actionDeleteElement = json_decode('{"className":"minus-square-o js_actionLink js_deleteElement","text":"'. $this->modx->lexicon('seaccelerator.elements.actions.delete') .'"}');
+			$actionDeleteFileElement = json_decode('{"className":"trash js_actionLink js_deleteFileElement","text":"'. $this->modx->lexicon('seaccelerator.elements.actions.deletefile_element') .'"}');
 
 			$actionDeleteFileElementDisabled = json_decode('{"className":"trash disabled","text":"Delete file and element"}');
 			$actionDeleteElementDisabled = json_decode('{"className":"minus-square-o disabled","text":"Delete element"}');
 			$actionEditElementDisabled = json_decode('{"className":"edit disabled","text":"Edit element"}');
 
-			$actionSyncToFileDisabled = json_decode('{"className":"arrow-circle-o-down disabled","text":"'. $this->modx->lexicon('seaccelerator.common.actions.elements.sync.tofile') .'"}');
-			$actionSyncFromFileDisabled = json_decode('{"className":"arrow-circle-o-up disabled","text":"'. $this->modx->lexicon('seaccelerator.common.actions.elements.sync.fromfile') .'"}');
+			$actionSyncToFileDisabled = json_decode('{"className":"arrow-circle-o-down disabled","text":"'. $this->modx->lexicon('seaccelerator.elements.actionss.sync.tofile') .'"}');
+			$actionSyncFromFileDisabled = json_decode('{"className":"arrow-circle-o-up disabled","text":"'. $this->modx->lexicon('seaccelerator.elements.actionss.sync.fromfile') .'"}');
 
-			$actionExportToFileDisabled = json_decode('{"className":"save disabled","text":"'. $this->modx->lexicon('seaccelerator.common.actions.element.static') .'"}');
+			$actionExportToFileDisabled = json_decode('{"className":"save disabled","text":"'. $this->modx->lexicon('seaccelerator.elements.actions.static') .'"}');
 
-			$statusUnchanged = json_decode('{"className":"check-circle sm-green","text":"'. $this->modx->lexicon('seaccelerator.elements.status.unchanged') .'"}');
-			$statusChanged = json_decode('{"className":"exclamation-circle sm-orange","text":"'. $this->modx->lexicon('seaccelerator.elements.status.changed') .'"}');
-			$statusDeleted = json_decode('{"className":"warning sm-red","text":"'. $this->modx->lexicon('seaccelerator.elements.status.deleted') .'"}');
+			$statusUnchanged = json_decode('{"className":"check-circle sm-green","text":"'. $this->modx->lexicon('seaccelerator.elements.element_status.unchanged') .'"}');
+			$statusChanged = json_decode('{"className":"exclamation-circle sm-orange","text":"'. $this->modx->lexicon('seaccelerator.elements.element_status.changed') .'"}');
+			$statusDeleted = json_decode('{"className":"warning sm-red","text":"'. $this->modx->lexicon('seaccelerator.elements.element_status.deleted') .'"}');
 
 			if ($static == false && $contentNew == "File not found") {
 				$varActionSaveElement = $actionRestoreToFile;

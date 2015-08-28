@@ -224,16 +224,19 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 			Ext.getCmp(this.config.panel).fireEvent('fieldChange');
 		}
 	}
+
 	,filterByCategory: function(category, selected){
 		this.getStore().baseParams.categoryfilter = selected.id;
 		this.getBottomToolbar().changePage(1);
 		this.refresh();
 	}
+
 	,filterByName: function(tf, newValue) {
 		this.getStore().baseParams.namefilter = newValue || tf;
 		this.getBottomToolbar().changePage(1);
 		this.refresh();
 	}
+
 	,clearFilter: function() {
 		this.getStore().baseParams = {
 			action: 'mgr/elements/getlist'
@@ -256,7 +259,7 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 			,handler: this.deleteFiles
 			,scope: this
 		}, {
-			text: '<i class="icon icon-trash"></i>' + _('seaccelerator.elements.actions.element.delete_file_element')
+			text: '<i class="icon icon-trash"></i>' + _('seaccelerator.elements.actions.delete_file_element')
 			,handler: this.deleteFileAndElement
 			,scope: this
 		}];
@@ -334,11 +337,11 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 
 	,deleteElement: function() {
 		MODx.msg.confirm({
-			title: _('seaccelerator.elements.actions.element.deletefile_element.confirm.title')
-			,text: _('seaccelerator.elements.actions.element.deletefile_element.confirm.text')
+			title: _('seaccelerator.elements.actions.element.delete.confirm.title')
+			,text: _('seaccelerator.elements.actions.element.delete.confirm.text')
 			,url: this.config.url
 			,params: {
-				action: 'mgr/elements/delete.class'
+				action: 'mgr/elements/delete'
 				,id: this.menu.record.id
 				,type: this.menu.record.data.description.toLowerCase()
 				,file: this.menu.record.data.static_file
@@ -355,11 +358,11 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 
 	,deleteFileAndElement: function() {
 		MODx.msg.confirm({
-			title: _('seaccelerator.elements.actions.element.delete.confirm.title')
-			,text: _('seaccelerator.elements.actions.element.delete.confirm.text')
+			title: _('seaccelerator.elements.actions.delete_file_element.confirm.title')
+			,text: _('seaccelerator.elements.actions.delete_file_element.confirm.text')
 			,url: this.config.url
 			,params: {
-				action: 'mgr/elements/delete.class'
+				action: 'mgr/elements/delete'
 				,id: this.menu.record.id
 				,type: this.menu.record.data.description.toLowerCase()
 				,file: this.menu.record.data.static_file

@@ -66,4 +66,42 @@ $_lang['seaccelerator.elements.status.unchanged'] = "Keine Änderungen";
 $_lang['seaccelerator.elements.status.changed'] = "Datei wurde geändert";
 $_lang['seaccelerator.elements.status.deleted'] = "Datei wurde gelöscht";
 
+
+
+$_lang['seaccelerator.elements.actions.quickupdate'] = "Element bearbeiten";
+
+$_lang['seaccelerator.elements.actions.static'] = "Als statisches Element speichern";
+$_lang['seaccelerator.elements.actions.static.restore'] = "Datei aus Datenbank wiederherstellen";
+
+$_lang['seaccelerator.elements.actionss.sync.tofile'] = "Datei mit Inhalt von Element synchronisieren";
+$_lang['seaccelerator.elements.actionss.sync.fromfile'] = "Element mit Inhalt von Datei synchronisieren";
+
+$_lang['seaccelerator.elements.actionss.restore.tofile'] = "Datei mit Inhalt von Element wiederherstellen";
+$_lang['seaccelerator.elements.actionss.restore.tofile.confirm.title'] = "Datei wieder herstellen";
+$_lang['seaccelerator.elements.actionss.restore.tofile.confirm.text'] = "Die Fehlende Datei wird mit dem Inhalt des aktuellen Element wiederhergestellt.";
+
+$_lang['seaccelerator.elements.actionss.sync.tofile.confirm.title'] = "Element zu File Synchronisation";
+$_lang['seaccelerator.elements.actionss.sync.tofile.confirm.text'] = "Das File auf dem Server wird mit dem Inhalt des Element aktualisiert.";
+
+$_lang['seaccelerator.elements.actionss.sync.fromfile.confirm.title'] = "File zu Element Synchronisation";
+$_lang['seaccelerator.elements.actionss.sync.fromfile.confirm.text'] = "Das Element wird mit dem Inhalt des Files vom Server aktualisiert.";
+
+$_lang['seaccelerator.elements.actions.static.confirm.title'] = "Als statisches Element festlegen";
+$_lang['seaccelerator.elements.actions.static.confirm.text'] = "Das ausgewählte Element als statisches Element festlegen?";
+
+$_lang['seaccelerator.elements.actions.delete'] = "Element Löschen";
+$_lang['seaccelerator.elements.actions.delete.confirm.title'] = "Element löschen";
+$_lang['seaccelerator.elements.actions.delete.confirm.text'] = "Das ausgewählte Element wirklich löschen?";
+
+$_lang['seaccelerator.elements.actions.delete_file_element'] = "Datei und Element löschen";
+$_lang['seaccelerator.elements.actions.delete_file_element.confirm.title'] = "Datei und Element löschen";
+$_lang['seaccelerator.elements.actions.delete_file_element.confirm.text'] = "Datei und Element endgültig löschen?";
+
+$_lang['seaccelerator.elements.element_status.unchanged'] = "Keine Änderungen";
+$_lang['seaccelerator.elements.element_status.changed'] = "Datei wurde geändert";
+$_lang['seaccelerator.elements.element_status.deleted'] = "Datei wurde gelöscht";
+
+
+
+// Meldungen
 $_lang['seaccelerator.no_permission'] = "Keine Berechtigung List";
