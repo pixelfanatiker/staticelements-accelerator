@@ -239,12 +239,11 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 	}
 
 	,onDirty: function(){
-		//console.log(this.config.panel);
-
 		if (this.config.panel) {
 			Ext.getCmp(this.config.panel).fireEvent('fieldChange');
 		}
 	}
+
 	,filterByType: function(type, selected){
 		this.getStore().baseParams = {
 			action: 'files/getlist'
@@ -376,16 +375,23 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 		});
 	}
 
-	,editFile: function(btn,e){
-		var r = this.menu.record;
-		r.name = r.filename;
-		r.source = '0';
-		r.file = r.path;
-		r.clearCache = 1;
+	,editFile: function(record){
+		var rec;
+		if (typeof record.data !== "undefined") {
+			rec = record.data;
+		} else {
+			rec = this.menu.record;
+		}
+
+		rec.name = rec.filename;
+		rec.source = '0';
+		rec.file = rec.path;
+		rec.clearCache = 1;
+
 		var que = MODx.load({
 			xtype: 'modx-window-file-quick-update'
 			,url: this.config.url
-			,record: r
+			,record: rec
 			,grid: this
 			,action: 'mgr/files/update'
 			,listeners: {
@@ -394,8 +400,9 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 				},scope:this}
 			}
 		});
+
 		que.reset();
-		que.setValues(r);
+		que.setValues(rec);
 		que.show(e.target);
 	}
 
