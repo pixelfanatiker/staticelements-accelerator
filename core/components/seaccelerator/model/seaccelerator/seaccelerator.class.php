@@ -462,10 +462,12 @@ class Seaccelerator {
 
 
 	/**
-	 * @param $file
+	 * @param $fileName
 	 * @return bool
 	 */
-	public function deleteFile($file) {
+	public function deleteFile($fileName, $mediaSource, $path) {
+
+		$file = $this->makeStaticElementFilePath($fileName, $path, $mediaSource, true);
 
 		if($file) {
 			unlink($file);

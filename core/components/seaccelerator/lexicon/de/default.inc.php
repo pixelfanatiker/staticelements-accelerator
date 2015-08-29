@@ -43,12 +43,12 @@ $_lang['seaccelerator.files.actions.sync_all'] = "Alle Dateien Synchronisieren";
 $_lang['seaccelerator.files.actions.create.processing'] = 'Erstelle Elemente...';
 
 $_lang['seaccelerator.files.actions.generate'] = "Element erstellen";
-$_lang['seaccelerator.files.actions.quickupdate'] = "Datei bearbeiten";
+$_lang['seaccelerator.files.actions.edit_file'] = "Datei bearbeiten";
 $_lang['seaccelerator.files.actions.delete_element'] = "Datei und Element löschen";
 $_lang['seaccelerator.files.actions.delete_file'] = "Datei löschen";
 
-$_lang['seaccelerator.files.delete.confirm.title'] = " Datei löschen";
-$_lang['seaccelerator.files.delete.confirm.text'] = "Die ausgewählte Dateie wird endgültig löschen?";
+$_lang['seaccelerator.files.actions.delete.confirm.title'] = " Datei löschen";
+$_lang['seaccelerator.files.actions.delete.confirm.text'] = "Die ausgewählte Dateie wird endgültig löschen?";
 
 $_lang['seaccelerator.files.actions.create_element'] = "Neues Element erstellen";
 $_lang['seaccelerator.files.actions.create_element_confirm'] = "Aus der ausgewählten Datei ein Element erstellen?";
@@ -109,4 +109,5 @@ $_lang['seaccelerator.elements.element_status.deleted'] = "Datei wurde gelöscht
 
 
 // Meldungen
-$_lang['seaccelerator.no_permission'] = "Keine Berechtigung List";
+$_lang['seaccelerator.no_permission'] = "Keine Berechtigung um Listen zu sehen!";
+$_lang['seaccelerator.no_permission.delete'] = "Keine Berechtigung zum Löschen von Dateien!";

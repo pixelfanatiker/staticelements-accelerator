@@ -284,7 +284,7 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 				text: '<i class="icon icon-edit"></i>' + _('seaccelerator.files.actions.quickupdate')
 				,handler: this.editFile
 			},{
-				text: '<i class="icon icon-trash"></i>' +_('seaccelerator.files.actions.delete.file')
+				text: '<i class="icon icon-trash"></i>' +_('seaccelerator.files.actions.delete_file')
 				,handler: this.deleteFile
 			}
 		];
@@ -388,7 +388,7 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 			,url: this.config.url
 			,record: r
 			,grid: this
-			,action: 'files/updatefiles.class'
+			,action: 'files/updatefiles'
 			,listeners: {
 				'success': {fn:function(){
 					this.refresh();
@@ -401,20 +401,26 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 	}
 
 	,deleteFile: function(record) {
-		var file;
+		var path, filename, mediasource;
 		if (typeof record.data !== "undefined") {
-			file = record.data.path;
+			path = record.data.path;
+			filename = record.data.path;
+			mediasource = record.data.path;
 		} else {
-			file = this.menu.record.path;
+			path = this.menu.record.path;
+			filename = this.menu.record.filename;
+			mediasource = this.menu.record.mediasource;
 		}
 
 		MODx.msg.confirm({
-			title: _('semanager.files.actions.delete.confirm.title')
-			,text: _('semanager.files.actions.delete.confirm.text')
+			title: _('seaccelerator.files.actions.delete.confirm.title')
+			,text: _('seaccelerator.files.actions.delete.confirm.text')
 			,url: this.config.url
 			,params: {
 				action: 'mgr/files/delete'
-				,file: file
+				,path: path
+				,filename: filename
+				,mediasource: mediasource
 			}
 			,listeners: {
 				'success': {fn:function(){
