@@ -539,7 +539,7 @@ class Seaccelerator {
 		$result = $this->saveElementToDatabase($elementObj, $elementType, false);
 
 		if ($result) {
-			$result = $this->deleteFile($elementData["file"]);
+			$result = $this->deleteFile($elementData["file"], $elementData["mediaSourceId"], $elementData["path"]);
 		}
 
 		return $result;

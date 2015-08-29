@@ -281,7 +281,7 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 				text: '<i class="icon icon-check-square-o"></i>' + _('seaccelerator.files.actions.generate')
 				,handler: this.createSingleElement
 			},{
-				text: '<i class="icon icon-edit"></i>' + _('seaccelerator.files.actions.quickupdate')
+				text: '<i class="icon icon-edit"></i>' + _('seaccelerator.files.actions.edit_file')
 				,handler: this.editFile
 			},{
 				text: '<i class="icon icon-trash"></i>' +_('seaccelerator.files.actions.delete_file')
@@ -303,7 +303,7 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 			switch (action) {
 				case 'js_createElement': this.createSingleElement(record); break;
 				case 'js_deleteFile': this.deleteFile(record); break;
-				case 'js_updateElement': this.updateFile(record); break;
+				case 'js_editFile': this.editFile(record); break;
 				default:
 					//window.location = record.data.edit_action;
 					break;
@@ -312,7 +312,6 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 	}
 
 	,createSingleElement: function(record){
-		console.log("createSingleElement");
 		var filename, path, category;
 		if (typeof record.data !== "undefined") {
 			filename = record.data.filename;
@@ -377,7 +376,7 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 		});
 	}
 
-	,updateFile: function(btn,e){
+	,editFile: function(btn,e){
 		var r = this.menu.record;
 		r.name = r.filename;
 		r.source = '0';
@@ -388,7 +387,7 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 			,url: this.config.url
 			,record: r
 			,grid: this
-			,action: 'files/updatefiles'
+			,action: 'mgr/files/update'
 			,listeners: {
 				'success': {fn:function(){
 					this.refresh();
