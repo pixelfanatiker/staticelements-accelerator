@@ -94,6 +94,27 @@ class Seaccelerator {
 
 
 	/**
+	 * @param $results
+	 * @return mixed
+	 */
+	public function getMediaSourceNameFromArray ($results) {
+
+		foreach ($results as $result) {
+			$source = $result->get("source");
+			$mediaSource = $this->modx->getObject('sources.modMediaSource', $source);
+			if(!empty($mediaSource) && is_object($mediaSource)) {
+				$mediaSourceName = $mediaSource->get("name");
+			} else {
+				$mediaSourceName = "None";
+			}
+			$result->set("mediasource", $mediaSourceName);
+		}
+
+		return $results;
+	}
+
+
+	/**
 	 * @param $elementsPath
 	 * @param $mediaSourceId
 	 * @return mixed
@@ -608,6 +629,32 @@ class Seaccelerator {
 		return file_get_contents($file, true);
 	}
 
+
+	/**
+	 * @param $file
+	 * @return string
+	 */
+	public function getFileContentAsSHA1($file) {
+		return sha1_file($file);
+	}
+
+
+	/**
+	 * @param $file
+	 * @return string
+	 */
+	private function checkElementOnFilesystem($file) {
+
+		if (file_exists($file)) {
+			$content = $this->getFileContentAsSHA1($file);
+		} else {
+			$content = "";
+		}
+
+		return $content;
+	}
+
+
 	/**
 	 * @param $category
 	 * @param $fileName
@@ -637,7 +684,6 @@ class Seaccelerator {
 	private function getModElementClass($elementType) {
 
 		foreach ($this->modElementClasses as $type => $value) {
-			//$this->modx->log(xPDO::LOG_LEVEL_ERROR, "modClass: ".$value);
 			if ($type == $elementType) {
 				return $value[0];
 			}
@@ -645,6 +691,163 @@ class Seaccelerator {
 
 		return false;
 	}
+
+
+	/**
+	 * @param $results
+	 * @return mixed
+	 */
+	public function getElementStatusAndActions($results) {
+
+		foreach ($results as $result) {
+			$elementData['name']  			= $result->get('name');
+			$elementData['content']  		= sha1($result->get('content'));
+			$elementData['static_file'] = $result->get('static_file');
+			$elementData['static']  		= $result->get('static');
+			$elementData['mediasource'] = $result->get('mediasource');
+
+			$result->set('status', $this->getElementStatusIcon($elementData));
+			$result->set('actions', $this->getElementActionIcons($elementData));
+		}
+
+		return $results;
+	}
+
+
+	/**
+	 * @param $elementData
+	 * @return array
+	 */
+	public function checkElementStatus($elementData) {
+
+		$file = $this->makeStaticElementFilePath($elementData['name'], $elementData['path'], $elementData['mediaSourceId'], true);
+
+		$elementContentDatabase = sha1($elementData['content']);
+		$elementContentFilesystem = $this->checkElementOnFilesystem($file);
+
+		// Is element static?
+		$status['static'] = $elementData['static'];
+
+		// Is element existing on filesystem?
+		if ($elementContentFilesystem == "") {
+			$status['deleted'] = true;
+		} else {
+			$status['deleted'] = false;
+		}
+
+		// Has content changed?
+		if ($elementContentDatabase != $elementContentFilesystem) {
+			$status['changed'] = true;
+		} else {
+			$status['changed'] = false;
+		}
+
+		$elementStatus = $this->setElementStatusAndAction($status);
+
+		return $elementStatus;
+	}
+
+
+	/**
+	 * @param $status
+	 * @return array
+	 */
+	public function setElementStatusAndAction($status) {
+
+		$statusAndActions = [];
+
+		if ($status['deleted'] == true) {
+			$statusAndActions['status'] = "deleted";
+			$statusAndActions['action'] = array("editElement" => "editElement", "syncToFile" => "syncToFile", "syncFromFileDisabled" => "syncFromFileDisabled", "deleteElement" => "deleteElement", "deleteBothDisabled" => "deleteBothDisabled");
+
+		} else 	if ($status['static'] == false) {
+			$statusAndActions['status'] = "static";
+			$statusAndActions['action'] = array("editElement" => "editElement", "syncToFile" => "syncToFile", "syncFromFileDisabled" => "syncFromFileDisabled", "deleteElement" => "deleteElement", "deleteBothDisabled" => "deleteBothDisabled");
+
+		} else 	if ($status['deleted'] == false && $status['changed'] == true) {
+			$statusAndActions['status'] = "changed";
+			$statusAndActions['action'] = array("editElement" => "editElement", "syncToFile" => "syncToFile", "syncFromFile" => "syncFromFile", "deleteElement" => "deleteElement", "deleteBoth" => "deleteBoth");
+
+		} else if ($status['deleted'] == false && $status['changed'] == false) {
+			$statusAndActions['status'] = "unchanged";
+			$statusAndActions['action'] = array("editElement" => "editElement", "syncToFileDisabled" => "syncToFileDisabled", "syncFromFileDisabled" => "syncFromFileDisabled", "deleteElement" => "deleteElement", "deleteBoth" => "deleteBoth");
+		}
+
+		return $statusAndActions;
+	}
+
+
+	/**
+	 * @param $elementData
+	 * @return mixed
+	 */
+	public function getElementStatusIcon($elementData) {
+
+		$statusAndAction = $this->checkElementStatus($elementData);
+
+		$statusIconRepository = array(
+			'changed' => '{"className":"exclamation-circle sm-orange","text":"'. $this->modx->lexicon('seaccelerator.elements.element_status.changed') .'"}',
+			'unchanged' => '{"className":"check-circle sm-green","text":"'. $this->modx->lexicon('seaccelerator.elements.element_status.unchanged') .'"}',
+			'deleted' => '{"className":"warning sm-red","text":"'. $this->modx->lexicon('seaccelerator.elements.element_status.deleted') .'"}',
+			'static' => '{"className":"info-circle sm-orange","text":"'. $this->modx->lexicon('seaccelerator.elements.element_status.not_static') .'"}'
+		);
+
+		return json_decode($statusIconRepository[$statusAndAction['status']]);
+	}
+
+
+	/**
+	 * @param $elementData
+	 * @return array
+	 */
+	public function getElementActionIcons($elementData) {
+
+		$statusAndActions= $this->checkElementStatus($elementData);
+		$actions = $statusAndActions['action'];
+
+		$actionIconsRepository = array(
+			'editElement' =>   				 '{"className":"edit js_actionLink js_editElement","text":"'. $this->modx->lexicon('seaccelerator.elements.actions.quickupdate') .'"}',
+			'syncToFile' =>  	 				 '{"className":"arrow-circle-o-down js_actionLink js_syncToFile","text":"'. $this->modx->lexicon('seaccelerator.elements.actionss.sync.tofile') .'"}',
+			'syncToFileDisabled' =>		 '{"className":"arrow-circle-o-down disabled","text":"'. $this->modx->lexicon('seaccelerator.elements.actionss.sync.tofile') .'"}',
+			'syncFromFile' =>	 				 '{"className":"arrow-circle-o-up js_actionLink js_syncFromFile","text":"'. $this->modx->lexicon('seaccelerator.elements.actionss.sync.fromfile') .'"}',
+			'syncFromFileDisbabled' => '{"className":"arrow-circle-o-up disabled","text":"'. $this->modx->lexicon('seaccelerator.elements.actionss.sync.fromfile') .'"}',
+			'deleteElement' => 				 '{"className":"minus-square-o js_actionLink js_deleteElement","text":"'. $this->modx->lexicon('seaccelerator.elements.actions.delete') .'"}',
+			'deleteBoth' => 	 				 '{"className":"trash js_actionLink js_deleteFileElement","text":"'. $this->modx->lexicon('seaccelerator.elements.actions.deletefile_element') .'"}',
+			'deleteBothDisabeld' => 	 '{"className":"trash disabled","text":"'. $this->modx->lexicon('seaccelerator.elements.actions.deletefile_element') .'"}',
+		);
+
+		$actionIcons = [];
+
+		foreach ($actionIconsRepository as $actionIcon => $actionIconContent) {
+			foreach ($actions as $action) {
+				if ($action == $actionIcon) {
+					$actionIcons[] = json_decode($actionIconContent);
+				}
+			}
+		}
+
+		/*for ($i = 0; $i <= count($actions); $i++) {
+
+		}*/
+
+		//$actionIcons = array_intersect($actions, $actionIconsRepository);
+
+		/*foreach ($actionIconsRepository as $actionIcon => $actionIconContent) {
+			while (list(, $action) = each($actions)) {
+				if ($action == $actionIcon) {
+					$actionIcons[] = json_decode($actionIconContent);
+					break;
+				}
+			}
+		}*/
+
+		return $actionIcons;
+	}
+
+
+
+
+
 
 
 }

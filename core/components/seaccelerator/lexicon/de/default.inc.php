@@ -105,8 +105,7 @@ $_lang['seaccelerator.elements.actions.delete_file_element.confirm.text'] = "Dat
 $_lang['seaccelerator.elements.element_status.unchanged'] = "Keine Änderungen";
 $_lang['seaccelerator.elements.element_status.changed'] = "Datei wurde geändert";
 $_lang['seaccelerator.elements.element_status.deleted'] = "Datei wurde gelöscht";
-
-
+$_lang['seaccelerator.elements.element_status.not_static'] = "Element nicht statisch";
 
 // Meldungen
 $_lang['seaccelerator.no_permission'] = "Keine Berechtigung um Listen zu sehen!";
