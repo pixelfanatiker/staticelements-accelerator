@@ -2,21 +2,21 @@
 /**
  * StaticElements Accelerator
  *
- * Copyright 2013 by Wieger Sloot at Sterc <wieger@sterc.nl>
+ * Copyright 2013 by Florian Gutwald <florian@frontend-mercenary.com>
  *
- * This file is part of StercSEO.
+ * This file is part of StaticElements Accelerator.
  *
- * StercSEO is free software; you can redistribute it and/or modify it under the
+ * StaticElements Accelerator is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
  *
- * StercSEO is distributed in the hope that it will be useful, but WITHOUT ANY
+ * StaticElements Accelerator is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
  * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with
- * StercSEO; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+ * StaticElements Accelerator; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA 02111-1307 USA
  *
  * @package seaccelerator
@@ -240,6 +240,9 @@ class Seaccelerator {
 	public function convertFilePathToString($filePathArray) {
 
 		$filePathString = implode("/", array_reverse($filePathArray));
+		if (substr($filePathString, -1, 1) != "/") {
+			$filePathString = $filePathString."/";
+		}
 
 		return $filePathString;
 	}
@@ -260,12 +263,27 @@ class Seaccelerator {
 
 	/**
 	 * @param $fileName
-	 * @param $filePath
-	 * @param $mediaSourceId
+	 * @param $file
+	 * @param $mediaSource
 	 * @param $makeFullPath
 	 * @return string
 	 */
-	public function makeStaticElementFilePath($fileName, $filePath, $mediaSourceId, $makeFullPath) {
+	public function makeStaticElementFilePath($fileName, $file, $mediaSource, $makeFullPath) {
+
+		if ($fileName == '') {
+			//$filePathArray = $this->getFilePathAsArray($file);
+			$filePathArray = $this->getFilePathAsArray($file);
+			$fileName = array_shift($filePathArray);
+			$filePath = $this->convertFilePathToString($filePathArray);
+		} else {
+			$filePath = $file;
+		}
+
+		if (!is_numeric($mediaSource)) {
+			$mediaSourceId = $this->getMediaSourceId($mediaSource);
+		} else {
+			$mediaSourceId = $mediaSource;
+		}
 
 		$elementsPath = $this->modx->getOption("seaccelerator.elements_directory", null, "elements/");
 		if($makeFullPath == true) {
@@ -273,10 +291,10 @@ class Seaccelerator {
 			$staticElementFilePath = MODX_BASE_PATH.$elementsPath.$fileName;
 
 		} else if($mediaSourceId > 0) {
-			$staticElementFilePath = $filePath."/".$fileName;
+			$staticElementFilePath = $filePath.$fileName;
 
 		} else {
-			$staticElementFilePath = MODX_ASSETS_PATH.$elementsPath.$filePath."/".$fileName;
+			$staticElementFilePath = MODX_ASSETS_PATH.$elementsPath.$filePath.$fileName;
 		}
 
 		return $staticElementFilePath;
@@ -522,9 +540,7 @@ class Seaccelerator {
 	 * @param $fileName
 	 * @return bool
 	 */
-	public function deleteFile($fileName, $mediaSource, $path) {
-
-		$file = $this->makeStaticElementFilePath($fileName, $path, $mediaSource, true);
+	public function deleteFile($file) {
 
 		if($file) {
 			unlink($file);
@@ -535,8 +551,20 @@ class Seaccelerator {
 	}
 
 
-	public function deleteElementAndFile($fileName, $mediaSource, $path) {
+	public function deleteElementAndFile($id, $staticFile, $mediaSource, $type) {
 
+		$modElementClass = $this->getModElementClass($type);
+
+		$element = $this->modx->getObject($modElementClass, $id);
+		if($element) {
+			$result = $element->remove();
+		}
+		if ($result) {
+			$file = $this->makeStaticElementFilePath('', $staticFile, $mediaSource, true);
+			$result = $this->deleteFile($file);
+		}
+
+		return $result;
 	}
 
 
@@ -600,8 +628,10 @@ class Seaccelerator {
 
 		$result = $this->saveElementToDatabase($elementObj, $elementType, false);
 
+		$file = $this->makeStaticElementFilePath($elementData["file"], $elementData["mediaSourceId"], $elementData["path"], true);
+
 		if ($result) {
-			$result = $this->deleteFile($elementData["file"], $elementData["mediaSourceId"], $elementData["path"]);
+			$result = $this->deleteFile($file);
 		}
 
 		return $result;
@@ -879,13 +909,13 @@ class Seaccelerator {
 
 		$actionIconsRepository = array(
 			'editElement' =>   				 '{"className":"edit js_actionLink js_editElement","text":"'. $this->modx->lexicon('seaccelerator.elements.actions.quickupdate') .'"}',
-			'syncToFile' =>  	 				 '{"className":"arrow-circle-o-down js_actionLink js_syncToFile","text":"'. $this->modx->lexicon('seaccelerator.elements.actionss.sync.tofile') .'"}',
+			'syncToFile' =>  	 				 '{"className":"arrow-circle-o-down js_actionLink js_syncToFile","text":"'. $this->modx->lexicon('seaccelerator.elements.actions.sync.tofile') .'"}',
 			'syncToFileDisabled' =>		 '{"className":"arrow-circle-o-down disabled","text":"'. $this->modx->lexicon('seaccelerator.elements.actionss.sync.tofile') .'"}',
-			'syncFromFile' =>	 				 '{"className":"arrow-circle-o-up js_actionLink js_syncFromFile","text":"'. $this->modx->lexicon('seaccelerator.elements.actionss.sync.fromfile') .'"}',
+			'syncFromFile' =>	 				 '{"className":"arrow-circle-o-up js_actionLink js_syncFromFile","text":"'. $this->modx->lexicon('seaccelerator.elements.actions.sync.fromfile') .'"}',
 			'syncFromFileDisbabled' => '{"className":"arrow-circle-o-up disabled","text":"'. $this->modx->lexicon('seaccelerator.elements.actionss.sync.fromfile') .'"}',
 			'deleteElement' => 				 '{"className":"minus-square-o js_actionLink js_deleteElement","text":"'. $this->modx->lexicon('seaccelerator.elements.actions.delete') .'"}',
-			'deleteBoth' => 	 				 '{"className":"trash js_actionLink js_deleteFileElement","text":"'. $this->modx->lexicon('seaccelerator.elements.actions.deletefile_element') .'"}',
-			'deleteBothDisabeld' => 	 '{"className":"trash disabled","text":"'. $this->modx->lexicon('seaccelerator.elements.actions.deletefile_element') .'"}',
+			'deleteBoth' => 	 				 '{"className":"trash js_actionLink js_deleteFileElement","text":"'. $this->modx->lexicon('seaccelerator.elements.actions.delete_file_element') .'"}',
+			'deleteBothDisabeld' => 	 '{"className":"trash disabled","text":"'. $this->modx->lexicon('seaccelerator.elements.actions.delete_file_element') .'"}',
 		);
 
 		$actionIcons = [];

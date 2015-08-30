@@ -175,6 +175,8 @@ Seaccelerator.grid.Elements = function(config) {
 	Seaccelerator.grid.Elements.superclass.constructor.call(this, config);
 	this._makeTemplates();
 };
+
+
 Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 
 	renderDynField: function(v,md,rec,ri,ci,s,g) {
@@ -265,6 +267,7 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 		}];
 		this.addContextMenuItem(m);
 	}
+
 	,_renderActions: function(v,md,rec) {
 		return this.tplActions.apply(rec.data);
 	}
@@ -344,7 +347,8 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 				action: 'mgr/elements/delete'
 				,id: this.menu.record.id
 				,type: this.menu.record.data.description.toLowerCase()
-				,file: this.menu.record.data.static_file
+				,staticfile: this.menu.record.data.static_file
+				,source: this.menu.record.data.mediasource
 				,process: "element"
 			}
 			,listeners: {
@@ -365,7 +369,8 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 				action: 'mgr/elements/delete'
 				,id: this.menu.record.id
 				,type: this.menu.record.data.description.toLowerCase()
-				,file: this.menu.record.data.static_file
+				,staticfile: this.menu.record.data.static_file
+				,source: this.menu.record.data.mediasource
 				,process: "both"
 			}
 			,listeners: {
@@ -386,7 +391,8 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 				action: 'mgr/elements/sync.class'
 				,id: this.menu.record.id
 				,type: this.menu.record.data.description.toLowerCase()
-				,file: this.menu.record.data.static_file
+				,staticfile: this.menu.record.data.static_file
+				,source: this.menu.record.data.mediasource
 				,sync: "tofile"
 			}
 			,listeners: {

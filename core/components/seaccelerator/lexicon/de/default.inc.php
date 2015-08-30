@@ -94,7 +94,7 @@ $_lang['seaccelerator.elements.actionss.sync.fromfile.confirm.text'] = "Das Elem
 $_lang['seaccelerator.elements.actions.static.confirm.title'] = "Als statisches Element festlegen";
 $_lang['seaccelerator.elements.actions.static.confirm.text'] = "Das ausgewählte Element als statisches Element festlegen?";
 
-$_lang['seaccelerator.elements.actions.delete'] = "Element Löschen";
+$_lang['seaccelerator.elements.actions.delete'] = "Element löschen";
 $_lang['seaccelerator.elements.actions.delete.confirm.title'] = "Element löschen";
 $_lang['seaccelerator.elements.actions.delete.confirm.text'] = "Das ausgewählte Element wirklich löschen?";
 
@@ -103,8 +103,8 @@ $_lang['seaccelerator.elements.actions.delete_file_element.confirm.title'] = "Da
 $_lang['seaccelerator.elements.actions.delete_file_element.confirm.text'] = "Datei und Element endgültig löschen?";
 
 $_lang['seaccelerator.elements.element_status.unchanged'] = "Keine Änderungen";
-$_lang['seaccelerator.elements.element_status.changed'] = "Datei wurde geändert";
-$_lang['seaccelerator.elements.element_status.deleted'] = "Datei wurde gelöscht";
+$_lang['seaccelerator.elements.element_status.changed'] = "Datei geändert";
+$_lang['seaccelerator.elements.element_status.deleted'] = "Datei nicht vorhanden";
 $_lang['seaccelerator.elements.element_status.not_static'] = "Element nicht statisch";
 
 // Meldungen
