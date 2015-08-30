@@ -21,7 +21,7 @@ $path 			 = $modx->getOption('path', $_REQUEST);
 $result = true;
 
 if ($fileName && $path) {
-	$result = $modx->seaccelerator->deleteFile($fileName, $mediaSource, $path);
+	$result = $modx->seaccelerator->deleteFile($path.$fileName, $mediaSource);
 } else {
 	$result = false;
 }

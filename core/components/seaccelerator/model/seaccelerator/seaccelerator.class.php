@@ -219,7 +219,7 @@ class Seaccelerator {
 				$newFiles[] = array(
 					"filename" => $fileName,
 					"category" => $category,
-					"type" => $fileType,
+					"type" => ucfirst($fileType),
 					"path" => $filePathString,
 					"content" => file_get_contents($file, true),
 					"mediasource" => $mediaSourceId,
@@ -323,11 +323,11 @@ class Seaccelerator {
 		$useCategories = $this->modx->getOption("seaccelerator.use_categories", null, true);
 		if($useCategories) {
 			$fullCategory = array_reverse($filePath);
-			array_shift($fullCategory);
-			array_pop($fullCategory);
-			$fullCategory = implode("/", $fullCategory);
+			//array_shift($fullCategory);
+			$category = array_pop($fullCategory);
+			//$fullCategory = implode("/", $fullCategory);
 			$fullCategory = $fullCategory . "/";
-			$category = $fullCategory;
+			//$category = $fullCategory;
 			if($category == "/") {
 				$category = 0;
 			}
@@ -518,7 +518,7 @@ class Seaccelerator {
 	 */
 	public function createSingleElement($fileName, $filePath, $category) {
 
-		$newFile = $filePath.'/'.$fileName;
+		$newFile = $filePath.$fileName;
 		$filePathArray = $this->getFilePathAsArray($newFile);
 		$elementType = $this->getFileType($filePathArray);
 
@@ -526,7 +526,7 @@ class Seaccelerator {
 		if($this->isElementNotStatic($newFile, $elementType)) {
 
 			$mediaSourceId = $this->modx->getOption("seaccelerator.mediasource", null, true);
-			$elementData 	 = $this->makeElementDataArray($category, $fileName, $filePath, $elementType, $mediaSourceId);
+			$elementData 	 = $this->makeElementDataArray(strtolower($category), $fileName, $filePath, $elementType, $mediaSourceId);
 
 			$elementObj = $this->modx->newObject($this->modElementClasses[$elementType][0]);
 			$result = $this->setAsStaticElement($elementObj, $elementData, false);
@@ -537,10 +537,12 @@ class Seaccelerator {
 
 
 	/**
-	 * @param $fileName
+	 * @param $file
 	 * @return bool
 	 */
-	public function deleteFile($file) {
+	public function deleteFile($staticFile, $mediaSource) {
+
+		$file = $this->makeStaticElementFilePath('', $staticFile, $mediaSource, true);
 
 		if($file) {
 			unlink($file);
@@ -551,6 +553,13 @@ class Seaccelerator {
 	}
 
 
+	/**
+	 * @param $id
+	 * @param $staticFile
+	 * @param $mediaSource
+	 * @param $type
+	 * @return bool
+	 */
 	public function deleteElementAndFile($id, $staticFile, $mediaSource, $type) {
 
 		$modElementClass = $this->getModElementClass($type);
@@ -560,8 +569,8 @@ class Seaccelerator {
 			$result = $element->remove();
 		}
 		if ($result) {
-			$file = $this->makeStaticElementFilePath('', $staticFile, $mediaSource, true);
-			$result = $this->deleteFile($file);
+			//$file = $this->makeStaticElementFilePath('', $staticFile, $mediaSource, true);
+			$result = $this->deleteFile($staticFile, $mediaSource);
 		}
 
 		return $result;

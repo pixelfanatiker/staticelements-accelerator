@@ -340,8 +340,8 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 
 	,deleteElement: function() {
 		MODx.msg.confirm({
-			title: _('seaccelerator.elements.actions.element.delete.confirm.title')
-			,text: _('seaccelerator.elements.actions.element.delete.confirm.text')
+			title: _('seaccelerator.elements.actions.delete.confirm.title')
+			,text: _('seaccelerator.elements.actions.delete.confirm.text')
 			,url: this.config.url
 			,params: {
 				action: 'mgr/elements/delete'
