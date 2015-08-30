@@ -1,5 +1,24 @@
 <?php
 /**
+ * StaticElements Accelerator
+ *
+ * Copyright 2013 by Wieger Sloot at Sterc <wieger@sterc.nl>
+ *
+ * This file is part of StercSEO.
+ *
+ * StercSEO is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * StercSEO is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * StercSEO; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+ * Suite 330, Boston, MA 02111-1307 USA
+ *
  * @package seaccelerator
  */
 class Seaccelerator {
@@ -131,6 +150,23 @@ class Seaccelerator {
 
 
 	/**
+	 * @param $mediaSourceName
+	 * @return int
+	 */
+	public function getMediaSourceId($mediaSourceName) {
+
+		$mediaSource = $this->modx->getObject("sources.modMediaSource", $mediaSourceName);
+		if(!empty($mediaSource) && is_object($mediaSource)) {
+			$mediaSourceId = $mediaSource->get("id");
+		} else {
+			$mediaSourceId = 1;
+		}
+
+		return $mediaSourceId;
+	}
+
+
+	/**
 	 * @return string
 	 */
 	public function getElementsFilesystemPath() {
@@ -234,7 +270,7 @@ class Seaccelerator {
 		$elementsPath = $this->modx->getOption("seaccelerator.elements_directory", null, "elements/");
 		if($makeFullPath == true) {
 			$elementsPath = $this->getMediaSourcePath($filePath, $mediaSourceId);
-			$staticElementFilePath = MODX_BASE_PATH.$elementsPath."/".$fileName;
+			$staticElementFilePath = MODX_BASE_PATH.$elementsPath.$fileName;
 
 		} else if($mediaSourceId > 0) {
 			$staticElementFilePath = $filePath."/".$fileName;
@@ -358,7 +394,7 @@ class Seaccelerator {
 	 * @param $filenameWithSuffix
 	 * @return mixed
 	 */
-	public function getFileName($filenameWithSuffix) {
+	public function makeElementName($filenameWithSuffix) {
 
 		$filenameArr = explode(".", $filenameWithSuffix);
 
@@ -499,6 +535,11 @@ class Seaccelerator {
 	}
 
 
+	public function deleteElementAndFile($fileName, $mediaSource, $path) {
+
+	}
+
+
 	/**
 	 * @param $elementType
 	 * @return array
@@ -609,12 +650,22 @@ class Seaccelerator {
 	 */
 	public function getFileSuffix($type) {
 
-		$fileSuffixes = array(
-			"chunks" => ".html",
-			"templates" => ".html",
-			"snippets" => ".php",
-			"plugins" => ".php"
-		);
+		if (strpos($type, "mod") !== false) {
+			$fileSuffixes = array(
+				"modChunk" => ".html",
+				"modTemplate" => ".html",
+				"modSnippet" => ".php",
+				"modPlugin" => ".php"
+			);
+
+		} else {
+			$fileSuffixes = array(
+				"chunks" => ".html",
+				"templates" => ".html",
+				"snippets" => ".php",
+				"plugins" => ".php"
+			);
+		}
 
 		return $fileSuffixes[$type];
 	}
@@ -666,7 +717,7 @@ class Seaccelerator {
 	public function makeElementDataArray($category, $fileName, $filePath, $elementType, $mediaSourceId) {
 
 		$elementData["categoryId"] = $this->parseCategory($category);
-		$elementData["name"] 			 = $this->getFileName($fileName);
+		$elementData["name"] 			 = $this->makeElementName($fileName);
 		$elementData["type"]  		 = $this->getModElementClass($elementType);
 		$elementData["staticFile"] = $this->makeStaticElementFilePath($fileName, $filePath, $mediaSourceId, false);
 		$elementData["file"] 			 = $this->makeStaticElementFilePath($fileName, $filePath, $mediaSourceId, true);
@@ -697,14 +748,19 @@ class Seaccelerator {
 	 * @param $results
 	 * @return mixed
 	 */
-	public function getElementStatusAndActions($results) {
+	public function getElementStatusAndActions($results, $classKey) {
 
 		foreach ($results as $result) {
-			$elementData['name']  			= $result->get('name');
-			$elementData['content']  		= sha1($result->get('content'));
+			$name = $result->get('name');
+			$filename = $this->makeFilename($name, $classKey);
+
+			$elementData['name']  			= $name;
+			$elementData['filename']		= $filename;
+			$elementData['content']  		= $result->get('content');
 			$elementData['static_file'] = $result->get('static_file');
 			$elementData['static']  		= $result->get('static');
-			$elementData['mediasource'] = $result->get('mediasource');
+			$elementData['source'] 			= $result->get('source');
+			$elementData['classKey'] 		= $classKey;
 
 			$result->set('status', $this->getElementStatusIcon($elementData));
 			$result->set('actions', $this->getElementActionIcons($elementData));
@@ -715,31 +771,47 @@ class Seaccelerator {
 
 
 	/**
+	 * @param $name
+	 * @param $classKey
+	 * @return string
+	 */
+	public function makeFilename($name, $classKey) {
+
+		$suffix = $this->getFileSuffix($classKey);
+
+		return $name.$suffix;
+	}
+
+
+	/**
 	 * @param $elementData
 	 * @return array
 	 */
 	public function checkElementStatus($elementData) {
 
-		$file = $this->makeStaticElementFilePath($elementData['name'], $elementData['path'], $elementData['mediaSourceId'], true);
+		$status['path'] 	 = $elementData['path'];
+		$status['static']  = $elementData['static'];
+		$status['deleted'] = false;
+		$status['changed'] = false;
 
-		$elementContentDatabase = sha1($elementData['content']);
-		$elementContentFilesystem = $this->checkElementOnFilesystem($file);
+		// Element has an path and is static
+		if ($elementData['static'] == true && $elementData['static_file'] != "") {
 
-		// Is element static?
-		$status['static'] = $elementData['static'];
+			$path = str_replace($elementData['filename'], "", $elementData['static_file']);
+			$file = $this->makeStaticElementFilePath($elementData['filename'], $path, $elementData['source'], true);
 
-		// Is element existing on filesystem?
-		if ($elementContentFilesystem == "") {
-			$status['deleted'] = true;
-		} else {
-			$status['deleted'] = false;
-		}
+			$elementContentFilesystem = $this->checkElementOnFilesystem($file);
+			$elementContentDatabase = sha1($elementData['content']);
 
-		// Has content changed?
-		if ($elementContentDatabase != $elementContentFilesystem) {
-			$status['changed'] = true;
-		} else {
-			$status['changed'] = false;
+			// Is element existing on filesystem?
+			if ($elementContentFilesystem == "") {
+				$status['deleted'] = true;
+			}
+
+			// Has content changed?
+			if ($elementContentDatabase != $elementContentFilesystem) {
+				$status['changed'] = true;
+			}
 		}
 
 		$elementStatus = $this->setElementStatusAndAction($status);

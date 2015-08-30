@@ -98,22 +98,22 @@ Seaccelerator.grid.Elements = function(config) {
 			header: _('source')
 			,dataIndex: 'mediasource'
 			,width: 30
-			,sortable: false
+			,sortable: true
 			,editable: false
 		},{
 			header: _('seaccelerator.elements.static_file')
 			,dataIndex: 'static_file'
-			,sortable: false
+			,sortable: true
 			,editable: false
-		},{
+		}/*,{
 			header: _('seaccelerator.elements.static')
 			,dataIndex: 'static'
 			,width: 20
 			,sortable: true
 			,editable: true
 			,renderer: this.renderDynField.createDelegate(this,[this],true)
-		}]
-		,tools: [{
+		}*/]
+		/*,tools: [{
 			id: 'plus'
 			,qtip: _('expand_all')
 			,handler: this.expandAll
@@ -124,7 +124,7 @@ Seaccelerator.grid.Elements = function(config) {
 			,qtip: _('collapse_all')
 			,handler: this.collapseAll
 			,scope: this
-		}]
+		}]*/
 		/* Editors are pushed here. I think that they should be in general grid
 		 * definitions (modx.grid.js) and activated via a config property (loadEditor: true) */
 		,getCellEditor: function(colIndex, rowIndex) {
@@ -345,7 +345,7 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 				,id: this.menu.record.id
 				,type: this.menu.record.data.description.toLowerCase()
 				,file: this.menu.record.data.static_file
-				,del: "element"
+				,process: "element"
 			}
 			,listeners: {
 				'success': {fn:function(r) {
@@ -366,7 +366,7 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 				,id: this.menu.record.id
 				,type: this.menu.record.data.description.toLowerCase()
 				,file: this.menu.record.data.static_file
-				,del: "both"
+				,process: "both"
 			}
 			,listeners: {
 				'success': {fn:function(r) {

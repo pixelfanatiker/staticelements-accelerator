@@ -62,7 +62,7 @@ class modSeacceleratorGetListOfElementsProcessor extends modObjectGetListProcess
 		}
 
 		$data['results'] = $this->modx->getCollection($this->classKey, $query);
-		$data['results'] = $this->seaccelerator->getElementStatusAndActions($data['results']);
+		$data['results'] = $this->seaccelerator->getElementStatusAndActions($data['results'], $this->classKey);
 		$data['results'] = $this->seaccelerator->getMediaSourceNameFromArray($data['results']);
 
 		return $data;
