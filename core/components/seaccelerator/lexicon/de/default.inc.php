@@ -42,7 +42,7 @@ $_lang['seaccelerator.files.actions.generate_all'] = "Alle Dateien verarbeiten";
 $_lang['seaccelerator.files.actions.sync_all'] = "Alle Dateien Synchronisieren";
 $_lang['seaccelerator.files.actions.create.processing'] = 'Erstelle Elemente...';
 
-$_lang['seaccelerator.files.actions.generate'] = "Element erstellen";
+$_lang['seaccelerator.files.actions.create'] = "Element erstellen";
 $_lang['seaccelerator.files.actions.edit_file'] = "Datei bearbeiten";
 $_lang['seaccelerator.files.actions.delete_element'] = "Datei und Element löschen";
 $_lang['seaccelerator.files.actions.delete_file'] = "Datei löschen";

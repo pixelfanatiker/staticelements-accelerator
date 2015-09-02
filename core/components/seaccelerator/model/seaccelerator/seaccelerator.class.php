@@ -189,10 +189,9 @@ class Seaccelerator {
 	 */
 	public function getNewFiles() {
 
-		// TODO: refactor
-		$actionCreateElement = json_decode('{"className":"check-square-o js_actionLink js_createElement","text":"Create element"}');
-		$actionEditFile = json_decode('{"className":"edit js_actionLink js_editFile","text":"Edit file"}');
-		$actionDeleteFile = json_decode('{"className":"trash js_actionLink js_deleteFile","text":"Delete file"}');
+		$actionCreateElement = json_decode('{"className":"check-square-o js_actionLink js_createElement","text":"'. $this->modx->lexicon('seaccelerator.files.actions.create') .'"}');
+		$actionEditFile = json_decode('{"className":"edit js_actionLink js_editFile","text":"' .$this->modx->lexicon('seaccelerator.files.actions.edit_file') .'"}');
+		$actionDeleteFile = json_decode('{"className":"trash js_actionLink js_deleteFile","text":"' .$this->modx->lexicon('seaccelerator.files.actions.delete_file') .'"}');
 
 		$actions = array($actionCreateElement, $actionEditFile, $actionDeleteFile);
 
