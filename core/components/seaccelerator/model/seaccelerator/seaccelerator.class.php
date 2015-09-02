@@ -204,7 +204,7 @@ class Seaccelerator {
 			$fileName = array_shift ($filePathArray);
 			$modElementClass = $this->getFileType($filePathArray);
 
-			if(!$this->isElementStatic($fileName, $modElementClass)) {
+			if(!$this->_isElementStatic($fileName, $modElementClass)) {
 				$mediaSourceId = $this->getMediaSource();
 				$mediaSourceName = $this->getMediaSourceName($mediaSourceId);
 				$category = $this->getElementCategoryFromFilesystem($filePathArray);
@@ -341,6 +341,7 @@ class Seaccelerator {
 
 
 	/**
+	 * @param $path
 	 * @return array
 	 */
 	public function scanElementsDirectory($path) {
@@ -370,11 +371,12 @@ class Seaccelerator {
 
 	/**
 	 * @param $file
+	 * @param $modElementClass
 	 * @return bool
 	 */
-	public function isElementStatic($file, $modElementClass) {
+	private function _isElementStatic($file, $modElementClass) {
 
-		if(!is_object($this->getStaticElement($file, $modElementClass))) {
+		if(is_object($this->getStaticElement($file, $modElementClass))) {
 			return true;
 		}
 
@@ -430,16 +432,16 @@ class Seaccelerator {
 
 	/**
 	 * @param $file
-	 * @param $modClass
+	 * @param $modElementClass
 	 * @return null|object
 	 */
-	public function getStaticElement($file, $modClass) {
+	public function getStaticElement($file, $modElementClass) {
 
 		$parameter = array(
 			"static" => 1
 		,"static_file:LIKE" => "%".$file."%",
 		);
-		$element = $this->modx->getObject($modClass, $parameter);
+		$element = $this->modx->getObject($modElementClass, $parameter);
 
 		return $element;
 	}
@@ -531,7 +533,7 @@ class Seaccelerator {
 		$elementType = $this->getFileType($filePathArray);
 
 		$result = false;
-		if($this->isElementStatic($newFile, $elementType)) {
+		if($this->_isElementStatic($newFile, $elementType)) {
 
 			$mediaSourceId = $this->modx->getOption("seaccelerator.mediasource", null, true);
 			$elementData 	 = $this->makeElementDataArray(strtolower($category), $fileName, $filePath, $elementType, $mediaSourceId);
