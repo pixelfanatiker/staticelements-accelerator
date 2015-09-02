@@ -202,12 +202,13 @@ class Seaccelerator {
 		foreach($filesystem as $file) {
 			$filePathArray = $this->getFilePathAsArray($file);
 			$fileName = array_shift ($filePathArray);
-			$fileType = $this->getFileType($filePathArray);
+			$modElementClass = $this->getFileType($filePathArray);
 
-			if($this->isElementNotStatic($fileName, $fileType)) {
+			if(!$this->isElementStatic($fileName, $modElementClass)) {
 				$mediaSourceId = $this->getMediaSource();
 				$mediaSourceName = $this->getMediaSourceName($mediaSourceId);
 				$category = $this->getElementCategoryFromFilesystem($filePathArray);
+				$type = $this->_convertModElementClassToType($modElementClass);
 
 				if($mediaSourceId > 0) {
 					$filePathString = $this->convertFilePathToString($filePathArray);
@@ -218,7 +219,7 @@ class Seaccelerator {
 				$newFiles[] = array(
 					"filename" => $fileName,
 					"category" => $category,
-					"type" => ucfirst($fileType),
+					"type" => $type,
 					"path" => $filePathString,
 					"content" => file_get_contents($file, true),
 					"mediasource" => $mediaSourceId,
@@ -371,21 +372,10 @@ class Seaccelerator {
 	 * @param $file
 	 * @return bool
 	 */
-	public function isElementNotStatic($file, $fileType) {
+	public function isElementStatic($file, $modElementClass) {
 
-		$modElementClasses = array(
-			"chunks" => "modChunk"
-		,"plugins" => "modPlugin"
-		,"snippets" => "modSnippet"
-		,"templates" => "modTemplate"
-		);
-
-		foreach($modElementClasses as $type => $modClass) {
-			if($fileType == $type) {
-				if(!is_object($this->getStaticElement($file, $modClass))) {
-					return true;
-				}
-			}
+		if(!is_object($this->getStaticElement($file, $modElementClass))) {
+			return true;
 		}
 
 		return false;
@@ -393,17 +383,36 @@ class Seaccelerator {
 
 
 	/**
-	 * @param $filePath
-	 * @return int|mixed
+	 * @param $file
+	 * @return null
 	 */
-	public function getFileType($filePath) {
+	public function getFileType($file) {
 
-		$type = array_pop($filePath);
-		if($type == "") {
-			$type = 0;
+		$typeDetection = "directory";
+		$categoryDetectBy = explode(",", "modChunk:chunks,modSnippet:snippets,modTemplate:templates,modTemplate:plugins");
+		$type = null;
+
+		if ($typeDetection == "directory") {
+			$categoryDirectory = array_pop($file);
+			foreach ($categoryDetectBy as $item) {
+				$elementType = explode(":", $item);
+				if ($categoryDirectory == $elementType[1]) {
+					$type = $elementType[0];
+				}
+			}
 		}
 
 		return $type;
+	}
+
+
+	/**
+	 * @param $modElementClass
+	 * @return string
+	 */
+	private function _convertModElementClassToType($modElementClass) {
+
+		return ucfirst(str_replace("mod", "", $modElementClass));
 	}
 
 
@@ -522,7 +531,7 @@ class Seaccelerator {
 		$elementType = $this->getFileType($filePathArray);
 
 		$result = false;
-		if($this->isElementNotStatic($newFile, $elementType)) {
+		if($this->isElementStatic($newFile, $elementType)) {
 
 			$mediaSourceId = $this->modx->getOption("seaccelerator.mediasource", null, true);
 			$elementData 	 = $this->makeElementDataArray(strtolower($category), $fileName, $filePath, $elementType, $mediaSourceId);
