@@ -879,19 +879,19 @@ class Seaccelerator {
 
 		if ($status['deleted'] == true) {
 			$statusAndActions['status'] = "deleted";
-			$statusAndActions['action'] = array("editElement" => "editElement", "syncToFile" => "syncToFile", "syncFromFileDisabled" => "syncFromFileDisabled", "deleteElement" => "deleteElement", "deleteBothDisabled" => "deleteBothDisabled");
+			$statusAndActions['action'] = array("editElement", "syncToFile", "syncFromFileDisabled", "deleteElement", "deleteBothDisabled");
 
 		} else 	if ($status['static'] == false) {
 			$statusAndActions['status'] = "static";
-			$statusAndActions['action'] = array("editElement" => "editElement", "syncToFile" => "syncToFile", "syncFromFileDisabled" => "syncFromFileDisabled", "deleteElement" => "deleteElement", "deleteBothDisabled" => "deleteBothDisabled");
+			$statusAndActions['action'] = array("editElement", "syncToFile", "syncFromFileDisabled", "deleteElement", "deleteBothDisabled");
 
 		} else 	if ($status['deleted'] == false && $status['changed'] == true) {
 			$statusAndActions['status'] = "changed";
-			$statusAndActions['action'] = array("editElement" => "editElement", "syncToFile" => "syncToFile", "syncFromFile" => "syncFromFile", "deleteElement" => "deleteElement", "deleteBoth" => "deleteBoth");
+			$statusAndActions['action'] = array("editElement", "syncToFile", "syncFromFile", "deleteElement", "deleteBoth");
 
 		} else if ($status['deleted'] == false && $status['changed'] == false) {
 			$statusAndActions['status'] = "unchanged";
-			$statusAndActions['action'] = array("editElement" => "editElement", "syncToFileDisabled" => "syncToFileDisabled", "syncFromFileDisabled" => "syncFromFileDisabled", "deleteElement" => "deleteElement", "deleteBoth" => "deleteBoth");
+			$statusAndActions['action'] = array("editElement", "syncToFileDisabled", "syncFromFileDisabled", "deleteElement", "deleteBoth");
 		}
 
 		return $statusAndActions;
@@ -923,8 +923,9 @@ class Seaccelerator {
 	 */
 	public function getElementActionIcons($elementData) {
 
-		$statusAndActions= $this->checkElementStatus($elementData);
+		$statusAndActions = $this->checkElementStatus($elementData);
 		$actions = $statusAndActions['action'];
+		$actionIcons = [];
 
 		$actionIconsRepository = array(
 			'editElement' =>   				 '{"className":"edit js_actionLink js_editElement","text":"'. $this->modx->lexicon('seaccelerator.elements.actions.quickupdate') .'"}',
@@ -937,8 +938,6 @@ class Seaccelerator {
 			'deleteBothDisabeld' => 	 '{"className":"trash disabled","text":"'. $this->modx->lexicon('seaccelerator.elements.actions.delete_file_element') .'"}',
 		);
 
-		$actionIcons = [];
-
 		foreach ($actionIconsRepository as $actionIcon => $actionIconContent) {
 			foreach ($actions as $action) {
 				if ($action == $actionIcon) {
@@ -946,21 +945,6 @@ class Seaccelerator {
 				}
 			}
 		}
-
-		/*for ($i = 0; $i <= count($actions); $i++) {
-
-		}*/
-
-		//$actionIcons = array_intersect($actions, $actionIconsRepository);
-
-		/*foreach ($actionIconsRepository as $actionIcon => $actionIconContent) {
-			while (list(, $action) = each($actions)) {
-				if ($action == $actionIcon) {
-					$actionIcons[] = json_decode($actionIconContent);
-					break;
-				}
-			}
-		}*/
 
 		return $actionIcons;
 	}
