@@ -89,7 +89,7 @@ class Seaccelerator {
 	/**
 	 * @return mixed
 	 */
-	public function getMediaSource() {
+	public function getElementsMediaSource() {
 
 		$mediaSourceId = $this->modx->getOption("seaccelerator.mediasource", null, 1);
 
@@ -101,7 +101,7 @@ class Seaccelerator {
 	 * @param $mediaSourceId
 	 * @return bool
 	 */
-	public  function getMediaSourceName($mediaSourceId) {
+	public function getMediaSourceName($mediaSourceId) {
 
 		$mediaSource = $this->modx->getObject("sources.modMediaSource", $mediaSourceId);
 		if(!empty($mediaSource) && is_object($mediaSource)) {
@@ -170,7 +170,7 @@ class Seaccelerator {
 	 * @return string
 	 */
 	public function getElementsFilesystemPath() {
-		$mediaSourceId = $this->getMediaSource();
+		$mediaSourceId = $this->getElementsMediaSource();
 		$elementsDirectory = $this->modx->getOption("seaccelerator.elements_directory", null, "elements/");
 		if($mediaSourceId == 1) {
 			$elementsPath = MODX_BASE_PATH . $this->getMediaSourcePath($elementsDirectory, $mediaSourceId) . "elements/";
@@ -205,7 +205,7 @@ class Seaccelerator {
 			$modElementClass = $this->getFileType($filePathArray);
 
 			if(!$this->_isElementStatic($fileName, $modElementClass)) {
-				$mediaSourceId = $this->getMediaSource();
+				$mediaSourceId = $this->getElementsMediaSource();
 				$mediaSourceName = $this->getMediaSourceName($mediaSourceId);
 				$category = $this->getElementCategoryFromFilesystem($filePathArray);
 				$type = $this->_convertModElementClassToType($modElementClass);
