@@ -16,15 +16,15 @@ if (!$modx->hasPermission('delete')) {
 
 $process 		 = $modx->getOption('process', $_REQUEST);
 $id 	 			 = $modx->getOption('id', $_REQUEST);
-$type				 = $modx->getOption('type', $_REQUEST);
+$modClass		 = $modx->getOption('modClass', $_REQUEST);
 $mediaSource = $modx->getOption('source', $_REQUEST);
 $staticFile	 = $modx->getOption('staticfile', $_REQUEST);
 
 if ($process == "element") {
-	$result = $modx->seaccelerator->deleteFile($staticFile, $mediaSource);
+	$result = $modx->seaccelerator->deleteElement($id, $modClass);
 
 } else if ($process == "both") {
-	$result = $modx->seaccelerator->deleteElementAndFile($id, $staticFile, $mediaSource, $type.'s');
+	$result = $modx->seaccelerator->deleteElementAndFile($id, $staticFile, $mediaSource, $modClass);
 
 } else {
 	$result = false;

@@ -105,6 +105,9 @@ Seaccelerator.grid.Elements = function(config) {
 			,dataIndex: 'static_file'
 			,sortable: true
 			,editable: false
+		},{
+			dataIndex: 'modClass'
+			,hidden: true
 		}/*,{
 			header: _('seaccelerator.elements.static')
 			,dataIndex: 'static'
@@ -143,7 +146,7 @@ Seaccelerator.grid.Elements = function(config) {
 
 	Ext.applyIf(config,{
 		cm: this.cm
-		,fields: ['id', 'status', 'actions', 'name', 'static','static_file','source','mediasource','description','category','snippet','plugincode','templatename','content','disabled']
+		,fields: ['id', 'status', 'actions', 'name', 'static','static_file','source','mediasource','description','category','snippet','plugincode','templatename','content','disabled', 'modClass']
 		,id: 'seaccelerator-grid-elements-' + config.type + 's'
 		,url: Seaccelerator.config.connectorUrl
 		,baseParams: {
@@ -346,7 +349,7 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 			,params: {
 				action: 'mgr/elements/delete'
 				,id: this.menu.record.id
-				,type: this.menu.record.data.description.toLowerCase()
+				,modClass: this.menu.record.data.modClass
 				,staticfile: this.menu.record.data.static_file
 				,source: this.menu.record.data.mediasource
 				,process: "element"
@@ -361,6 +364,7 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 	}
 
 	,deleteFileAndElement: function() {
+		console.log(this.menu.record.modClass);
 		MODx.msg.confirm({
 			title: _('seaccelerator.elements.actions.delete_file_element.confirm.title')
 			,text: _('seaccelerator.elements.actions.delete_file_element.confirm.text')
@@ -368,9 +372,9 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 			,params: {
 				action: 'mgr/elements/delete'
 				,id: this.menu.record.id
-				,type: this.menu.record.data.description.toLowerCase()
-				,staticfile: this.menu.record.data.static_file
-				,source: this.menu.record.data.mediasource
+				,modClass: this.menu.record.modClass
+				,staticfile: this.menu.record.static_file
+				,source: this.menu.record.mediasource
 				,process: "both"
 			}
 			,listeners: {
@@ -388,9 +392,9 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 			,text: _('seaccelerator.elements.actions.restore.tofile.confirm.text')
 			,url: this.config.url
 			,params: {
-				action: 'mgr/elements/sync.class'
+				action: 'mgr/elements/sync'
 				,id: this.menu.record.id
-				,type: this.menu.record.data.description.toLowerCase()
+				,modClass: this.menu.record.data.modClass
 				,staticfile: this.menu.record.data.static_file
 				,source: this.menu.record.data.mediasource
 				,sync: "tofile"

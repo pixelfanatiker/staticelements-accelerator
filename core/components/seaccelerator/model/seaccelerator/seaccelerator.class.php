@@ -547,10 +547,11 @@ class Seaccelerator {
 
 
 	/**
-	 * @param $file
+	 * @param $staticFile
+	 * @param $mediaSource
 	 * @return bool
 	 */
-	public function deleteFile($staticFile, $mediaSource) {
+	public function deleteFile($staticFile, $mediaSource = 1) {
 
 		$file = $this->makeStaticElementFilePath('', $staticFile, $mediaSource, true);
 
@@ -565,21 +566,33 @@ class Seaccelerator {
 
 	/**
 	 * @param $id
-	 * @param $staticFile
-	 * @param $mediaSource
-	 * @param $type
+	 * @param $modElementClass
 	 * @return bool
 	 */
-	public function deleteElementAndFile($id, $staticFile, $mediaSource, $type) {
-
-		$modElementClass = $this->getModElementClass($type);
+	public function deleteElement($id, $modElementClass) {
 
 		$element = $this->modx->getObject($modElementClass, $id);
 		if($element) {
 			$result = $element->remove();
+		} else {
+			$result = false;
 		}
+
+		return $result;
+	}
+
+
+	/**
+	 * @param $id
+	 * @param $staticFile
+	 * @param $mediaSource
+	 * @param $modElementClass
+	 * @return bool
+	 */
+	public function deleteElementAndFile($id, $staticFile, $mediaSource, $modElementClass) {
+
+		$result = $this->deleteElement($id, $modElementClass);
 		if ($result) {
-			//$file = $this->makeStaticElementFilePath('', $staticFile, $mediaSource, true);
 			$result = $this->deleteFile($staticFile, $mediaSource);
 		}
 
