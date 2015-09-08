@@ -110,3 +110,5 @@ $_lang['seaccelerator.elements.element_status.not_static'] = "Element nicht stat
 // Meldungen
 $_lang['seaccelerator.no_permission'] = "Keine Berechtigung um Listen zu sehen!";
 $_lang['seaccelerator.no_permission.delete'] = "Keine Berechtigung zum Löschen von Dateien!";
+
+$_lang['seaccelerator.error.ufg_no_data'] = "Keine Daten vorhanden!";

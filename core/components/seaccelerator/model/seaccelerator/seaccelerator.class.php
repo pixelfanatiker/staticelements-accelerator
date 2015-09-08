@@ -133,6 +133,23 @@ class Seaccelerator {
 	}
 
 
+  /**
+   * @return string
+   */
+  public function getMediaSources() {
+
+    $mediaSources = $this->modx->getObject('sources.modMediaSource');
+    foreach ($mediaSources as $source) {
+      $sources[] = array(
+          "id" => $source->get("id"),
+          "name" => $source->get("name")
+      );
+    }
+
+    return $this->modx->toJSON($sources);
+  }
+
+
 	/**
 	 * @param $elementsPath
 	 * @param $mediaSourceId
@@ -312,6 +329,11 @@ class Seaccelerator {
 
 		return $file;
 	}
+
+
+  public function saveStaticElement($elementObject) {
+
+  }
 
 
 	/**
@@ -643,7 +665,7 @@ class Seaccelerator {
 		}
 
 		if ($result !== false || !$isNewFile) {
-			$result = $this->saveElementToDatabase($elementObj, $elementData, true);
+			$result = $this->saveElementObject($elementObj, $elementData, true);
 		}
 
 		return $result;
@@ -658,7 +680,7 @@ class Seaccelerator {
 	 */
 	public function unsetAsStaticElement($elementObj, $elementData, $elementType) {
 
-		$result = $this->saveElementToDatabase($elementObj, $elementType, false);
+		$result = $this->saveElementObject($elementObj, $elementType, false);
 
 		$file = $this->makeStaticElementFilePath($elementData["file"], $elementData["mediaSourceId"], $elementData["path"], true);
 
@@ -691,7 +713,7 @@ class Seaccelerator {
 	 * @param $static
 	 * @return mixed
 	 */
-	public function saveElementToDatabase($elementObj, $elementData, $static) {
+	public function saveElementObject($elementObj, $elementData, $static) {
 
 		$elementObj->set($elementData["fieldName"], $elementData["name"]);
 		$elementObj->set("source", $elementData["mediaSourceId"]);
@@ -704,6 +726,26 @@ class Seaccelerator {
 
 		return $result;
 	}
+
+
+  /**
+   * @param $elementObj
+   * @param $elementRecord
+   * @return mixed
+   */
+  public function updateElement($elementObj, $elementRecord) {
+
+    $elementData['name'] = $elementRecord['name'];
+    $elementData['source'] = $elementRecord['source'];
+    $elementData['staticFile'] = $elementRecord['static_file'];
+    $elementData['category'] = $elementRecord['category'];
+    $elementData['content'] = $elementRecord['content'];
+    $elementData['description'] = $elementRecord['description'];
+
+    $result = $this->saveElementObject($elementObj, $elementData, true);
+
+    return $result;
+  }
 
 
 	/**

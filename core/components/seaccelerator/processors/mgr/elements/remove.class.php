@@ -1,6 +1,6 @@
 <?php
 /**
- * @package nomination
+ * @package Seaccelerator
  * @subpackage processors
  */
 class SeacceleratorRemoveProcessor extends modObjectRemoveProcessor {

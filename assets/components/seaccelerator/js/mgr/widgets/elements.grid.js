@@ -72,7 +72,7 @@ Seaccelerator.grid.Elements = function(config) {
 	 */
 
 	this.cm = new Ext.grid.ColumnModel({
-		columns: [this.exp,{
+		columns: [/*this.exp,*/{
 			header: _('id')
 			,dataIndex: 'id'
 			,width: 10
@@ -99,7 +99,8 @@ Seaccelerator.grid.Elements = function(config) {
 			,dataIndex: 'mediasource'
 			,width: 30
 			,sortable: true
-			,editable: false
+			,editable: true
+      ,editor: { xtype: 'seaccelerator-combo-sources' ,renderer: true}
 		},{
 			header: _('seaccelerator.elements.static_file')
 			,dataIndex: 'static_file'
@@ -257,7 +258,7 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 			,handler: this.editElement
 		},{
 			text: '<i class="icon icon-save"></i>' + _('seaccelerator.elements.actions.static')
-			,handler: this.restoreToFile
+			,handler: this.restoreFile
 			,scope: this
 		}, {
 			text: '<i class="icon icon-minus-square-o"></i>' + _('seaccelerator.elements.actions.delete')
@@ -304,7 +305,7 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 			this.menu.record = record;
 			switch (action) {
 				case 'js_editElement': this.editElement(record, e); break;
-				case 'js_restoreToFile': this.restoreToFile(record, e); break;
+				case 'js_restoreToFile': this.restoreFile(record, e); break;
 				case 'js_syncToFile': this.syncToFile(record, e); break;
 				case 'js_syncFromFile': this.syncFromFile(record, e); break;
 				case 'js_exportToFile': this.syncToFile(record, e); break;
@@ -386,7 +387,7 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 		return true;
 	}
 
-	,restoreToFile: function () {
+	,restoreFile: function () {
 		MODx.msg.confirm({
 			title: _('seaccelerator.elements.actions.restore.tofile.confirm.title')
 			,text: _('seaccelerator.elements.actions.restore.tofile.confirm.text')
@@ -414,10 +415,10 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 			,text: _('seaccelerator.elements.actions.sync.tofile.confirm.text')
 			,url: this.config.url
 			,params: {
-				action: 'mgr/elements/sync.class'
+				action: 'mgr/elements/sync'
 				,id: this.menu.record.id
-				,type: this.menu.record.data.description.toLowerCase()
-				,file: this.menu.record.data.static_file
+				,modClass: this.menu.record.data.modClass
+				,staticfile: this.menu.record.data.static_file
 				,sync: "tofile"
 			}
 			,listeners: {
@@ -437,7 +438,7 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 			,params: {
 				action: 'mgr/elements/sync.class'
 				,id: this.menu.record.id
-				,type: this.menu.record.data.description.toLowerCase()
+				,type: this.menu.record.data.description.toLowerCase
 				,file: this.menu.record.data.static_file
 				,sync: "fromfile"
 			}
@@ -474,3 +475,31 @@ Ext.reg('seaccelerator-grid-elements-chunks', Seaccelerator.grid.Elements);
 Ext.reg('seaccelerator-grid-elements-plugins', Seaccelerator.grid.Elements);
 Ext.reg('seaccelerator-grid-elements-snippets', Seaccelerator.grid.Elements);
 Ext.reg('seaccelerator-grid-elements-templates', Seaccelerator.grid.Elements);
+
+
+Seaccelerator.combo.Sources = function(config) {
+  config = config || {};
+
+  Ext.applyIf(config,{
+    id: 'seaccelerator-combo-sources'
+    ,name: 'source'
+    ,hiddenName: 'source'
+    ,displayField: 'name'
+    ,valueField: 'id'
+    ,mode: 'remote'
+    ,fields: ['id','name']
+    ,forceSelection: true
+    ,editable: false
+    ,enableKeyEvents: true
+    ,pageSize: 20
+    ,cls: 'modx-combo'
+    ,url: Seaccelerator.config.connectorUrl
+    ,baseParams: {
+      action: 'mgr/common/getSources'
+      ,showNone: true
+    }
+  });
+  Seaccelerator.combo.Sources.superclass.constructor.call(this, config);
+};
+Ext.extend(Seaccelerator.combo.Sources,MODx.combo.ComboBox);
+Ext.reg('seaccelerator-combo-sources', Seaccelerator.combo.Sources);
