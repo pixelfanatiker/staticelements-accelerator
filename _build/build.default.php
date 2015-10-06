@@ -6,7 +6,7 @@ define('PKG_NAME',       'StaticElementsAccelerator');
 define('PKG_NAME_LOWER', 'seaccelerator');
 
 define('PKG_VERSION',    '0.0.1');
-define('PKG_RELEASE',    'beta1');
+define('PKG_RELEASE',    'alpha');
 
 
 
