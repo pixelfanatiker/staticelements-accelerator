@@ -400,9 +400,9 @@ class Seaccelerator {
 
 		if(is_object($this->getStaticElement($file, $modElementClass))) {
 			return true;
-		}
-
-		return false;
+		} else {
+     return false;
+    }
 	}
 
 
@@ -554,14 +554,22 @@ class Seaccelerator {
 		$filePathArray = $this->getFilePathAsArray($newFile);
 		$elementType = $this->getFileType($filePathArray);
 
-		$result = false;
-		if($this->_isElementStatic($newFile, $elementType)) {
+    $isStatic = $this->_isElementStatic($newFile, $elementType);
+    $isNewFile = false;
+    $result = false;
+
+    if($isStatic == false) {
 
 			$mediaSourceId = $this->modx->getOption("seaccelerator.mediasource", null, true);
 			$elementData 	 = $this->makeElementDataArray(strtolower($category), $fileName, $filePath, $elementType, $mediaSourceId);
 
-			$elementObj = $this->modx->newObject($this->modElementClasses[$elementType][0]);
-			$result = $this->setAsStaticElement($elementObj, $elementData, false);
+      $this->modx->log(xPDO::LOG_LEVEL_ERROR, "elementType: " . $elementType);
+			$elementObj = $this->modx->newObject($elementType);
+
+      $this->modx->log(xPDO::LOG_LEVEL_ERROR, "elementData: " . $elementData);
+
+			$result = $this->setAsStaticElement($elementObj, $elementData, $isNewFile);
+
 		}
 
 		return $result;
