@@ -559,17 +559,12 @@ class Seaccelerator {
     $result = false;
 
     if($isStatic == false) {
-
 			$mediaSourceId = $this->modx->getOption("seaccelerator.mediasource", null, true);
 			$elementData 	 = $this->makeElementDataArray(strtolower($category), $fileName, $filePath, $elementType, $mediaSourceId);
-
-      $this->modx->log(xPDO::LOG_LEVEL_ERROR, "elementType: " . $elementType);
 			$elementObj = $this->modx->newObject($elementType);
-
-      $this->modx->log(xPDO::LOG_LEVEL_ERROR, "elementData: " . $elementData);
-
-			$result = $this->setAsStaticElement($elementObj, $elementData, $isNewFile);
-
+      if (is_object($elementObj)) {
+        $result = $this->setAsStaticElement($elementObj, $elementData, $isNewFile);
+      }
 		}
 
 		return $result;
