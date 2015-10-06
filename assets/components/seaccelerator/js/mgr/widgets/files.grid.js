@@ -343,7 +343,7 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 	,createMultipleElements: function(btn,e) {
 		Ext.Msg.show({
 			title: _('please_wait')
-			,msg: ('seaccelerator.files.actions.create.processing')
+			,msg: _('seaccelerator.files.actions.create.processing')
 			,width: 240
 			,progress:true
 			,closable:false
