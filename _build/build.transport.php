@@ -12,9 +12,9 @@ $mtime = $mtime[1] + $mtime[0];
 $tstart = $mtime;
 set_time_limit(0);
 /* define package */
-define('PKG_NAME','StaticElements Accelerator');
+define('PKG_NAME_FULL','StaticElements Accelerator');
 define('PKG_NAME_LOWER', 'seaccelerator');
-define('PKG_VERSION','0.1.1');
+define('PKG_VERSION','0.0.2');
 define('PKG_RELEASE','alpha');
 $root = dirname(dirname(__FILE__)) . '/';
 $sources= array (
