@@ -315,7 +315,7 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 		if (typeof record.data !== "undefined") {
 			filename = record.data.filename;
 			path = record.data.path;
-			category = record.data.category
+			category = record.data.category;
 		} else {
 			filename = this.menu.record.filename;
 			path = this.menu.record.path;

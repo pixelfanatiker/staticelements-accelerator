@@ -16,13 +16,12 @@ if (!$modx->hasPermission('view')) {
 
 $process 	= $modx->getOption('process', $_REQUEST);
 $filename = $modx->getOption('filename', $_REQUEST);
-$category = $modx->getOption('category', $_REQUEST);
 $path 		= $modx->getOption('path', $_REQUEST);
 
 if ($process == "multi") {
 	$result = $modx->seaccelerator->createMultipleElements();
 } else {
-	$result = $modx->seaccelerator->createSingleElement($filename, $path, $category);
+	$result = $modx->seaccelerator->createSingleElement($filename, $path);
 }
 
 return $modx->error->success($result);
