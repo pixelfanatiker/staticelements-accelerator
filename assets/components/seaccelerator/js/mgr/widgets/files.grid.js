@@ -111,13 +111,13 @@ Seaccelerator.grid.Files = function(config) {
 		columns: [{
 			header: _('actions')
 			,dataIndex: 'actions'
-			,width: 30
+			,width: 20
 			,sortable: true
 			,renderer: { fn: this._renderActions ,scope:this }
 		},{
 			header: _('name')
 			,dataIndex: 'filename'
-			,width: 50
+			,width: 30
 			,sortable: false
 		},{
 			header: _('category')
@@ -144,7 +144,7 @@ Seaccelerator.grid.Files = function(config) {
 		},{
 			header: _('path')
 			,dataIndex: 'path'
-			,width: 30
+			,width: 70
 			,sortable: false
 			,editable: false
 		}]
