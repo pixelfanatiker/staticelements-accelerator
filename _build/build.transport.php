@@ -16,7 +16,8 @@ set_time_limit(0);
 
 define('PKG_NAME_FULL','StaticElements Accelerator');
 define('PKG_NAME_LOWER', 'seaccelerator');
-define('PKG_VERSION','0.0.2');
+define('PKG_NAME_CATEGORY', 'SEAccelerator');
+define('PKG_VERSION','0.0.3');
 define('PKG_RELEASE','alpha');
 
 $root = dirname(dirname(__FILE__)) . '/';
@@ -60,7 +61,7 @@ $modx->log(modX::LOG_LEVEL_INFO,'Created Transport Package and Namespace.');
 /* create category */
 $category= $modx->newObject('modCategory');
 $category->set('id',1);
-$category->set('category',PKG_NAME_LOWER);
+$category->set('category',PKG_NAME_CATEGORY);
 
 /* create category vehicle */
 $attr = array(
