@@ -157,7 +157,7 @@ Seaccelerator.grid.Elements = function(config) {
 		,menuConfig: {
 			defaultAlign: 'tl-b?'
 			,enableScrolling: false
-			,cls: 'sm-menu'
+			,cls: 'sa-menu'
 		}
 		,clicksToEdit: 2
 		,autosave: true

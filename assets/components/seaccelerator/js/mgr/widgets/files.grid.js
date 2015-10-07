@@ -186,7 +186,7 @@ Seaccelerator.grid.Files = function(config) {
 		,menuConfig: {
 			defaultAlign: 'tl-b?'
 			,enableScrolling: false
-			,cls: 'sm-menu'
+			,cls: 'sa-menu'
 		}
 		,baseParams: {
 			action: 'mgr/files/getList'
@@ -277,7 +277,7 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 	,getMenu: function(r) {
 		var m = [
 			{
-				text: '<i class="icon icon-check-square-o"></i>' + _('seaccelerator.files.actions.generate')
+				text: '<i class="icon icon-check-square-o"></i>' + _('seaccelerator.files.actions.create')
 				,handler: this.createSingleElement
 			},{
 				text: '<i class="icon icon-edit"></i>' + _('seaccelerator.files.actions.edit_file')
@@ -384,7 +384,7 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 		}
 
 		rec.name = rec.filename;
-		rec.source = '0';
+		rec.source = 0;
 		rec.file = rec.path;
 		rec.clearCache = 1;
 
@@ -403,7 +403,7 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 
 		que.reset();
 		que.setValues(rec);
-		que.show(e.target);
+		que.show(rec.target);
 	}
 
 	,deleteFile: function(record) {
@@ -472,7 +472,6 @@ Seaccelerator.window.UpdateDriverStatus = function(config) {
 		,baseParams: {
 			action: 'mgr/nomination/update'
 		},
-
 		xtype: "fieldset",
 		autoHeight: true
 		,fields: [{
