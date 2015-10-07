@@ -21,9 +21,9 @@
  * @package staticelements-accelerator
  */
 
+// Common
 $_lang['seaccelerator.title'] = 'StaticElements Accelerator';
 $_lang['seaccelerator.description'] = 'Verwaltung für statische Elemente';
-
 
 
 // Tabs
@@ -35,7 +35,7 @@ $_lang['seaccelerator.tab_templates'] = "Templates";
 $_lang['seaccelerator.tab_plugins'] = "Plugins";
 
 
-// Files
+// File actions
 $_lang['seaccelerator.files.description'] = "Synchronisiert statische Elemente und überwacht Ordner auf geänderte Dateien";
 $_lang['seaccelerator.files.actions.quickupdate'] = "Datei schnell bearbeiten";
 $_lang['seaccelerator.files.actions.generate_all'] = "Alle Dateien verarbeiten";
@@ -54,26 +54,20 @@ $_lang['seaccelerator.files.actions.create_element'] = "Neues Element erstellen"
 $_lang['seaccelerator.files.actions.create_element_confirm'] = "Aus der ausgewählten Datei ein Element erstellen?";
 
 
-// Elements
-
-// columns
+// Element bar
 $_lang['seaccelerator.elements.static_file'] = "Pfad";
 $_lang['seaccelerator.elements.static'] = "Statisch";
-
-$_lang['seaccelerator.elements.actions.export_all'] = "Alle Elemente exportieren";
-$_lang['seaccelerator.elements.actions.tostatic.all.confirm.title'] = "Elemente exportieren?";
-$_lang['seaccelerator.elements.actions.tostatic.all.confirm.text'] = "Alle Elemente werden statisch und auf dem Server gespeichert.";
 
 $_lang['seaccelerator.elements.filter_by_type'] = "Filter nach Kategorie";
 $_lang['seaccelerator.elements.filter_by_name'] = "Filter nach Name";
 
-$_lang['seaccelerator.elements.status.unchanged'] = "Keine Änderungen";
-$_lang['seaccelerator.elements.status.changed'] = "Datei wurde geändert";
-$_lang['seaccelerator.elements.status.deleted'] = "Datei wurde gelöscht";
 
-
-
+// Element actions
 $_lang['seaccelerator.elements.actions.quickupdate'] = "Element bearbeiten";
+
+$_lang['seaccelerator.elements.actions.export_all'] = "Alle Elemente exportieren";
+$_lang['seaccelerator.elements.actions.tostatic.all.confirm.title'] = "Elemente exportieren?";
+$_lang['seaccelerator.elements.actions.tostatic.all.confirm.text'] = "Alle Elemente werden statisch und auf dem Server gespeichert.";
 
 $_lang['seaccelerator.elements.actions.static'] = "Als statisches Element speichern";
 $_lang['seaccelerator.elements.actions.static.restore'] = "Datei aus Datenbank wiederherstellen";
@@ -102,13 +96,33 @@ $_lang['seaccelerator.elements.actions.delete_file_element'] = "Datei und Elemen
 $_lang['seaccelerator.elements.actions.delete_file_element.confirm.title'] = "Datei und Element löschen";
 $_lang['seaccelerator.elements.actions.delete_file_element.confirm.text'] = "Datei und Element endgültig löschen?";
 
+
+// Element status
+$_lang['seaccelerator.elements.status.unchanged'] = "Keine Änderungen";
+$_lang['seaccelerator.elements.status.changed'] = "Datei wurde geändert";
+$_lang['seaccelerator.elements.status.deleted'] = "Datei wurde gelöscht";
+
 $_lang['seaccelerator.elements.element_status.unchanged'] = "Keine Änderungen";
 $_lang['seaccelerator.elements.element_status.changed'] = "Datei geändert";
 $_lang['seaccelerator.elements.element_status.deleted'] = "Datei nicht vorhanden";
 $_lang['seaccelerator.elements.element_status.not_static'] = "Element nicht statisch";
 
-// Meldungen
+
+// Messages
 $_lang['seaccelerator.no_permission'] = "Keine Berechtigung um Listen zu sehen!";
 $_lang['seaccelerator.no_permission.delete'] = "Keine Berechtigung zum Löschen von Dateien!";
 
 $_lang['seaccelerator.error.ufg_no_data'] = "Keine Daten vorhanden!";
+
+
+// Systemsettings
+$_lang['seaccelerator.namespace.settings'] = "Settings";
+
+$_lang['seaccelerator.elements_directory.name'] = "Elements Directory";
+$_lang['seaccelerator.elements_directory.description'] = "";
+
+$_lang['seaccelerator.mediasource.name'] = "Medienquelle";
+$_lang['seaccelerator.mediasource.description'] = "";
+
+$_lang['seaccelerator.use_categories.name'] = "Ordner als Kategorien";
+$_lang['seaccelerator.use_categories.description'] = "";
