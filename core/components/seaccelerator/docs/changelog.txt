@@ -1,3 +1,10 @@
 0.0.1 alpha1 (August 2015)
 ================================
 - First public release
+
+
+0.0.2 alpha2 (Oktober 2015)
+================================
+- Creating single and multiple elements
+- Creating categories from folderstructure
+- Use mediasource for static files
