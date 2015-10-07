@@ -487,7 +487,7 @@ class Seaccelerator {
 	 */
 	public function getElementFieldName($type) {
 
-		if($type == "template") {
+		if($type == "modTemplate" || $type == "template") {
 			$elementFieldName = "templatename";
 		} else {
 			$elementFieldName = "name";
@@ -545,12 +545,16 @@ class Seaccelerator {
 		}
 
 		$result = false;
-		foreach($files as $newFile) {
+		foreach($files as $file) {
 
-			$elementData = $this->makeElementDataArray($newFile["category"], $newFile["filename"], $newFile["path"], $newFile["type"], $newFile["mediasource"]);
+      $filePathArray = $this->getFilePathAsArray($file["path"]);
+      $modElementClass = $this->detectElementType($filePathArray, 'modClass');
 
-			$elementObj = $this->modx->newObject($this->modElementClasses[$newFile["type"]][0]);
-			$result = $this->setAsStaticElement($elementObj, $elementData, false);
+			$elementData = $this->makeElementDataArray($filePathArray, $file["filename"], $file["path"], $modElementClass, $file["mediasource"]);
+			$elementObj  = $this->modx->newObject($modElementClass);
+      if (is_object($elementObj)) {
+        $result = $this->setAsStaticElement($elementObj, $elementData, false);
+      }
 		}
 
 		return $result;
@@ -569,7 +573,6 @@ class Seaccelerator {
 		$modElementClass = $this->detectElementType($filePathArray, 'modClass');
     $elementDirectory = $this->detectElementType($filePathArray, 'directory');
 
-
     $categories = array_reverse($filePathArray);
     if ($categories[0] == $elementDirectory) {
       array_shift($categories);
@@ -582,7 +585,7 @@ class Seaccelerator {
     if($isStatic == false) {
 			$mediaSourceId = $this->modx->getOption("seaccelerator.mediasource", null, true);
 			$elementData 	 = $this->makeElementDataArray($categories, $fileName, $filePath, $modElementClass, $mediaSourceId);
-			$elementObj = $this->modx->newObject($modElementClass);
+			$elementObj    = $this->modx->newObject($modElementClass);
       if (is_object($elementObj)) {
         $result = $this->setAsStaticElement($elementObj, $elementData, $isNewFile);
       }
@@ -772,7 +775,7 @@ class Seaccelerator {
     $elementData['staticFile'] = $elementRecord['static_file'];
     $elementData['category'] = $elementRecord['category'];
     $elementData['content'] = $elementRecord['content'];
-    $elementData['description'] = $elementRecord['description'];
+    //$elementData['description'] = $elementRecord['description'];
 
     $result = $this->saveElementObject($elementObj, $elementData, true);
 
