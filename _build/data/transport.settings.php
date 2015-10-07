@@ -16,7 +16,7 @@ $settings = array();
 $settings['seaccelerator.elements_directory']= $modx->newObject('modSystemSetting');
 $settings['seaccelerator.elements_directory']->fromArray(array (
     'key' => 'seaccelerator.elements_directory',
-    'value' => '',
+    'value' => 'elements',
     'namespace' => 'seaccelerator',
     'name' => 'seaccelerator.elements_directory.name',
     'description' => 'seaccelerator.elements_directory.description',

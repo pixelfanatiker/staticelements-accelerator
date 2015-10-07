@@ -12,11 +12,15 @@ $mtime = $mtime[1] + $mtime[0];
 $tstart = $mtime;
 set_time_limit(0);
 /* define package */
+
+
 define('PKG_NAME_FULL','StaticElements Accelerator');
 define('PKG_NAME_LOWER', 'seaccelerator');
 define('PKG_VERSION','0.0.2');
 define('PKG_RELEASE','alpha');
+
 $root = dirname(dirname(__FILE__)) . '/';
+
 $sources= array (
     'root' => $root,
     'build' => $root .'_build/',
@@ -56,7 +60,7 @@ $modx->log(modX::LOG_LEVEL_INFO,'Created Transport Package and Namespace.');
 /* create category */
 $category= $modx->newObject('modCategory');
 $category->set('id',1);
-$category->set('category',PKG_NAME);
+$category->set('category',PKG_NAME_LOWER);
 
 /* create category vehicle */
 $attr = array(
@@ -145,14 +149,14 @@ if (empty($menu)) {
             ),
         ),
     ));
-    /*
+
     $modx->log(modX::LOG_LEVEL_INFO,'Adding in PHP resolvers...');
-    $vehicle->resolve('php',array(
+    /*$vehicle->resolve('php',array(
         'source' => $sources['resolvers'] . 'resolve.tables.php',
-    ));
-    $vehicle->resolve('php',array(
-        'source' => $sources['resolvers'] . 'resolve.paths.php',
     ));*/
+    $vehicle->resolve('php',array(
+        'source' => $sources['resolvers'] . 'install.php',
+    ));
     $builder->putVehicle($vehicle);
     $modx->log(modX::LOG_LEVEL_INFO,'Packaged in menu.');
 }
@@ -163,9 +167,9 @@ $builder->setPackageAttributes(array(
     'license' => file_get_contents($sources['docs'] . 'license.txt'),
     'readme' => file_get_contents($sources['docs'] . 'readme.txt'),
     'changelog' => file_get_contents($sources['docs'] . 'changelog.txt'),
-    //'setup-options' => array(
-    //'source' => $sources['build'].'setup.options.php',
-    //),
+    /*'setup-options' => array(
+    'source' => $sources['build'].'install.options.php',
+    ),*/
 ));
 $modx->log(modX::LOG_LEVEL_INFO,'Added package attributes and setup options.');
 

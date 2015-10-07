@@ -10,7 +10,7 @@ $action->fromArray(array(
     'id' => 1,
     'namespace' => 'seaccelerator',
     'parent' => 0,
-    'controller' => 'seaccelerator/home',
+    'controller' => 'home',
     'haslayout' => true,
     'lang_topics' => 'seaccelerator:default',
     'assets' => '',
