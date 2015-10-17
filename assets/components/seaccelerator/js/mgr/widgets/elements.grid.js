@@ -95,6 +95,12 @@ Seaccelerator.grid.Elements = function(config) {
 			,sortable: true
 			,sortDir: 'ASC'
 		},{
+      header: _('category')
+      ,dataIndex: 'category'
+      ,width: 30
+      ,sortable: true
+      ,sortDir: 'ASC'
+    },{
 			header: _('source')
 			,dataIndex: 'mediasource'
 			,width: 30
@@ -420,6 +426,7 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
         ,name: this.menu.record.data.name
 				,staticfile: this.menu.record.data.static_file
         ,source: this.menu.record.data.mediasource
+            ,category: this.menu.record.data.category
         ,modClass: this.menu.record.data.modClass
         ,sync: "tofile"
 			}

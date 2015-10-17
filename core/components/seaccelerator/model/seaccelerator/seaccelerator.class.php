@@ -289,11 +289,15 @@ class Seaccelerator {
 	 */
 	public function makeStaticElementFilePath($fileName, $file, $mediaSource, $makeFullPath) {
 
+    if (empty($file) || $file == "") {
+
+    }
+
 		if ($fileName == '') {
-			//$filePathArray = $this->getFilePathAsArray($file);
-			$filePathArray = $this->getFilePathAsArray($file);
-			$fileName = array_shift($filePathArray);
-			$filePath = $this->convertFilePathToString($filePathArray);
+      //$filePathArray = $this->getFilePathAsArray($file);
+      $filePathArray = $this->getFilePathAsArray($file);
+      $fileName = array_shift($filePathArray);
+      $filePath = $this->convertFilePathToString($filePathArray);
 		} else {
 			$filePath = $file;
 		}
@@ -366,10 +370,31 @@ class Seaccelerator {
 	}
 
 
+  /**
+   * @param $filePathArray
+   * @return mixed
+   */
   public function getElementCategoryPathFromFilesystem($filePathArray) {
 
     return array_pop($filePathArray);
+  }
 
+
+  /**
+   * @param $categoryId
+   * @return string
+   */
+  public function getElementCategoryName ($categoryId) {
+
+    $categoryName = "";
+    if ($categoryId > 0) {
+      $categoryObj = $this->modx->getObject('modCategory', $categoryId);
+      if (is_object($categoryObj)){
+        $categoryName = $categoryObj->get('name');
+      }
+    }
+
+    return $categoryName;
   }
 
 
@@ -672,19 +697,26 @@ class Seaccelerator {
   public function exportElementAsStatic($elementData) {
 
     $parameter = array("id" => $elementData['id']);
-    $elementObj = $this->modx->getCollection($elementData['modClass'], $parameter);
+    $elementObj = $this->modx->getObject($elementData['modClass'], $parameter);
+    if (is_object($elementObj)) {
 
-    $fileSuffix = $this->getFileSuffix($elementData['modClass']);
-    $fileName = $elementData['name'].$fileSuffix;
-    $file = $this->makeStaticElementFilePath($fileName, $elementData['path'], $elementData['source'], true);
+      //$elementArr = $elementObj->toArray();
+      //$this->modx->log(xPDO::LOG_LEVEL_DEBUG, $elementArr);
 
-    $elementData["name"] = $elementObj->get("name");
-    $elementData["content"] = $elementObj->get("content");
-    $elementData["folder"] = $this->getElementsLocationFilesystemPath();
-    $elementData["file"] = $file;
-    $elementIsNewFile = true;
+      $fileSuffix = $this->getFileSuffix($elementData['modClass']);
+      $fileName = $elementData['name'].$fileSuffix;
+      $file = $this->makeStaticElementFilePath($fileName, $elementData['path'], $elementData['source'], true);
 
-    $result = $this->setAsStaticElement($elementObj, $elementData, $elementIsNewFile);
+      //$elementData["name"] = $element->get("name");
+      //$elementData["content"] = $element->get("content");
+      $elementData["folder"] = $this->getElementsLocationFilesystemPath();
+      $elementData["file"] = $file;
+      $elementIsNewFile = true;
+      $result = $this->setAsStaticElement($elementObj, $elementData, $elementIsNewFile);
+
+    } else {
+      $result = false;
+    }
 
     return $result;
   }
@@ -933,8 +965,10 @@ class Seaccelerator {
 			$elementData['static_file'] = $result->get('static_file');
 			$elementData['static']  		= $result->get('static');
 			$elementData['source'] 			= $result->get('source');
-			$elementData['classKey'] 		= $classKey;
+      $elementData['category'] 		= $result->get('category');
+      $elementData['classKey'] 		= $classKey;
 
+      $result->set('category_name', $this->getElementCategoryName($result->get('category')));
 			$result->set('status', $this->getElementStatusIcon($elementData));
 			$result->set('actions', $this->getElementActionIcons($elementData));
 		}
@@ -1074,9 +1108,20 @@ class Seaccelerator {
 	}
 
 
+  /**
+   * @param $results
+   * @return mixed
+   */
+  public function addCategoryName($results) {
 
+    foreach ($results as $result) {
+      $categoryId = $result->get('category');
+      $this->modx->log(xPDO::LOG_LEVEL_DEBUG, $categoryId);
+      //$category = $this->getElementCategoryName($categoryId);
+      //$result->set('category', $category);
+    }
 
-
-
+    return $results;
+  }
 
 }
