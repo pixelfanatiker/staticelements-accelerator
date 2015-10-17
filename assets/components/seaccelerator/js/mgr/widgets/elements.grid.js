@@ -417,9 +417,11 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 			,params: {
 				action: 'mgr/elements/sync'
 				,id: this.menu.record.id
-				,modClass: this.menu.record.data.modClass
+        ,name: this.menu.record.data.name
 				,staticfile: this.menu.record.data.static_file
-				,sync: "tofile"
+        ,source: this.menu.record.data.mediasource
+        ,modClass: this.menu.record.data.modClass
+        ,sync: "tofile"
 			}
 			,listeners: {
 				'success': {fn:function(r) {

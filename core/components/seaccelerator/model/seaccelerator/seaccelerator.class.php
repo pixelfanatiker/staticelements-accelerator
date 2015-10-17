@@ -186,11 +186,12 @@ class Seaccelerator {
 	/**
 	 * @return string
 	 */
-	public function getElementsFilesystemPath() {
+	public function getElementsLocationFilesystemPath() {
+
 		$mediaSourceId = $this->getElementsMediaSource();
 		$elementsDirectory = $this->modx->getOption("seaccelerator.elements_directory", null, "elements/");
 		if($mediaSourceId == 1) {
-			$elementsPath = MODX_BASE_PATH . $this->getMediaSourcePath($elementsDirectory, $mediaSourceId) . "elements/";
+			$elementsPath = MODX_BASE_PATH . $this->getMediaSourcePath($elementsDirectory, $mediaSourceId) . $elementsDirectory;
 		} else if ($mediaSourceId > 1) {
 			$elementsPath = MODX_BASE_PATH . $this->getMediaSourcePath($elementsDirectory, $mediaSourceId);
 		} else {
@@ -213,7 +214,7 @@ class Seaccelerator {
 		$actions = array($actionCreateElement, $actionEditFile, $actionDeleteFile);
 
 		$newFiles = array();
-		$elementsPath = $this->getElementsFilesystemPath();
+		$elementsPath = $this->getElementsLocationFilesystemPath();
 		$filesystem = $this->scanElementsDirectory($elementsPath);
 
 		foreach($filesystem as $file) {
@@ -272,7 +273,7 @@ class Seaccelerator {
 	 */
 	public function getFilePathAsArray($fileNameString) {
 
-		$elementsPath = $this->getElementsFilesystemPath();
+		$elementsPath = $this->getElementsLocationFilesystemPath();
 		$filePath = array_reverse(explode("/", str_replace($elementsPath, "", $fileNameString)));
 
 		return $filePath;
@@ -664,6 +665,31 @@ class Seaccelerator {
 	}
 
 
+  /**
+   * @param $elementData
+   * @return bool|mixed
+   */
+  public function exportElementAsStatic($elementData) {
+
+    $parameter = array("id" => $elementData['id']);
+    $elementObj = $this->modx->getCollection($elementData['modClass'], $parameter);
+
+    $fileSuffix = $this->getFileSuffix($elementData['modClass']);
+    $fileName = $elementData['name'].$fileSuffix;
+    $file = $this->makeStaticElementFilePath($fileName, $elementData['path'], $elementData['source'], true);
+
+    $elementData["name"] = $elementObj->get("name");
+    $elementData["content"] = $elementObj->get("content");
+    $elementData["folder"] = $this->getElementsLocationFilesystemPath();
+    $elementData["file"] = $file;
+    $elementIsNewFile = true;
+
+    $result = $this->setAsStaticElement($elementObj, $elementData, $elementIsNewFile);
+
+    return $result;
+  }
+
+
 	/**
 	 * @param $elementType
 	 * @return array
@@ -675,7 +701,7 @@ class Seaccelerator {
 		$elements = $this->modx->getCollection($modObjectType, $parameter);
 
 		$result = [];
-		$elementsFolder = $this->getElementsFilesystemPath();
+		$elementsFolder = $this->getElementsLocationFilesystemPath();
 		$suffix = $this->getFileSuffix($elementType);
 
 		foreach($elements as $elementObj) {
@@ -979,11 +1005,11 @@ class Seaccelerator {
 			$statusAndActions['status'] = "deleted";
 			$statusAndActions['action'] = array("editElement", "syncToFile", "syncFromFileDisabled", "deleteElement", "deleteBothDisabled");
 
-		} else 	if ($status['static'] == false) {
+		} else if ($status['static'] == false) {
 			$statusAndActions['status'] = "static";
 			$statusAndActions['action'] = array("editElement", "syncToFile", "syncFromFileDisabled", "deleteElement", "deleteBothDisabled");
 
-		} else 	if ($status['deleted'] == false && $status['changed'] == true) {
+		} else if ($status['deleted'] == false && $status['changed'] == true) {
 			$statusAndActions['status'] = "changed";
 			$statusAndActions['action'] = array("editElement", "syncToFile", "syncFromFile", "deleteElement", "deleteBoth");
 
