@@ -234,6 +234,7 @@ class Seaccelerator {
 				}
 
 				$newFiles[] = array(
+          "file" => $file,
 					"filename" => $fileName,
 					"category" => $category,
 					"type" => $type,
@@ -547,10 +548,16 @@ class Seaccelerator {
 		$result = false;
 		foreach($files as $file) {
 
-      $filePathArray = $this->getFilePathAsArray($file["path"]);
+      $filePathArray = $this->getFilePathAsArray($file['file']);
       $modElementClass = $this->detectElementType($filePathArray, 'modClass');
+      $elementDirectory = $this->detectElementType($filePathArray, 'directory');
 
-			$elementData = $this->makeElementDataArray($filePathArray, $file["filename"], $file["path"], $modElementClass, $file["mediasource"]);
+      $categories = array_reverse($filePathArray);
+      if ($categories[0] == $elementDirectory) {
+        array_shift($categories);
+      }
+
+			$elementData = $this->makeElementDataArray($categories, $file["filename"], $file["path"], $modElementClass, $file["mediasource"]);
 			$elementObj  = $this->modx->newObject($modElementClass);
       if (is_object($elementObj)) {
         $result = $this->setAsStaticElement($elementObj, $elementData, false);
