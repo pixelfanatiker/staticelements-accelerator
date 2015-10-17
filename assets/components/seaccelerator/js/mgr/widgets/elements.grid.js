@@ -96,7 +96,7 @@ Seaccelerator.grid.Elements = function(config) {
 			,sortDir: 'ASC'
 		},{
       header: _('category')
-      ,dataIndex: 'category'
+      ,dataIndex: 'category_name'
       ,width: 30
       ,sortable: true
       ,sortDir: 'ASC'
@@ -115,7 +115,13 @@ Seaccelerator.grid.Elements = function(config) {
 		},{
 			dataIndex: 'modClass'
 			,hidden: true
-		}/*,{
+		},{
+      dataIndex: 'category'
+      ,hidden: true
+    },{
+      dataIndex: 'source_id'
+      ,hidden: true
+    }/*,{
 			header: _('seaccelerator.elements.static')
 			,dataIndex: 'static'
 			,width: 20
@@ -153,7 +159,7 @@ Seaccelerator.grid.Elements = function(config) {
 
 	Ext.applyIf(config,{
 		cm: this.cm
-		,fields: ['id', 'status', 'actions', 'name', 'static','static_file','source','mediasource','description','category','snippet','plugincode','templatename','content','disabled', 'modClass']
+		,fields: ['id', 'status', 'actions', 'name', 'static','static_file','source','mediasource','description','category','category_name','snippet','plugincode','templatename','content','disabled', 'modClass']
 		,id: 'seaccelerator-grid-elements-' + config.type + 's'
 		,url: Seaccelerator.config.connectorUrl
 		,baseParams: {
@@ -303,12 +309,14 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 			'</tpl>');
 	}
 	,onClick: function(e) {
+
 		var target = e.getTarget();
 		var element = target.className.split(' ')[2];
 		if(element === 'js_actionButton' || element === 'js_actionLink') {
 			var action = target.className.split(' ')[3];
 			var record = this.getSelectionModel().getSelected();
 			this.menu.record = record;
+      console.log(record);
 			switch (action) {
 				case 'js_editElement': this.editElement(record, e); break;
 				case 'js_restoreToFile': this.restoreFile(record, e); break;
@@ -416,6 +424,7 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 	}
 
 	,syncToFile: function () {
+    console.log(this.menu.record.data.source);
 		MODx.msg.confirm({
 			title: _('seaccelerator.elements.actions.sync.tofile.confirm.title')
 			,text: _('seaccelerator.elements.actions.sync.tofile.confirm.text')
@@ -425,7 +434,7 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 				,id: this.menu.record.id
         ,name: this.menu.record.data.name
 				,staticfile: this.menu.record.data.static_file
-        ,source: this.menu.record.data.mediasource
+        ,source: this.menu.record.data.source
             ,category: this.menu.record.data.category
         ,modClass: this.menu.record.data.modClass
         ,sync: "tofile"
@@ -492,7 +501,7 @@ Seaccelerator.combo.Sources = function(config) {
   Ext.applyIf(config,{
     id: 'seaccelerator-combo-sources'
     ,name: 'source'
-    ,hiddenName: 'source'
+    ,hiddenName: 'source_id'
     ,displayField: 'name'
     ,valueField: 'id'
     ,mode: 'remote'

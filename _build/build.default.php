@@ -1,11 +1,11 @@
 <?php ob_start();
 
 
-define('PKG_CATEGORY',   '');  // Category that will be extracted
+define('PKG_CATEGORY',   'seaccelerator');  // Category that will be extracted
 define('PKG_NAME_FULL',  'StaticElements Accelerator');
 define('PKG_NAME_LOWER', 'seaccelerator');
 
-define('PKG_VERSION',    '0.0.2');
+define('PKG_VERSION',    '0.0.3');
 define('PKG_RELEASE',    'alpha');
 
 

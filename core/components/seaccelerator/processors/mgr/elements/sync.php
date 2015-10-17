@@ -19,6 +19,7 @@ if ($sync) {
   $elementData['name'] = $scriptProperties["name"];
   $elementData['source'] = $scriptProperties["source"];
   $elementData['path'] = $scriptProperties["static_file"];
+  $elementData['category_id'] = $scriptProperties["category"];
   $elementData['modClass'] = $scriptProperties["modClass"];
 
   if ($sync == "tofile") {
