@@ -13,3 +13,4 @@
 0.0.3 alpha2 (Oktober 2015)
 ================================
 - Fix wrong cascaded element categories when creating multiple elements from filesystem
+- Remove elements folder name used as main category.

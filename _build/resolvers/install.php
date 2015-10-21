@@ -57,7 +57,7 @@ $modx =& $object->xpdo;
 //$plugins = array('MyPlugin1', 'MyPlugin2');
 //$templates = array('myTemplate1','myTemplate2');
 //$tvs = array('MyTv1','MyTv2');
-$category = 'Seaccelerator';
+$category = 'SEAccelerator';
 
 $hasPlugins = false;
 $hasTemplates = false;

@@ -1,11 +1,11 @@
 <?php ob_start();
 
 
-define('PKG_CATEGORY',   'seaccelerator');  // Category that will be extracted
+define('PKG_CATEGORY',   'SEAccelerator');  // Category that will be extracted
 define('PKG_NAME_FULL',  'StaticElements Accelerator');
 define('PKG_NAME_LOWER', 'seaccelerator');
 
-define('PKG_VERSION',    '0.0.3');
+define('PKG_VERSION',    '0.0.4');
 define('PKG_RELEASE',    'alpha');
 
 
@@ -68,7 +68,7 @@ $sources = array(
 	'install_options' => $root . '_build/install.options/',
 	'packages'        => $root . 'core/packages',
 );
-unset($root);
+//unset($root);
 
 /*
  * Check Base Files
@@ -140,7 +140,7 @@ if (file_exists($root . 'assets/components/' . PKG_NAME_LOWER)) $hasAssets = tru
 
 $categoryFromModx = $modx->getObject('modCategory', array('category' => PKG_CATEGORY));
 
-addCompositesToObject($category, $categoryFromModx);
+//addCompositesToObject($category, $categoryFromModx);
 
 
 #$packFiles = array("Chunks", "Snippets", "Plugins", "Templates", "TemplateVars");

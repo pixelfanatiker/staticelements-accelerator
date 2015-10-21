@@ -649,6 +649,7 @@ class Seaccelerator {
 		$result = false;
 		foreach($files as $file) {
 
+      // TODO: Create method
       $filePathArray = $this->getFilePathAsArray($file['file']);
       $modElementClass = $this->getElementTypeOrDirectory($filePathArray, 'modClass');
       $elementDirectory = $this->getElementTypeOrDirectory($filePathArray, 'directory');
@@ -672,6 +673,7 @@ class Seaccelerator {
 	 */
 	public function createSingleElement($fileName, $filePath) {
 
+    // TODO: Create method
 		$file = $filePath.$fileName;
 		$filePathArray = $this->getFilePathAsArray($file);
 		$modElementClass = $this->getElementTypeOrDirectory($filePathArray, 'modClass');
