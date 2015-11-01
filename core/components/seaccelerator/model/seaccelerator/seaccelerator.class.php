@@ -594,7 +594,7 @@ class Seaccelerator {
    */
   public function parseCategoryToPath($categoryId) {
 
-    if ($categoryId == 0) return 0;
+    if ($categoryId == 0) return;
 
     $categories = $this->modx->getCollection('modCategory');
     $list = [];
@@ -797,7 +797,7 @@ class Seaccelerator {
 
       $fileSuffix = $this->getFileSuffix($elementData['modClass']);
       $fileName = $elementData['name'].$fileSuffix;
-      $filePath = $elementDirectory.$elementCategory;
+      $filePath = $elementDirectory . "/" . $elementCategory;
 
       // TODO: Logic for default media source
       $elementData["source"] = $this->defaultMediaSource;
@@ -912,7 +912,7 @@ class Seaccelerator {
         $result = true;
       }
 		} else {
-      $result = false;
+      $result = true;
 		}
     return $result;
 	}
