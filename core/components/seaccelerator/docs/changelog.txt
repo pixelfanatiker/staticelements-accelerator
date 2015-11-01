@@ -1,16 +1,22 @@
 0.0.1 alpha1 (August 2015)
 ================================
-- First public release
+- First release
 
 
 0.0.2 alpha2 (Oktober 2015)
 ================================
-- Creating single and multiple elements
-- Creating categories from folderstructure
-- Use mediasource for static files
+- Creating single and multiple elements.
+- Creating categories from folderstructure.
+- Use mediasource for static files.
 
 
 0.0.3 alpha2 (Oktober 2015)
 ================================
-- Fix wrong cascaded element categories when creating multiple elements from filesystem
+- Fix wrong cascaded element categories when creating multiple elements from filesystem.
 - Remove elements folder name used as main category.
+
+
+0.0.4 alpha2 (November 2015)
+================================
+- Fix issue with element file directory as parent category folder.
+- Fix file saving issue, when all directories are existing.
