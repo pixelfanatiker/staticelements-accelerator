@@ -435,7 +435,7 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
         ,name: this.menu.record.data.name
 				,staticfile: this.menu.record.data.static_file
         ,source: this.menu.record.data.source
-            ,category: this.menu.record.data.category
+        ,category: this.menu.record.data.category
         ,modClass: this.menu.record.data.modClass
         ,sync: "tofile"
 			}
@@ -454,10 +454,13 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 			,text: _('seaccelerator.elements.actions.sync.fromfile.confirm.text')
 			,url: this.config.url
 			,params: {
-				action: 'mgr/elements/sync.class'
+				action: 'mgr/elements/sync'
 				,id: this.menu.record.id
-				,type: this.menu.record.data.description.toLowerCase
-				,file: this.menu.record.data.static_file
+        ,name: this.menu.record.data.name
+        ,staticfile: this.menu.record.data.static_file
+        ,source: this.menu.record.data.source
+        ,category: this.menu.record.data.category
+        ,modClass: this.menu.record.data.modClass
 				,sync: "fromfile"
 			}
 			,listeners: {

@@ -18,7 +18,7 @@ if ($sync) {
   $elementData['id'] = $scriptProperties["id"];
   $elementData['name'] = $scriptProperties["name"];
   $elementData['source'] = $scriptProperties["source"];
-  $elementData['path'] = $scriptProperties["static_file"];
+  $elementData['path'] = $scriptProperties["staticfile"];
   $elementData['category_id'] = $scriptProperties["category"];
   $elementData['modClass'] = $scriptProperties["modClass"];
 
@@ -26,7 +26,7 @@ if ($sync) {
     $result = $modx->seaccelerator->exportElementAsStatic($elementData);
 
   } else if ($sync == "fromfile") {
-    $result = $modx->seaccelerator->updateChunkFromStaticFile($file, $modClass, $elementData);
+    $result = $modx->seaccelerator->updateChunkFromStaticFile($elementData);
   }
 }
 

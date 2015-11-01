@@ -849,6 +849,21 @@ class Seaccelerator {
 	}
 
 
+  /**
+   * @param $elementData
+   * @return mixed
+   */
+  public function updateChunkFromStaticFile($elementData) {
+
+    $file = $this->makeStaticElementFilePath($elementData["file"], $elementData["path"], $elementData["source"], true);
+
+    $elementData["content"] = $this->getFileContent($file);
+    $elementObj = $this->modx->getObject($elementData["modClass"], $elementData["id"]);
+
+    return $this->saveElementObject($elementObj, $elementData, true);
+  }
+
+
 	/**
 	 * @param $elementObj
 	 * @param $elementData
@@ -879,7 +894,6 @@ class Seaccelerator {
 	public function unsetAsStaticElement($elementObj, $elementData, $elementType) {
 
 		$result = $this->saveElementObject($elementObj, $elementType, false);
-
 		$file = $this->makeStaticElementFilePath($elementData["file"], $elementData["mediaSourceId"], $elementData["path"], true);
 
 		if ($result) {
