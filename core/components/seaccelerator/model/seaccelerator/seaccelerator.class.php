@@ -62,7 +62,7 @@ class Seaccelerator {
 			"connectorUrl" => $assetsUrl."connector.php",
 		),$config);
 
-    $this->elementFileRules = explode(",", "modChunk:chunks,modSnippet:snippets,modTemplate:templates,modPlugin:plugins");
+    $this->elementFileRules = explode(",", $this->modx->getOption("seaccelerator.element_type_rules", null, "modChunk:chunks,modSnippet:snippets,modTemplate:templates,modPlugin:plugins"));
     $this->defaultMediaSource = $this->modx->getOption("seaccelerator.mediasource", null, 1);
 
 		$this->modx->addPackage("seaccelerator",$this->config["modelPath"]);
@@ -619,7 +619,7 @@ class Seaccelerator {
   public function prepareCategories($filePathArray, $elementDirectory) {
 
     array_shift($filePathArray);
-    $separateElementTypeBy = "folder";
+    $separateElementTypeBy = $this->modx->getOption("seaccelerator.element_type_separation", null, "folder");
 
     $categories = array_reverse($filePathArray);
     if ($separateElementTypeBy == "folder") {
@@ -940,7 +940,7 @@ class Seaccelerator {
 	 */
 	public function saveElementObject($elementObj, $elementData, $static) {
 
-    $fieldName = $this->getElementFieldName($elementData["modClass"]);
+    $fieldName = $this->getElementFieldName($elementData["type"]);
 
 		$elementObj->set($fieldName, $elementData["name"]);
 		$elementObj->set("source", $elementData["source"]);
@@ -1041,38 +1041,21 @@ class Seaccelerator {
 	 * @param $category
 	 * @param $fileName
 	 * @param $filePath
-	 * @param $elementType
+	 * @param $elementModClass
 	 * @param $mediaSourceId
 	 * @return mixed
 	 */
-	public function makeElementDataArray($category, $fileName, $filePath, $elementType, $mediaSourceId) {
+	public function makeElementDataArray($category, $fileName, $filePath, $elementModClass, $mediaSourceId) {
 
-		$elementData["categoryId"] = $this->parseCategory($category);
-		$elementData["name"] 			 = $this->makeElementName($fileName);
-		$elementData["type"]  		 = $this->getModElementClass($elementType);
-		$elementData["static_file"] = $this->makeStaticElementFilePath($fileName, $filePath, $mediaSourceId, false);
-		$elementData["file"] 			 = $this->makeStaticElementFilePath($fileName, $filePath, $mediaSourceId, true);
-		$elementData["content"] 	 = $this->getFileContent($elementData['file']);
-		$elementData["fieldName"]  = $this->getElementFieldName($elementType);
-    $elementData["source"]     = $mediaSourceId;
+		$elementData["categoryId"]  = $this->parseCategory($category);
+		$elementData["name"] 			  = $this->makeElementName($fileName);
+    $elementData["static_file"] = $this->makeStaticElementFilePath($fileName, $filePath, $mediaSourceId, false);
+    $elementData["file"] 			  = $this->makeStaticElementFilePath($fileName, $filePath, $mediaSourceId, true);
+    $elementData["content"] 	  = $this->getFileContent($elementData['file']);
+    $elementData["type"]  		  = $elementModClass;
+    $elementData["source"]      = $mediaSourceId;
 
-		return $elementData;
-	}
-
-
-	/**
-	 * @param $elementType
-	 * @return bool
-	 */
-	private function getModElementClass($elementType) {
-
-		foreach ($this->modElementClasses as $type => $value) {
-			if ($type == $elementType) {
-				return $value[0];
-			}
-		}
-
-		return false;
+    return $elementData;
 	}
 
 
