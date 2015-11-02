@@ -2,7 +2,7 @@
 /**
  * StaticElements Accelerator
  *
- * Copyright 2013 by Florian Gutwald <florian@frontend-mercenary.com>
+ * Copyright 2016 by Florian Gutwald <florian@frontend-mercenary.com>
  *
  * This file is part of StaticElements Accelerator.
  *
@@ -26,13 +26,6 @@ class Seaccelerator {
 	public $modx = null;
 	public $map = array();
 	public $config = array();
-	public $elementModClasses = array(
-		"templates" => array("modTemplate"),
-		"chunks" => array("modChunk"),
-		"snippets" => array("modSnippet"),
-		"plugins" => array("modPlugin")
-	);
-	//public $elementsDirectory;
   public $elementFileRules;
   public $defaultMediaSource;
 
@@ -66,6 +59,10 @@ class Seaccelerator {
     $this->defaultMediaSource = $this->modx->getOption("seaccelerator.mediasource", null, 1);
 
 		$this->modx->addPackage("seaccelerator",$this->config["modelPath"]);
+
+    if ($this->modx->lexicon) {
+      $this->modx->lexicon->load ('seaccelerator:default');
+    }
 	}
 
 	/**
