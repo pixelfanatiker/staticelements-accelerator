@@ -5,6 +5,7 @@
 * @package seaccelerator
 * @subpackage build
 */
+
 $action= $modx->newObject('modAction');
 $action->fromArray(array(
     'id' => 1,
@@ -28,5 +29,6 @@ $menu->fromArray(array(
     'handler' => '',
 ),'',true,true);
 $menu->addOne($action);
+unset($menus);
 
 return $menu;

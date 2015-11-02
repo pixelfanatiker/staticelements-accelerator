@@ -1,23 +1,26 @@
-0.0.1 alpha1 (August 2015)
+0.1.0 alpha1 (August 2015)
 ================================
 - First release
 
 
-0.0.2 alpha2 (October 2015)
+0.1.1 alpha2 (October 2015)
 ================================
 - Creating single and multiple elements.
 - Creating categories from folder structure.
 - Use mediasource for static files.
 
 
-0.0.3 alpha2 (October 2015)
+0.1.2 alpha2 (October 2015)
 ================================
 - Fix wrong cascaded element categories when creating multiple elements from filesystem.
 - Remove elements folder name used as main category.
 
 
-0.0.4 alpha2 (November 2015)
+0.1.3 alpha2 (November 2015)
 ================================
 - Fix issue with element file directory as parent category folder.
 - Fix file saving issue, when all directories are existing.
 - Add possibility to update element from file, when they have diverged.
+- Fix bug when save template file to static element.
+- Add systemsettings for element file rules.
+- Add english translation

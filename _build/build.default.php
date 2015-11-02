@@ -5,7 +5,7 @@ define('PKG_CATEGORY',   'SEAccelerator');  // Category that will be extracted
 define('PKG_NAME_FULL',  'StaticElements Accelerator');
 define('PKG_NAME_LOWER', 'seaccelerator');
 
-define('PKG_VERSION',    '0.0.4');
+define('PKG_VERSION',    '0.1.3');
 define('PKG_RELEASE',    'alpha');
 
 
@@ -28,8 +28,8 @@ define('MODX_ASSETS_PATH', MODX_BASE_PATH . 'assets/');
  * */
 $hasResources    = false;
 $hasValidator    = false; /* Run a validator before installing anything */
-$hasResolver     = false; /* Run a resolver after installing everything */
-$hasSetupOptions = true; /* HTML/PHP script to interact with user */
+$hasResolver     = true; /* Run a resolver after installing everything */
+$hasSetupOptions = false; /* HTML/PHP script to interact with user */
 $hasMenu         = true; /* Add items to the MODx Top Menu */
 $hasSettings     = true; /* Add new MODx System Settings */
 
@@ -68,7 +68,7 @@ $sources = array(
 	'install_options' => $root . '_build/install.options/',
 	'packages'        => $root . 'core/packages',
 );
-//unset($root);
+unset($root);
 
 /*
  * Check Base Files
@@ -134,14 +134,13 @@ $category = $modx->newObject('modCategory');
 $category->set('id', 1);
 $category->set('category', PKG_CATEGORY);
 
-if (file_exists(MODX_CORE_PATH . 'components/' . PKG_NAME_LOWER)) $hasCore = true;
-if (file_exists($root . 'assets/components/' . PKG_NAME_LOWER)) $hasAssets = true;
+/*if (file_exists(MODX_CORE_PATH . 'components/' . PKG_NAME_LOWER))*/ $hasCore = true;
+/*if (file_exists($root . 'assets/components/' . PKG_NAME_LOWER))*/ $hasAssets = true;
 
 
 $categoryFromModx = $modx->getObject('modCategory', array('category' => PKG_CATEGORY));
 
 //addCompositesToObject($category, $categoryFromModx);
-
 
 #$packFiles = array("Chunks", "Snippets", "Plugins", "Templates", "TemplateVars");
 #foreach ($packFiles as $childName) {
@@ -205,13 +204,13 @@ if (!!$category->getMany('PropertySets')) {
 	);
 }
 
-if (!!$category->getMany('Chunks')) {
+/*if (!!$category->getMany('Chunks')) {
 	$attr[xPDOTransport::RELATED_OBJECT_ATTRIBUTES]['Chunks'] = array(
 		xPDOTransport::PRESERVE_KEYS => false,
 		xPDOTransport::UPDATE_OBJECT => true,
 		xPDOTransport::UNIQUE_KEY    => 'name',
 	);
-}
+}*/
 
 if (!!$category->getMany('Plugins')) {
 	$attr[xPDOTransport::RELATED_OBJECT_ATTRIBUTES]['Plugins'] = array(

@@ -77,9 +77,9 @@ $hasExistingSettings = true;
 // These existing system settings will always be set during the install
 if ($hasExistingSettings) {
 	$settings = array(
-		'seaccelerator.elements_directory' => '',
-		'seaccelerator.mediasource'=> 1,
-		'seaccelerator.use_categories' => true
+		//'seaccelerator.elements_directory' => '',
+		//'seaccelerator.mediasource'=> 1,
+		//'seaccelerator.use_categories' => true
 	);
 }
 

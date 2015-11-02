@@ -128,7 +128,7 @@ $_lang['seaccelerator.use_categories.name'] = "Benutze Kategorien";
 $_lang['seaccelerator.use_categories.description'] = "";
 
 $_lang['seaccelerator.element_type_separation.name'] = "Element-Sortierung";
-$_lang['seaccelerator.element_type_separation.description'] = "Definiert, wie Dateien Element-Typen zugeordnet werden. Standard ist folder.";
+$_lang['seaccelerator.element_type_separation.description'] = "Definiert, wie Dateien Element-Typen zugeordnet werden. Standard ist folder. (More options will come)";
 
 $_lang['seaccelerator.element_type_rules.name'] = "Element-Sortierungs Regel";
 $_lang['seaccelerator.element_type_rules.description'] = "Regel der Zuordnung von modClass zu Datei. Kommasepariert, modClass:rule. Standard ist modChunk:chunks,modSnippet:snippets,modTemplate:templates,modPlugin:plugins";
