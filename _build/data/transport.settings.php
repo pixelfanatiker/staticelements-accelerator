@@ -15,7 +15,7 @@ $settings = array();
 /* The first three are new settings */
 $settings['seaccelerator.elements_directory']= $modx->newObject('modSystemSetting');
 $settings['seaccelerator.elements_directory']->fromArray(array (
-    'key' => PKG_NAME_LOWER . ' .elements_directory',
+    'key' => PKG_NAME_LOWER . '.elements_directory',
     'value' => 'elements',
     'namespace' => 'seaccelerator',
     'name' => 'seaccelerator.elements_directory.name',
@@ -25,7 +25,7 @@ $settings['seaccelerator.elements_directory']->fromArray(array (
 
 $settings['seaccelerator.mediasource']= $modx->newObject('modSystemSetting');
 $settings['seaccelerator.mediasource']->fromArray(array (
-    'key' => PKG_NAME_LOWER . ' .mediasource',
+    'key' => PKG_NAME_LOWER . '.mediasource',
     'xtype' => 'modx-combo-source',
     'value' => '1',
     'namespace' => 'seaccelerator',
@@ -36,7 +36,7 @@ $settings['seaccelerator.mediasource']->fromArray(array (
 
 $settings['seaccelerator.use_categories']= $modx->newObject('modSystemSetting');
 $settings['seaccelerator.use_categories']->fromArray(array (
-    'key' => PKG_NAME_LOWER . ' .use_categories',
+    'key' => PKG_NAME_LOWER . '.use_categories',
     'xtype' => 'combo-boolean',
     'value' => '1',
     'namespace' => 'seaccelerator',
@@ -47,7 +47,7 @@ $settings['seaccelerator.use_categories']->fromArray(array (
 
 $settings['seaccelerator.element_type_separation']= $modx->newObject('modSystemSetting');
 $settings['seaccelerator.element_type_separation']->fromArray(array (
-  'key' => PKG_NAME_LOWER . ' .element_type_separation',
+  'key' => PKG_NAME_LOWER . '.element_type_separation',
   'xtype' => 'text',
   'value' => 'folder',
   'namespace' => 'seaccelerator',
@@ -58,7 +58,7 @@ $settings['seaccelerator.element_type_separation']->fromArray(array (
 
 $settings['seaccelerator.element_type_rules']= $modx->newObject('modSystemSetting');
 $settings['seaccelerator.element_type_rules']->fromArray(array (
-  'key' => PKG_NAME_LOWER . ' .element_type_rules',
+  'key' => PKG_NAME_LOWER . '.element_type_rules',
   'xtype' => 'text',
   'value' => 'modChunk:chunks,modSnippet:snippets,modTemplate:templates,modPlugin:plugins',
   'namespace' => 'seaccelerator',
