@@ -24,3 +24,9 @@
 - Fix bug when save template file to static element.
 - Add systemsettings for element file rules.
 - Add english translation
+
+
+0.1.4 alpha2 (December 2015)
+================================
+- Fix file path issues on different element source settings.
+- Fix missing asset_path

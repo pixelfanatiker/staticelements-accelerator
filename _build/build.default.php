@@ -5,7 +5,7 @@ define('PKG_CATEGORY',   'SEAccelerator');  // Category that will be extracted
 define('PKG_NAME_FULL',  'StaticElements Accelerator');
 define('PKG_NAME_LOWER', 'seaccelerator');
 
-define('PKG_VERSION',    '0.1.3');
+define('PKG_VERSION',    '0.1.4');
 define('PKG_RELEASE',    'alpha');
 
 
