@@ -263,7 +263,7 @@ class Seaccelerator {
 	 */
 	public function convertFilePathToString($filePathArray) {
 
-		$filePathString = implode("/", array_reverse($filePathArray));
+    $filePathString = implode("/", array_reverse(array_filter($filePathArray)));
 		if (substr($filePathString, -1, 1) != "/") {
 			$filePathString = $filePathString."/";
 		}
@@ -454,7 +454,7 @@ class Seaccelerator {
 		$elementFileRules = $this->elementFileRules;
 
     if (is_array($filename)) {
-      $elementDirectory = array_pop($filename);
+      $elementDirectory = array_pop(array_filter($filename));
     } else {
       $elementDirectory = $filename;
     }
