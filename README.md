@@ -1,29 +1,25 @@
-# README #
+# StaticElements Accelerator #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+## Description ##
+Easy handling of static files and elements.
+Single and multiple processing from files to MODX.
+Use a mediasource and structure your elements in MODX like on your filesystem or repository.
 
-### What is this repository for? ###
+## Installation ##
+After installing the package, the standard media source for your elements is the default mediasource from MODX.
+As default directory is set "elements". So elements will be found in modx_base_url/elements/
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+The standard folder structure where StaticElements Accelerator is looking for files:
 
-### How do I get set up? ###
+modx_base_url
+-- elements
+---- chunks
+---- snippets
+---- templates
+---- plugins
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
+This version is only able to relate files via folders.
+You can define your own rules with this scheme: modChunk:chunks,modSnippet:snippets,modTemplate:templates,modPlugin:plugins
 
 * Repo owner or admin
 * Other community or team contact
