@@ -3,6 +3,7 @@
  * StaticElements Accelerator
  *
  * Copyright 2016 by Florian Gutwald <florian@frontend-mercenary.com>
+ * Copyright 2019 by Bence Szalai <bence@sbnc.eu>
  *
  * This file is part of StaticElements Accelerator.
  *
@@ -1019,13 +1020,40 @@ class Seaccelerator {
 
 
 	/**
-	 * @param $file
+	 * Gets the hash of a static element file for comparision with the contents in the database.
+	 *
+	 * @param string $file Full path
+	 * @param null|string $class_key Optional. Identifies the element type. Needed for snippets and Plugins to return
+	 *                               proper hash. E.g.: 'modSnippet', 'modPlugin'
+	 *
 	 * @return string
 	 */
-	private function checkElementOnFilesystem($file) {
-
+	private function checkElementOnFilesystem($file, $class_key = '') {
+		
 		if (file_exists($file)) {
-			$content = $this->getFileContentAsSHA1($file);
+			
+			// Snippets and Plugins are stored in the DB slightly different to FS, so we need to process them before comparision
+			
+			if ( 'modSnippet' === $class_key || 'modPlugin' === $class_key ) {
+				
+				$v = $this->getFileContent($file);
+				
+				/* Code below is exact copy from core/model/modx/modscript.class.php set function */
+				$v= trim($v);
+				if (strncmp($v, '<?', 2) == 0) {
+					$v= substr($v, 2);
+					if (strncmp($v, 'php', 3) == 0) $v= substr($v, 3);
+				}
+				if (substr($v, -2, 2) == '?>') $v= substr($v, 0, -2);
+				$v= trim($v, " \n\r\0\x0B");
+				/* end of copied code */
+				
+				$content = sha1($v);
+			}
+			else {
+				$content = $this->getFileContentAsSHA1( $file );
+			}
+			
 		} else {
 			$content = "";
 		}
@@ -1113,10 +1141,10 @@ class Seaccelerator {
 
 			$path = str_replace($elementData['filename'], "", $elementData['static_file']);
 			$file = $this->makeStaticElementFilePath($elementData['filename'], $path, $elementData['source'], true);
-
-			$elementContentFilesystem = $this->checkElementOnFilesystem($file);
-			$elementContentDatabase = sha1($elementData['content']);
-
+			
+			$elementContentFilesystem = $this->checkElementOnFilesystem($file, $elementData['classKey']);
+			$elementContentDatabase = sha1($elementData['content'] );
+			
 			// Is element existing on filesystem?
 			if ($elementContentFilesystem == "") {
 				$status['deleted'] = true;
