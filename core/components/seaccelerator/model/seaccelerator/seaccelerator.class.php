@@ -200,18 +200,31 @@ class Seaccelerator {
 	}
 	
 	/**
+	 * Gets the full filesystem path to the Elements root folder.
+	 *
 	 * @return string
 	 */
 	public function getElementsLocationFilesystemPath() {
-
-		$mediaSourceId = $this->getElementsMediaSource();
 		$elementsDirectory = $this->getElementsDirectory();
-		if($mediaSourceId == 1) {
-			$elementsPath = MODX_BASE_PATH . $this->getMediaSourcePath($elementsDirectory, $mediaSourceId);
-		} else if ($mediaSourceId > 1) {
-			$elementsPath = MODX_BASE_PATH . $this->getMediaSourcePath($elementsDirectory, $mediaSourceId);
+		
+		return $this->getBaseFilesystemPath() . $elementsDirectory;
+	}
+	
+	/**
+	 * Gets the full filesystem path to the root folder in which the elements_directory resides.
+	 *
+	 * If there is a MediaSource defined, it is the root path of the MediaSource. Otherwise it uses the MODX_ASSETS_PATH
+	 * as a default.
+	 *
+	 * @return string
+	 */
+	public function getBaseFilesystemPath() {
+		
+		$mediaSourceId = $this->getElementsMediaSource();
+		if($mediaSourceId >= 1) {
+			$elementsPath = MODX_BASE_PATH . $this->getMediaSourcePath('', $mediaSourceId);
 		} else {
-			$elementsPath = MODX_ASSETS_PATH.$elementsDirectory;
+			$elementsPath = MODX_ASSETS_PATH;
 		}
 
 		return $elementsPath;
