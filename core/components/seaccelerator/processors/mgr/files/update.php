@@ -17,7 +17,7 @@ $content 		 = $modx->getOption('content', $_REQUEST);
 
 
 if($fileName && $path){
-	$file = $seaccelerator->makeStaticElementFilePath($fileName, $mediaSource, $path, true);
+	$file = $seaccelerator->makeStaticElementFilePath($fileName, $path, $mediaSource, true);
 
 	file_put_contents ($file, $content);
 
