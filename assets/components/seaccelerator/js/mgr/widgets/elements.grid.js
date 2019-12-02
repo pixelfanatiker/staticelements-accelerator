@@ -95,11 +95,11 @@ Seaccelerator.grid.Elements = function(config) {
 			,sortable: true
 			,sortDir: 'ASC'
 		},{
-		  header: _('category')
-		  ,dataIndex: 'category_name'
-		  ,width: 30
-		  ,sortable: true
-		  ,sortDir: 'ASC'
+			header: _('category')
+			,dataIndex: 'category_name'
+			,width: 30
+			,sortable: true
+			,sortDir: 'ASC'
 		},{
 			header: _('source')
 			,dataIndex: 'mediasource'
@@ -435,7 +435,7 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 			,params: {
 				action: 'mgr/elements/sync'
 				,id: this.menu.record.id
-        		,name: this.menu.record.data.name
+				,name: this.menu.record.data.name
 				,staticfile: this.menu.record.data.static_file
 				,source: this.menu.record.data.source
 				,category: this.menu.record.data.category
