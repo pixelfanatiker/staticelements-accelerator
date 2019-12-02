@@ -56,6 +56,8 @@ $_lang['seaccelerator.files.actions.create_element_confirm'] = "Do you wan't to 
 
 // Element bar
 $_lang['seaccelerator.elements.static_file'] = "Path";
+$_lang['seaccelerator.elements.modClass'] = "Element type";
+$_lang['seaccelerator.elements.source_id'] = "Source ID";
 $_lang['seaccelerator.elements.static'] = "Static";
 
 $_lang['seaccelerator.elements.filter_by_type'] = "Filter categories";
