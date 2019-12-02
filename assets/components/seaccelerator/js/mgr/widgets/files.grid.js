@@ -93,12 +93,12 @@ Seaccelerator.grid.Files = function(config) {
 		,listeners: {
 			'change': {fn: this.filterByName, scope: this}
 			,'render': {fn: function(cmp) {
-				new Ext.KeyMap(cmp.getEl(), {
-					key: Ext.EventObject.ENTER
-					,fn: this.blur
-					,scope: cmp
-				});
-			},scope:this}
+					new Ext.KeyMap(cmp.getEl(), {
+						key: Ext.EventObject.ENTER
+						,fn: this.blur
+						,scope: cmp
+					});
+				},scope:this}
 		}
 	}/*,{
 		xtype: 'button'
@@ -200,11 +200,11 @@ Seaccelerator.grid.Files = function(config) {
 		,remoteSort: true
 		,listeners: {
 			'afterAutoSave': {fn:function() {
-				this.refresh();
-			},scope:this}
+					this.refresh();
+				},scope:this}
 			,'afterEdit': {fn:function(e) {
-				e.record.data.type = config.type;
-			}}
+					e.record.data.type = config.type;
+				}}
 		}
 	});
 
@@ -334,8 +334,8 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 			}
 			,listeners: {
 				'success': {fn:function(){
-					this.refresh();
-				},scope:this}
+						this.refresh();
+					},scope:this}
 			}
 		});
 	}
@@ -362,15 +362,15 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 			}
 			,listeners: {
 				'success': {fn:function(r) {
-					MODx.util.Progress.reset();
-					Ext.Msg.hide();
-					this.refresh();
-				},scope:this}
+						MODx.util.Progress.reset();
+						Ext.Msg.hide();
+						this.refresh();
+					},scope:this}
 				,'failure': {fn:function(r) {
-					MODx.util.Progress.reset();
-					Ext.Msg.hide();
-					return false;
-				},scope:this}
+						MODx.util.Progress.reset();
+						Ext.Msg.hide();
+						return false;
+					},scope:this}
 			}
 		});
 	}
@@ -385,7 +385,7 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 
 		rec.name = rec.filename;
 		rec.source = 0;
-		rec.file = rec.path;
+		rec.file = rec.path + rec.filename;
 		rec.clearCache = 1;
 
 		var que = MODx.load({
@@ -396,8 +396,8 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 			,action: 'mgr/files/update'
 			,listeners: {
 				'success': {fn:function(){
-					this.refresh();
-				},scope:this}
+						this.refresh();
+					},scope:this}
 			}
 		});
 
@@ -410,8 +410,8 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 		var path, filename, mediasource;
 		if (typeof record.data !== "undefined") {
 			path = record.data.path;
-			filename = record.data.path;
-			mediasource = record.data.path;
+			filename = record.data.filename;
+			mediasource = record.data.mediasource;
 		} else {
 			path = this.menu.record.path;
 			filename = this.menu.record.filename;
@@ -430,8 +430,8 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 			}
 			,listeners: {
 				'success': {fn:function(){
-					this.refresh();
-				},scope:this}
+						this.refresh();
+					},scope:this}
 			}
 		});
 	}

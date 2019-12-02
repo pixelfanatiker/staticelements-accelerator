@@ -10,16 +10,19 @@ if (!isset($modx->seaccelerator) || !is_object($modx->seaccelerator)) {
 	if (!($seaccelerator instanceof Seaccelerator)) return '---';
 }
 
-$fileName 	 = $modx->getOption('filename', $_REQUEST);
+$file 	 = $modx->getOption('file', $_REQUEST);
 $mediaSource = $modx->getOption('mediasource', $_REQUEST);
-$path 			 = $modx->getOption('path', $_REQUEST);
 $content 		 = $modx->getOption('content', $_REQUEST);
 
+$result = false;
+if($file){
+	$file = $modx->seaccelerator->makeStaticElementFilePath('', $file, $mediaSource, true);
+	
+	$result = file_put_contents ($file, $content);
+}
 
-if($fileName && $path){
-	$file = $seaccelerator->makeStaticElementFilePath($fileName, $mediaSource, $path, true);
-
-	file_put_contents ($file, $content);
-
-	return $modx->error->success('',$item);
+if (false !== $result) {
+	return $modx->error->success("");
+} else {
+	return $modx->error->failure("");
 }
