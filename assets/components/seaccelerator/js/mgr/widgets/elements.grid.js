@@ -379,7 +379,7 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 	}
 
 	,deleteFileAndElement: function() {
-		console.log(this.menu.record.modClass);
+		//console.log(this.menu.record.data.modClass);
 		MODx.msg.confirm({
 			title: _('seaccelerator.elements.actions.delete_file_element.confirm.title')
 			,text: _('seaccelerator.elements.actions.delete_file_element.confirm.text')
@@ -387,9 +387,9 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 			,params: {
 				action: 'mgr/elements/delete'
 				,id: this.menu.record.id
-				,modClass: this.menu.record.modClass
-				,staticfile: this.menu.record.static_file
-				,source: this.menu.record.mediasource
+				,modClass: this.menu.record.data.modClass
+				,staticfile: this.menu.record.data.static_file
+				,source: this.menu.record.data.mediasource
 				,process: "both"
 			}
 			,listeners: {
