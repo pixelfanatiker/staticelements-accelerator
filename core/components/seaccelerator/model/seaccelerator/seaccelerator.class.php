@@ -356,7 +356,7 @@ class Seaccelerator {
 		$elementsPath = $this->getBaseFilesystemPath( $mediaSourceId );
 		
 		if($makeFullPath !== true) {
-			$elementsPath = str_replace( MODX_BASE_PATH, '', $elementsPath);
+			$elementsPath = str_replace( MODX_BASE_PATH, '/', $elementsPath);
 		}
 		
 		$staticElementFilePath = $elementsPath . $filePath . $fileName;
