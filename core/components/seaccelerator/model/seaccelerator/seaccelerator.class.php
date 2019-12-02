@@ -186,15 +186,26 @@ class Seaccelerator {
 
 		return $mediaSourceId;
 	}
-
-
+	
+	/**
+	 * Gets the default elements directory from the System Settings.
+	 *
+	 * The path is relative to the base path for the static elements. It has no
+	 * starting slash, but has ending slash, e.g.: "elements/"
+	 *
+	 * @return string
+	 */
+	public function getElementsDirectory() {
+		return $this->modx->getOption('seaccelerator.elements_directory', null, 'elements/');
+	}
+	
 	/**
 	 * @return string
 	 */
 	public function getElementsLocationFilesystemPath() {
 
 		$mediaSourceId = $this->getElementsMediaSource();
-		$elementsDirectory = $this->modx->getOption("seaccelerator.elements_directory", null, "elements");
+		$elementsDirectory = $this->getElementsDirectory();
 		if($mediaSourceId == 1) {
 			$elementsPath = MODX_BASE_PATH . $this->getMediaSourcePath($elementsDirectory, $mediaSourceId);
 		} else if ($mediaSourceId > 1) {
@@ -310,8 +321,9 @@ class Seaccelerator {
 		} else {
 			$mediaSourceId = $mediaSource;
 		}
-
-    $elementsPath = $this->modx->getOption("seaccelerator.elements_directory", null, "elements/");
+		
+		$elementsPath = $this->getElementsDirectory();
+		
 		if($makeFullPath == true) {
       $elementsPath = $this->getMediaSourcePath($filePath, $mediaSourceId);
 			$staticElementFilePath = MODX_BASE_PATH.$elementsPath.$fileName;
