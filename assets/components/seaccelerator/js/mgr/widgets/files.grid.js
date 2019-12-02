@@ -385,7 +385,7 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 
 		rec.name = rec.filename;
 		rec.source = 0;
-		rec.file = rec.path;
+		rec.file = rec.path + rec.filename;
 		rec.clearCache = 1;
 
 		var que = MODx.load({
@@ -410,8 +410,8 @@ Ext.extend(Seaccelerator.grid.Files,MODx.grid.Grid,{
 		var path, filename, mediasource;
 		if (typeof record.data !== "undefined") {
 			path = record.data.path;
-			filename = record.data.path;
-			mediasource = record.data.path;
+			filename = record.data.filename;
+			mediasource = record.data.mediasource;
 		} else {
 			path = this.menu.record.path;
 			filename = this.menu.record.filename;
