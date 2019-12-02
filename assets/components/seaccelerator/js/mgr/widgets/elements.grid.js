@@ -95,33 +95,36 @@ Seaccelerator.grid.Elements = function(config) {
 			,sortable: true
 			,sortDir: 'ASC'
 		},{
-      header: _('category')
-      ,dataIndex: 'category_name'
-      ,width: 30
-      ,sortable: true
-      ,sortDir: 'ASC'
-    },{
+		  header: _('category')
+		  ,dataIndex: 'category_name'
+		  ,width: 30
+		  ,sortable: true
+		  ,sortDir: 'ASC'
+		},{
 			header: _('source')
 			,dataIndex: 'mediasource'
 			,width: 30
 			,sortable: true
 			,editable: true
-      ,editor: { xtype: 'seaccelerator-combo-sources' ,renderer: true}
+      		,editor: { xtype: 'seaccelerator-combo-sources' ,renderer: true}
 		},{
 			header: _('seaccelerator.elements.static_file')
 			,dataIndex: 'static_file'
 			,sortable: true
 			,editable: false
 		},{
-			dataIndex: 'modClass'
+			header: _('seaccelerator.elements.modClass') || 'Element type'
+			,dataIndex: 'modClass'
 			,hidden: true
 		},{
-      dataIndex: 'category'
-      ,hidden: true
-    },{
-      dataIndex: 'source_id'
-      ,hidden: true
-    }/*,{
+			header: _('category')
+			,dataIndex: 'category'
+			,hidden: true
+		},{
+			header: _('seaccelerator.elements.source_id') || 'Source ID'
+			,dataIndex: 'source_id'
+			,hidden: true
+		}/*,{
 			header: _('seaccelerator.elements.static')
 			,dataIndex: 'static'
 			,width: 20
@@ -432,12 +435,12 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 			,params: {
 				action: 'mgr/elements/sync'
 				,id: this.menu.record.id
-        ,name: this.menu.record.data.name
+        		,name: this.menu.record.data.name
 				,staticfile: this.menu.record.data.static_file
-        ,source: this.menu.record.data.source
-        ,category: this.menu.record.data.category
-        ,modClass: this.menu.record.data.modClass
-        ,sync: "tofile"
+				,source: this.menu.record.data.source
+				,category: this.menu.record.data.category
+				,modClass: this.menu.record.data.modClass
+				,sync: "tofile"
 			}
 			,listeners: {
 				'success': {fn:function(r) {
@@ -456,11 +459,11 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 			,params: {
 				action: 'mgr/elements/sync'
 				,id: this.menu.record.id
-        ,name: this.menu.record.data.name
-        ,staticfile: this.menu.record.data.static_file
-        ,source: this.menu.record.data.source
-        ,category: this.menu.record.data.category
-        ,modClass: this.menu.record.data.modClass
+				,name: this.menu.record.data.name
+				,staticfile: this.menu.record.data.static_file
+				,source: this.menu.record.data.source
+				,category: this.menu.record.data.category
+				,modClass: this.menu.record.data.modClass
 				,sync: "fromfile"
 			}
 			,listeners: {

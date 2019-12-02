@@ -56,6 +56,8 @@ $_lang['seaccelerator.files.actions.create_element_confirm'] = "Aus der ausgewä
 
 // Element bar
 $_lang['seaccelerator.elements.static_file'] = "Pfad";
+$_lang['seaccelerator.elements.modClass'] = "Elementtyp";
+$_lang['seaccelerator.elements.source_id'] = "Quell-ID";
 $_lang['seaccelerator.elements.static'] = "Statisch";
 
 $_lang['seaccelerator.elements.filter_by_type'] = "Filter nach Kategorie";
