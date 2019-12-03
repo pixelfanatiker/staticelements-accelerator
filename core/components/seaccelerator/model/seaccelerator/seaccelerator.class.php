@@ -352,6 +352,10 @@ class Seaccelerator {
 			$mediaSourceId = $mediaSource;
 		}
 		
+		if ( 0 !== strpos( $filePath, '/' . $this->getElementsDirectory() ) &&
+		     0 !== strpos( $filePath, $this->getElementsDirectory() ) ) {
+			$filePath = '/' . $this->getElementsDirectory() . $filePath;
+		}
 		$elementsPath = $this->getBaseFilesystemPath( $mediaSourceId );
 		
 		if($makeFullPath !== true) {
