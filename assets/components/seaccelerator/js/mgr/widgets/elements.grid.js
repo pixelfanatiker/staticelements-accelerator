@@ -432,7 +432,7 @@ Ext.extend(Seaccelerator.grid.Elements, MODx.grid.Grid, {
 			,params: {
 				action: 'mgr/elements/sync'
 				,id: this.menu.record.id
-        ,name: this.menu.record.data.name
+                ,name: this.menu.record.data.name || this.menu.record.data.templatename // Templates use templatename instead of name
 				,staticfile: this.menu.record.data.static_file
         ,source: this.menu.record.data.source
         ,category: this.menu.record.data.category
