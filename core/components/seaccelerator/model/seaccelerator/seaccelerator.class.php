@@ -784,6 +784,19 @@ class Seaccelerator {
     /** @var modElement $elementObj */
     $elementObj = $this->modx->getObject($elementData['modClass'], $parameter);
     if (is_object($elementObj)) {
+	  if ( ! $elementObj->isStatic() ) {
+	      $elementCategory = $this->parseCategoryToPath($elementData["category_id"]);
+	      $elementDirectory = $this->getElementDirectory($elementData['modClass']);
+	  
+	      $fileSuffix = $this->getFileSuffix($elementData['modClass']);
+	      $fileName = $elementData['name'].$fileSuffix;
+	      $filePath = $elementDirectory . "/" . $elementCategory;
+	      $elementData["static_file"] = $this->makeStaticElementFilePath($fileName, $filePath, $this->defaultMediaSource, false);
+	      $elementObj->set('static', true );
+	      $elementObj->set('source', $this->defaultMediaSource );
+	      $elementObj->set('static_file', $elementData["static_file"] ); // this must be the last one
+	      $elementObj->save();
+	  }
 	  $result = $elementObj->setFileContent( $elementObj->get("content") );
 
     } else {
