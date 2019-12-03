@@ -781,33 +781,23 @@ class Seaccelerator {
   public function exportElementAsStatic($elementData) {
 
     $parameter = array("id" => $elementData['id']);
+    /** @var modElement $elementObj */
     $elementObj = $this->modx->getObject($elementData['modClass'], $parameter);
     if (is_object($elementObj)) {
-
-      //$elementArr = $elementObj->toArray();
-      //$this->modx->log(xPDO::LOG_LEVEL_DEBUG, $elementArr);
-      //$elementData['path']
-
-      // TODO: One method that handles the files. Input: filename, category, source. Method will return the needed paths.
-      $elementCategory = $this->parseCategoryToPath($elementData["category_id"]);
-      $elementDirectory = $this->getElementDirectory($elementData['modClass']);
-
-      $fileSuffix = $this->getFileSuffix($elementData['modClass']);
-      $fileName = $elementData['name'].$fileSuffix;
-      $filePath = $elementDirectory . "/" . $elementCategory;
-
-      // TODO: Logic for default media source
-      $elementData["source"] = $this->defaultMediaSource;
-      $elementData["content"] = $elementObj->get("content");
-
-      //$elementData["name"] = $element->get("name");
-      //$elementData["content"] = $element->get("content");
-      // TODO: This method is deprecated
-      $elementData["folder"] = $this->getElementsLocationFilesystemPath();
-      $elementData["file"] = $this->makeStaticElementFilePath($fileName, $filePath, $elementData['source'], true);
-      $elementData["static_file"] = $this->makeStaticElementFilePath($fileName, $filePath, $elementData['source'], false);;
-      $elementIsNewFile = true;
-      $result = $this->setAsStaticElement($elementObj, $elementData, $elementIsNewFile);
+	  if ( ! $elementObj->isStatic() ) {
+	      $elementCategory = $this->parseCategoryToPath($elementData["category_id"]);
+	      $elementDirectory = $this->getElementDirectory($elementData['modClass']);
+	  
+	      $fileSuffix = $this->getFileSuffix($elementData['modClass']);
+	      $fileName = $elementData['name'].$fileSuffix;
+	      $filePath = $elementDirectory . "/" . $elementCategory;
+	      $elementData["static_file"] = $this->makeStaticElementFilePath($fileName, $filePath, $this->defaultMediaSource, false);
+	      $elementObj->set('static', true );
+	      $elementObj->set('source', $this->defaultMediaSource );
+	      $elementObj->set('static_file', $elementData["static_file"] ); // this must be the last one
+	      $elementObj->save();
+	  }
+	  $result = $elementObj->setFileContent( $elementObj->get("content") );
 
     } else {
       $result = false;
