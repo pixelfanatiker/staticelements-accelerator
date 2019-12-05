@@ -205,7 +205,33 @@ class Seaccelerator {
 
 		return $elementsPath;
 	}
-
+	
+	/**
+	 * Gets the full filesystem path to the root folder in which the elements_directory resides.
+	 *
+	 * If there is a MediaSource defined, it is the root path of the MediaSource. Otherwise it uses the MODX_ASSETS_PATH
+	 * as a default.
+	 *
+	 * @param null|integer $mediaSourceId Optional.
+	 *                                    If provided, the it defines which MediaSource should be considered.
+	 *                                    If not provided, the MediaSource defined by seaccelerator.mediasource Setting is used.
+	 *                                    If that setting is not a valid MediaSource ID, MODX_ASSETS_PATH is returned.
+	 *
+	 * @return string
+	 */
+	public function getBaseFilesystemPath( $mediaSourceId = null ) {
+		
+		if ( ! isset($mediaSourceId) ) {
+			$mediaSourceId = $this->getElementsMediaSource();
+		}
+		if($mediaSourceId >= 1) {
+			$elementsPath = MODX_BASE_PATH . $this->getMediaSourcePath('', $mediaSourceId);
+		} else {
+			$elementsPath = MODX_ASSETS_PATH;
+		}
+		
+		return $elementsPath;
+	}
 
 	/**
 	 * @return array
@@ -1111,8 +1137,7 @@ class Seaccelerator {
 		// Element has an path and is static
 		if ($elementData['static'] == true && $elementData['static_file'] != "") {
 
-			$path = str_replace($elementData['filename'], "", $elementData['static_file']);
-			$file = $this->makeStaticElementFilePath($elementData['filename'], $path, $elementData['source'], true);
+			$file = $this->getBaseFilesystemPath($elementData['source']) . $elementData['static_file'];
 
 			$elementContentFilesystem = $this->checkElementOnFilesystem($file);
 			$elementContentDatabase = sha1($elementData['content']);
