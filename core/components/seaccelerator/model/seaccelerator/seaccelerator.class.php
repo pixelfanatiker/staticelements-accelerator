@@ -153,6 +153,8 @@ class Seaccelerator {
 
 
 	/**
+	 * Prepends the elementsPath with the path to a given MediaSource
+	 *
 	 * @param $elementsPath
 	 * @param $mediaSourceId
 	 * @return mixed
@@ -186,21 +188,60 @@ class Seaccelerator {
 
 		return $mediaSourceId;
 	}
-
-
+	
 	/**
+	 * Gets the default elements directory from the System Settings.
+	 *
+	 * The path is relative to the base path for the static elements. It has no
+	 * starting slash, but has ending slash, e.g.: "elements/"
+	 *
 	 * @return string
 	 */
-	public function getElementsLocationFilesystemPath() {
-
-		$mediaSourceId = $this->getElementsMediaSource();
-		$elementsDirectory = $this->modx->getOption("seaccelerator.elements_directory", null, "elements");
-		if($mediaSourceId == 1) {
-			$elementsPath = MODX_BASE_PATH . $this->getMediaSourcePath($elementsDirectory, $mediaSourceId);
-		} else if ($mediaSourceId > 1) {
-			$elementsPath = MODX_BASE_PATH . $this->getMediaSourcePath($elementsDirectory, $mediaSourceId);
+	public function getElementsDirectory() {
+		return $this->modx->getOption('seaccelerator.elements_directory', null, 'elements/');
+	}
+	
+	/**
+	 * Gets the full filesystem path to the Elements root folder.
+	 *
+	 * @param null|integer $mediaSourceId Optional.
+	 *                                    If provided, the it defines which MediaSource should be considered.
+	 *                                    If not provided, the MediaSource defined by seaccelerator.mediasource Setting is used.
+	 *                                    If that setting is not a valid MediaSource ID, MODX_ASSETS_PATH is returned.
+	 * @return string
+	 */
+	public function getElementsLocationFilesystemPath( $mediaSourceId = null ) {
+		
+		if ( ! isset($mediaSourceId) ) {
+			$mediaSourceId = $this->getElementsMediaSource();
+		}
+		$elementsDirectory = $this->getElementsDirectory();
+		
+		return $this->getBaseFilesystemPath( $mediaSourceId) . $elementsDirectory;
+	}
+	
+	/**
+	 * Gets the full filesystem path to the root folder in which the elements_directory resides.
+	 *
+	 * If there is a MediaSource defined, it is the root path of the MediaSource. Otherwise it uses the MODX_ASSETS_PATH
+	 * as a default.
+	 *
+	 * @param null|integer $mediaSourceId Optional.
+	 *                                    If provided, the it defines which MediaSource should be considered.
+	 *                                    If not provided, the MediaSource defined by seaccelerator.mediasource Setting is used.
+	 *                                    If that setting is not a valid MediaSource ID, MODX_ASSETS_PATH is returned.
+	 *
+	 * @return string
+	 */
+	public function getBaseFilesystemPath( $mediaSourceId = null ) {
+		
+		if ( ! isset($mediaSourceId) ) {
+			$mediaSourceId = $this->getElementsMediaSource();
+		}
+		if($mediaSourceId >= 1) {
+			$elementsPath = MODX_BASE_PATH . $this->getMediaSourcePath('', $mediaSourceId);
 		} else {
-			$elementsPath = MODX_ASSETS_PATH.$elementsDirectory;
+			$elementsPath = MODX_ASSETS_PATH;
 		}
 
 		return $elementsPath;
@@ -234,13 +275,13 @@ class Seaccelerator {
 				$type = $this->_convertModElementClassToType($elementModClass);
 
 				if($mediaSourceId > 0) {
-					$filePathString = $this->convertFilePathToString($filePathArray);
+					$filePathString = $this->getElementsDirectory() . $this->convertFilePathToString($filePathArray);
 				} else {
 					$filePathString = $elementsPath.$this->convertFilePathToString($filePathArray);
 				}
 
 				$newFiles[] = array(
-          "file" => $file,
+					"file" => $file,
 					"filename" => $fileName,
 					"category" => $category,
 					"type" => $type,
@@ -310,20 +351,20 @@ class Seaccelerator {
 		} else {
 			$mediaSourceId = $mediaSource;
 		}
-
-    $elementsPath = $this->modx->getOption("seaccelerator.elements_directory", null, "elements/");
-		if($makeFullPath == true) {
-      $elementsPath = $this->getMediaSourcePath($filePath, $mediaSourceId);
-			$staticElementFilePath = MODX_BASE_PATH.$elementsPath.$fileName;
-
-		} else if($mediaSourceId > 0) {
-			$staticElementFilePath = $filePath.$fileName;
-
-		} else {
-			$staticElementFilePath = MODX_ASSETS_PATH.$elementsPath.$filePath.$fileName;
+		
+		if ( 0 !== strpos( $filePath, '/' . $this->getElementsDirectory() ) &&
+		     0 !== strpos( $filePath, $this->getElementsDirectory() ) ) {
+			$filePath = '/' . $this->getElementsDirectory() . $filePath;
 		}
-
-    $staticElementFilePath = str_replace("//", "/", $staticElementFilePath);
+		$elementsPath = $this->getBaseFilesystemPath( $mediaSourceId );
+		
+		if($makeFullPath !== true) {
+			$elementsPath = str_replace( MODX_BASE_PATH, '/', $elementsPath);
+		}
+		
+		$staticElementFilePath = $elementsPath . $filePath . $fileName;
+		
+		$staticElementFilePath = str_replace("//", "/", $staticElementFilePath);
 		return $staticElementFilePath;
 	}
 
@@ -685,7 +726,7 @@ class Seaccelerator {
 	public function createSingleElement($fileName, $filePath) {
 
     // TODO: Create method
-		$file = $filePath.$fileName;
+		$file = str_replace( $this->getElementsDirectory(), '', $filePath ) .$fileName;
 		$filePathArray = $this->getFilePathAsArray($file);
     $elementModClass = $this->getElementClass($filePathArray);
     $elementDirectory = $this->getElementDirectory($filePathArray);
